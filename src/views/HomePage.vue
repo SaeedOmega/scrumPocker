@@ -10,20 +10,33 @@ if (!localStorage.name) {
 }
 
 const name = ref<string>(localStorage.name)
-const list = ref<Map<string, number>>()
+const pointsList = ref<Map<string, number>>()
 
-const btns = ref<string[]>(['1', '2', '3', '5', '8', '13', '21', '34', '55', '?', '∞', '☕'])
+const buttonsValues = ref<string[]>([
+  '1',
+  '2',
+  '3',
+  '5',
+  '8',
+  '13',
+  '21',
+  '34',
+  '55',
+  '?',
+  '∞',
+  '☕'
+])
 
-async function onclick(num: number, namee: string): Promise<void> {
-  list.value = await setPoint(namee, num)
+async function submitPoint(num: number): Promise<void> {
+  pointsList.value = await setPoint(name.value, num)
 }
 </script>
 
 <template>
   <div class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center">
     <NumberCard
-      @click="onclick(+btn, name)"
-      v-for="(btn, index) in btns"
+      @click="submitPoint(+btn)"
+      v-for="(btn, index) in buttonsValues"
       :key="index"
       :text="btn"
     />
