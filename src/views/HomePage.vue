@@ -4,13 +4,13 @@ import { setPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { useRouter } from 'vue-router'
 
-const rout = useRouter()
+const route = useRouter()
 if (!localStorage.name) {
-  rout.push('/login')
+  route.push('/login')
 }
 
 const name = ref<string>(localStorage.name)
-const pointsList = ref<Map<string, number>>()
+const pointsList = ref<Map<string, string>>()
 
 const buttonsValues = ref<string[]>([
   '1',
@@ -27,15 +27,17 @@ const buttonsValues = ref<string[]>([
   '☕'
 ])
 
-async function submitPoint(num: number): Promise<void> {
-  pointsList.value = await setPoint(name.value, num)
+async function submitPoint(num: string): Promise<void> {
+  if (num == '∞') pointsList.value = await setPoint(name.value, 'I Cant')
+  else if (num == '☕') pointsList.value = await setPoint(name.value, '0.5')
+  else pointsList.value = await setPoint(name.value, num)
 }
 </script>
 
 <template>
   <div class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center">
     <NumberCard
-      @click="submitPoint(+btn)"
+      @click="submitPoint(btn)"
       v-for="(btn, index) in buttonsValues"
       :key="index"
       :text="btn"
