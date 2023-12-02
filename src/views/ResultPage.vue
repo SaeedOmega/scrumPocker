@@ -2,11 +2,19 @@
 //@ts-ignore
 import ResultRow from '@/components/ResultRow.vue'
 import { onGetPoint } from '../server.telefunc'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 let result = ref<number>(0)
 let count = ref<number>(0)
 let pointList = ref<Map<string, string>>()
+let isShow = computed<boolean>(() => {
+  let arr: Array<boolean> = []
+  pointList.value?.forEach((e) => {
+    if (e == '?') arr.push(false)
+    else arr.push(true)
+  })
+  return arr.some((e) => e == false) ? true : false
+})
 
 async function average() {
   result.value = 0
@@ -37,10 +45,10 @@ average()
         v-for="(item, index) in pointList"
         :key="index"
         :name="item[0]"
-        :point="item[1]"
+        :point="isShow ? (item[1] == '?' ? '?' : '-') : item[1]"
         :type="'row'"
       />
-      <ResultRow :name="'Result'" :point="result.toString()" :type="'result'" />
+      <ResultRow :name="'Result'" :point="isShow ? '-' : result.toString()" :type="'result'" />
     </div>
   </div>
 </template>

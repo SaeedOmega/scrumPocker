@@ -32,7 +32,8 @@ const buttonsValues = ref<string[]>([
 
 async function submitPoint(num: string): Promise<void> {
   if (num == '∞') await onSetPoint(name.value, 'I Cant')
-  else if (num == '☕') await onSetPoint(name.value, '0.5')
+  else if (num == '1/2') await onSetPoint(name.value, '0.5')
+  else if (num == '☕') await onSetPoint(name.value, 'I Want')
   else await onSetPoint(name.value, num)
 }
 </script>
