@@ -15,14 +15,15 @@ function submitButton(name: string): void {
   <div class="flex gap-5">
     <input
       type="text"
-      class="bg-transparent border-white placeholder:text-gray-300 border-style-solid border-1 font-sans text-xl outline-none rounded-5 p-5 text-white"
+      class="bg-transparent border-white placeholder:text-gray-300 rounded-xl border-style-solid border-1 font-sans text-xl outline-none rounded-5 p-5 text-white"
       placeholder="Type Your Name..."
       v-model="name"
+      autofocus
     />
     <input
       type="button"
       value="Submit"
-      class="bg-transparent border-white border-style-solid border-1 font-sans text-xl rounded-5 p-5 text-white active:bg-[#94b6fb]"
+      class="bg-transparent rounded-xl border-white border-style-solid border-1 font-sans text-xl rounded-5 p-5 text-white active:bg-[#94b6fb]"
       @click="submitButton(name)"
     />
   </div>

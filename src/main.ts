@@ -1,5 +1,5 @@
-import 'uno.css'
 import './main.css'
+import 'virtual:windi.css'
 
 import { createApp } from 'vue'
 

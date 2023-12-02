@@ -7,6 +7,7 @@ import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import windi from 'vite-plugin-windicss'
 
 const port = 3000
 
@@ -15,10 +16,10 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    windi(),
     telefunc({
       disableNamingConvention: true
-    }),
-    UnoCSS()
+    })
   ],
   resolve: {
     alias: {
@@ -26,7 +27,7 @@ export default defineConfig({
     }
   },
   build: { target: 'esnext' },
-  appType: 'mpa',
+  appType: 'spa',
   server: { port, host: true },
   preview: { port }
 }) as UserConfig

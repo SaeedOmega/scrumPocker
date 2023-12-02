@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { setPoint } from '../server.telefunc'
+//@ts-ignore
+import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { useRouter } from 'vue-router'
 
@@ -10,10 +11,10 @@ if (!localStorage.name) {
 }
 
 const name = ref<string>(localStorage.name)
-const pointsList = ref<Map<string, string>>()
 
 const buttonsValues = ref<string[]>([
   '1',
+  '1/2',
   '2',
   '3',
   '5',
@@ -22,16 +23,17 @@ const buttonsValues = ref<string[]>([
   '21',
   '34',
   '55',
+  '89',
+  '144',
   '?',
   '∞',
   '☕'
 ])
 
 async function submitPoint(num: string): Promise<void> {
-  if (num == '∞') pointsList.value = await setPoint(name.value, 'I Cant')
-  else if (num == '☕') pointsList.value = await setPoint(name.value, '0.5')
-  else pointsList.value = await setPoint(name.value, num)
-  console.log(pointsList.value)
+  if (num == '∞') await onSetPoint(name.value, 'I Cant')
+  else if (num == '☕') await onSetPoint(name.value, '0.5')
+  else await onSetPoint(name.value, num)
 }
 </script>
 

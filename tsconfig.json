@@ -1,5 +1,12 @@
 {
   "files": [],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true
+  },
   "references": [
     {
       "path": "./tsconfig.node.json"
