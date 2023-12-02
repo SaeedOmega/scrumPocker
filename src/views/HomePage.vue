@@ -31,6 +31,7 @@ async function submitPoint(num: string): Promise<void> {
   if (num == '∞') pointsList.value = await setPoint(name.value, 'I Cant')
   else if (num == '☕') pointsList.value = await setPoint(name.value, '0.5')
   else pointsList.value = await setPoint(name.value, num)
+  console.log(pointsList.value)
 }
 </script>
 
