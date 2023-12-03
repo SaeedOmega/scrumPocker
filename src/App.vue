@@ -3,9 +3,9 @@ import { RouterView, useRouter } from 'vue-router'
 
 const route = useRouter()
 
-if (!localStorage.name) {
-  route.push('/login')
-}
+defineOptions({
+  
+})
 </script>
 
 <template>
