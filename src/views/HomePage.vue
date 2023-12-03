@@ -4,6 +4,16 @@ import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { useRouter } from 'vue-router'
 
+defineOptions({
+  beforeRouteEnter(to, from, next) {
+    if (!localStorage.name) {
+      next('/login')
+      return
+    }
+    next()
+  }
+})
+
 const route = useRouter()
 if (!localStorage.name) {
   route.push('/login')

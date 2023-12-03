@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import { RouterView, useRouter } from 'vue-router'
-
-const route = useRouter()
-
-defineOptions({
-  
-})
+import { RouterView } from 'vue-router'
 </script>
 
 <template>

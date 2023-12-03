@@ -4,6 +4,16 @@ import ResultRow from '@/components/ResultRow.vue'
 import { onGetPoint, onResetPoints } from '../server.telefunc'
 import { computed, ref } from 'vue'
 
+defineOptions({
+  beforeRouteEnter(to, from, next) {
+    if (!localStorage.name) {
+      next('/login')
+      return
+    }
+    next()
+  }
+})
+
 let finalAverage = 0
 let count = 0
 let pointList = ref<Map<string, string>>(new Map())

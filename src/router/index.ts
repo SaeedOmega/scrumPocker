@@ -7,6 +7,9 @@ const router = createRouter({
     {
       name: 'Home',
       path: '/',
+      meta: {
+        private: true
+      },
       component: HomePageVue
     },
     {
