@@ -1,35 +1,37 @@
 <script setup lang="ts">
 //@ts-ignore
 import ResultRow from '@/components/ResultRow.vue'
-import { onGetPoint } from '../server.telefunc'
+import { onGetPoint, onResetPoints } from '../server.telefunc'
 import { computed, ref } from 'vue'
 
-let result = ref<number>(0)
-let count = ref<number>(0)
-let pointList = ref<Map<string, string>>()
+let finalAverage = 0
+let count = 0
+let pointList = ref<Map<string, string>>(new Map())
 let isShow = computed<boolean>(() => {
-  let arr: Array<boolean> = []
-  pointList.value?.forEach((e) => {
-    if (e == '?') arr.push(false)
-    else arr.push(true)
-  })
-  return arr.some((e) => e == false) ? true : false
+  for (const person of pointList.value) {
+    if (person[1] == '?') return false
+  }
+  return true
 })
 
 async function average() {
-  result.value = 0
-  count.value = 0
+  finalAverage = 0
+  count = 0
   onGetPoint().then((r) => {
     pointList.value = r
     r.forEach((item) => {
       if (+item) {
-        result.value += +item
-        count.value++
+        finalAverage += item ? +item : 0
+        count++
       }
     })
-    let res = (result.value /= count.value).toFixed(2)
-    result.value = +res
+    let res = (finalAverage /= count).toFixed(2)
+    finalAverage = +res
   })
+}
+async function reset() {
+  onResetPoints()
+  average()
 }
 
 average()
@@ -39,7 +41,7 @@ average()
   <div class="flex flex-col gap-5 w-full p-10">
     <span class="flex gap-5"
       ><button @click="average" class="p-3 rounded-xl border-white border-1">Refresh</button
-      ><button class="p-3 rounded-xl border-white border-1">Reset</button></span
+      ><button @click="reset" class="p-3 rounded-xl border-white border-1">Reset</button></span
     >
 
     <div class="flex flex-col border-white border-1 rounded-xl">
@@ -48,10 +50,14 @@ average()
         v-for="(item, index) in pointList"
         :key="index"
         :name="item[0]"
-        :point="isShow ? (item[1] == '?' ? '?' : '-') : item[1]"
+        :point="!isShow ? (item[1] == '?' ? '?' : '-') : item[1]"
         :type="'row'"
       />
-      <ResultRow :name="'Result'" :point="isShow ? '-' : result.toString()" :type="'result'" />
+      <ResultRow
+        :name="'Result'"
+        :point="!isShow || finalAverage.toString() == 'NaN' ? '-' : finalAverage.toString()"
+        :type="'result'"
+      />
     </div>
   </div>
 </template>

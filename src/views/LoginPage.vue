@@ -12,10 +12,10 @@ function submitButton(name: string): void {
 </script>
 
 <template>
-  <div class="flex gap-5">
+  <div class="flex gap-5 justify-center">
     <input
       type="text"
-      class="bg-transparent border-white placeholder:text-gray-300 rounded-xl border-style-solid border-1 font-sans text-xl outline-none rounded-5 p-5 text-white"
+      class="bg-transparent border-white w-[60%] shadow-sm shadow-gray-600 placeholder:text-[rgba(999,999,999,0.5)] rounded-xl border-style-solid border-2 font-sans text-xl outline-none rounded-5 p-5 text-white"
       placeholder="Type Your Name..."
       v-model="name"
       autofocus
@@ -23,7 +23,7 @@ function submitButton(name: string): void {
     <input
       type="button"
       value="Submit"
-      class="bg-transparent rounded-xl border-white border-style-solid border-1 font-sans text-xl rounded-5 p-5 text-white active:bg-[#94b6fb]"
+      class="bg-transparent rounded-xl border-white shadow-sm shadow-gray-600 border-style-solid border-2 font-sans text-xl rounded-5 p-5 text-white active:bg-[#94b6fb]"
       @click="submitButton(name)"
     />
   </div>

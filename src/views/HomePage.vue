@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 //@ts-ignore
 import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
@@ -10,41 +9,37 @@ if (!localStorage.name) {
   route.push('/login')
 }
 
-const name = ref<string>(localStorage.name)
-
-const buttonsValues = ref<string[]>([
-  '1',
-  '1/2',
-  '2',
-  '3',
-  '5',
-  '8',
-  '13',
-  '21',
-  '34',
-  '55',
-  '89',
-  '144',
-  '?',
-  '∞',
-  '☕'
-])
+const buttonsValues = {
+  '1/2': '0.5',
+  '1': '1',
+  '2': '2',
+  '3': '3',
+  '5': '5',
+  '8': '8',
+  '13': '13',
+  '21': '21',
+  '34': '34',
+  '55': '55',
+  '89': '86',
+  '144': '144',
+  '?': '?',
+  '∞': 'I Cant',
+  '☕': 'I Dont Want'
+}
 
 async function submitPoint(num: string): Promise<void> {
-  if (num == '∞') await onSetPoint(name.value, 'I Cant')
-  else if (num == '1/2') await onSetPoint(name.value, '0.5')
-  else if (num == '☕') await onSetPoint(name.value, 'I dont Want')
-  else await onSetPoint(name.value, num)
+  //@ts-ignore
+  await onSetPoint(localStorage.name, buttonsValues[num])
 }
 </script>
 
 <template>
   <div class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center">
     <NumberCard
-      @click="submitPoint(btn)"
+      @click="submitPoint(index)"
       v-for="(btn, index) in buttonsValues"
       :key="index"
-      :text="btn"
+      :text="index"
     />
   </div>
 </template>

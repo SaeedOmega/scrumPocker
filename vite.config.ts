@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'node:url'
 // @ts-ignore
 import { telefunc } from 'telefunc/vite'
 import type { UserConfig } from 'vite'
-import UnoCSS from 'unocss/vite'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'

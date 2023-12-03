@@ -1,4 +1,4 @@
-export { onGetPoint, onSetPoint }
+export { onGetPoint, onSetPoint, onResetPoints }
 
 const points = new Map()
 
@@ -8,5 +8,8 @@ async function onGetPoint() {
 
 async function onSetPoint(name, point) {
   points.set(name, point)
-  return points
+}
+
+async function onResetPoints() {
+  points.clear()
 }
