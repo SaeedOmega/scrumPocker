@@ -27,7 +27,8 @@ async function average() {
         count.value++
       }
     })
-    result.value /= count.value
+    let res = (result.value /= count.value).toFixed(2)
+    result.value = +res
   })
 }
 
@@ -35,10 +36,12 @@ average()
 </script>
 
 <template>
-  <div class="flex flex-col w-full p-10">
-    <span
-      ><button @click="average" class="p-3 rounded-xl border-white border-1">Refresh</button></span
+  <div class="flex flex-col gap-5 w-full p-10">
+    <span class="flex gap-5"
+      ><button @click="average" class="p-3 rounded-xl border-white border-1">Refresh</button
+      ><button class="p-3 rounded-xl border-white border-1">Reset</button></span
     >
+
     <div class="flex flex-col border-white border-1 rounded-xl">
       <ResultRow :name="'Name'" :point="'Point'" :type="'header'" />
       <ResultRow
