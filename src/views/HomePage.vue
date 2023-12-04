@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onSetPoint } from '../server.telefunc'
+import { onSetPoint, onGetRooms, onGetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import SelectedCard from '@/components/SelectedCard.vue'
 
 defineOptions({
@@ -13,6 +13,12 @@ defineOptions({
     next()
   }
 })
+
+let persons = ref<Map<string, { point: string; room: string; id?: number }>>(new Map())
+onGetPoint().then((r) => (persons.value = r))
+// const preson = computed<{ point: string; room: string; id?: number }>(()=>{})
+let rooms: Array<{ name: string; creator: string }> = []
+onGetRooms().then((r) => (rooms = r))
 
 const selectedValue = ref<string | null>(null)
 const buttonsValues = [
@@ -34,32 +40,42 @@ const buttonsValues = [
 ]
 
 async function submitPoint(value: string): Promise<void> {
-  await onSetPoint(localStorage.name, value)
+  await onSetPoint(localStorage.name, { point: value, room: 'main' })
   selectedValue.value = value
 }
 </script>
 
 <template>
-  <div
-    :class="{ 'filter blur-sm': selectedValue }"
-    class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center"
-  >
-    <NumberCard
-      @click="submitPoint(btn.value)"
-      v-for="btn in buttonsValues"
-      :key="btn.key"
-      :text="btn.key"
-      :selected="selectedValue"
-      :number="btn.value"
+  <div class="h-screen w-screen flex flex-col justify-center gap-10 items-center">
+    <span class="flex justify-around w-full self-start">
+      <div class="flex gap-5">
+        <button class="p-3 rounded-xl border-white border-1">Create Room</button>
+        <button class="p-3 rounded-xl border-white border-1">Change Room</button>
+      </div>
+      <div class="grow"></div>
+      <button class="p-3 rounded-xl border-white invisible border-1">Delete Room</button>
+    </span>
+    <div
+      :class="{ 'filter blur-sm': selectedValue }"
+      class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center"
+    >
+      <NumberCard
+        @click="submitPoint(btn.value)"
+        v-for="btn in buttonsValues"
+        :key="btn.key"
+        :text="btn.key"
+        :selected="selectedValue"
+        :number="btn.value"
+      />
+    </div>
+    <SelectedCard
+      @text2="
+        (e) => {
+          selectedValue = e
+        }
+      "
+      :text="selectedValue"
+      v-show="selectedValue"
     />
   </div>
-  <SelectedCard
-    @text2="
-      (e) => {
-        selectedValue = e
-      }
-    "
-    :text="selectedValue"
-    v-show="selectedValue"
-  />
 </template>

@@ -16,6 +16,8 @@ defineProps({
   >
     <div class="flex-grow m-3" :class="{ 'my-5': type != 'row' }">{{ name }}</div>
     <div class="w-1px bg-white"></div>
-    <div class="w-1/4 m-3" :class="{ 'my-5': type != 'row' }">{{ point }}</div>
+    <div class="w-1/4 m-3" :class="{ 'my-5': type != 'row', 'text-sm': point == 'I Dont Want' }">
+      {{ point }}
+    </div>
   </div>
 </template>
