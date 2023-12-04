@@ -1,13 +1,14 @@
 <script setup lang="ts">
-defineProps({
-  text: String,
-  number: String
-})
+defineProps<{
+  text: string
+  number: string
+  selected: string | null
+}>()
 </script>
 
 <template>
   <div
-    class="min-w-20 h-20 flex justify-center items-center active:bg-[rgb(81,126,246)] rounded-10px border-white border-5 border-style-solid hover:cursor-pointer shadow-sm shadow-black font-500 text-4xl"
+    class="min-w-20 h-20 flex justify-center select-none items-center active:bg-[rgb(81,126,246)] rounded-10px border-white border-5 border-style-solid hover:cursor-pointer shadow-sm shadow-black font-500 text-4xl"
   >
     {{ text }}
   </div>

@@ -1,4 +1,4 @@
-export { onGetPoint, onSetPoint, onResetPoints }
+export { onGetPoint, onSetPoint, onResetPoints, onDelete }
 
 const points = new Map()
 
@@ -12,4 +12,9 @@ async function onSetPoint(name, point) {
 
 async function onResetPoints() {
   points.clear()
+}
+
+async function onDelete(key) {
+  points.delete(key)
+  return points
 }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-//@ts-ignore
 import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import SelectedCard from '@/components/SelectedCard.vue'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -14,11 +14,7 @@ defineOptions({
   }
 })
 
-const route = useRouter()
-if (!localStorage.name) {
-  route.push('/login')
-}
-
+const selectedValue = ref<string | null>(null)
 const buttonsValues = [
   { key: '1/2', value: '1/2' },
   { key: '1', value: '1' },
@@ -37,19 +33,33 @@ const buttonsValues = [
   { key: '☕', value: 'I Dont Want' }
 ]
 
-async function submitPoint(num: string): Promise<void> {
-  //@ts-ignore
-  await onSetPoint(localStorage.name, num)
+async function submitPoint(value: string): Promise<void> {
+  await onSetPoint(localStorage.name, value)
+  selectedValue.value = value
 }
 </script>
 
 <template>
-  <div class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center">
+  <div
+    :class="{ 'filter blur-sm': selectedValue }"
+    class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center"
+  >
     <NumberCard
       @click="submitPoint(btn.value)"
       v-for="btn in buttonsValues"
       :key="btn.key"
       :text="btn.key"
+      :selected="selectedValue"
+      :number="btn.value"
     />
   </div>
+  <SelectedCard
+    @text2="
+      (e) => {
+        selectedValue = e
+      }
+    "
+    :text="selectedValue"
+    v-show="selectedValue"
+  />
 </template>
