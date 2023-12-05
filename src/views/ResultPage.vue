@@ -35,7 +35,7 @@ async function average() {
     pointList.value = r
     r.forEach((item) => {
       if (+item) {
-        finalAverage += item ? +item : 0
+        finalAverage += +item
         count++
       }
     })
