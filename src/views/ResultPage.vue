@@ -23,15 +23,7 @@ let finalAverage = 0
 let count = 0
 const selectedRoom = ref<string>('main')
 const pointList = ref<Map<string, person>>(new Map())
-// #region Created an Array of filter list for room
-const filteredPointList = computed<Array<{ name: string; point: string; room: string }>>(() => {
-  let filteredArray: Array<{ name: string; point: string; room: string }> = []
-  for (const person of pointList.value) {
-    if (person[1].room == selectedRoom.value) filteredArray.push({ name: person[0], ...person[1] })
-  }
-  return filteredArray
-})
-// #endregion
+
 // #region Check any Person send '?'
 const isShow = computed<boolean>(() => {
   for (const person of pointList.value) {
@@ -79,10 +71,10 @@ average()
       <div class="flex flex-col border-white border-1 rounded-xl">
         <ResultRow :name="'Name'" :point="'Point'" :type="'header'" />
         <ResultRow
-          v-for="(item, index) in filteredPointList"
+          v-for="(item, index) in pointList"
           :key="index"
-          :name="item.name"
-          :point="!isShow ? (item.point == '?' ? '?' : '-') : item.point"
+          :name="item[0]"
+          :point="!isShow ? (item[1].point == '?' ? '?' : '-') : item[1].point"
           :type="'row'"
         />
         <ResultRow
