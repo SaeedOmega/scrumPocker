@@ -4,11 +4,11 @@ import { onDelete } from '../server.telefunc'
 defineProps<{
   text: string | null
 }>()
-const emit = defineEmits(['text2'])
+const emit = defineEmits(['value'])
 
 async function handleBack() {
   await onDelete(localStorage.name)
-  emit('text2', null)
+  emit('value', null)
 }
 </script>
 

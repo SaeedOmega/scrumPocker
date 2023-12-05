@@ -56,7 +56,7 @@ async function submitPoint(value: string): Promise<void> {
       />
     </div>
     <SelectedCard
-      @text2="
+      @value="
         (e) => {
           selectedValue = e
         }
