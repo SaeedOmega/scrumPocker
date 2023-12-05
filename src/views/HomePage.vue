@@ -33,10 +33,12 @@ const buttonsValues = [
   { key: '☕', value: 'I Dont Want' }
 ]
 
+// #region Submit for point of the person
 async function submitPoint(value: string): Promise<void> {
   await onSetPoint(localStorage.name, { point: value, room: 'main' })
   selectedValue.value = value
 }
+// #endregion
 </script>
 
 <template>

@@ -23,6 +23,7 @@ let finalAverage = 0
 let count = 0
 const selectedRoom = ref<string>('main')
 const pointList = ref<Map<string, person>>(new Map())
+// #region Created an Array of filter list for room
 const filteredPointList = computed<Array<{ name: string; point: string; room: string }>>(() => {
   let filteredArray: Array<{ name: string; point: string; room: string }> = []
   for (const person of pointList.value) {
@@ -30,13 +31,17 @@ const filteredPointList = computed<Array<{ name: string; point: string; room: st
   }
   return filteredArray
 })
+// #endregion
+// #region Check any Person send '?'
 const isShow = computed<boolean>(() => {
   for (const person of pointList.value) {
     if (person[1].point == '?') return false
   }
   return true
 })
+// #endregion
 
+// #region calculated average
 async function average() {
   finalAverage = 0
   count = 0
@@ -52,10 +57,13 @@ async function average() {
     finalAverage = +res
   })
 }
+// #endregion
+// #region Reset List
 async function reset() {
   onResetPoints()
   average()
 }
+// #endregion
 
 average()
 </script>
