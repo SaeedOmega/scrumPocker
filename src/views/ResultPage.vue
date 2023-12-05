@@ -69,7 +69,7 @@ average()
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col gap-10 justify-center items-center">
+  <div class="h-screen w-screen flex flex-col justify-center items-center">
     <div class="flex flex-col gap-5 w-full p-10">
       <span class="flex gap-5">
         <button @click="average" class="p-3 rounded-xl border-white border-1">Refresh</button>

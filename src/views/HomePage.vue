@@ -42,7 +42,7 @@ async function submitPoint(value: string): Promise<void> {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col justify-center gap-10 items-center">
+  <div class="h-screen w-screen flex flex-col justify-center items-center">
     <span
       :class="{ 'filter blur-sm': selectedValue }"
       class="flex justify-around w-full self-start"

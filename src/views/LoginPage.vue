@@ -14,7 +14,7 @@ function submitButton(name: string): void {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col justify-center gap-10 items-center">
+  <div class="h-screen w-screen flex flex-col justify-center items-center">
     <form @submit.prevent="submitButton(name)" class="flex gap-5 justify-center">
       <input
         type="text"
