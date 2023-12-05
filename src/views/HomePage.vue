@@ -35,7 +35,7 @@ const buttonsValues = [
 
 // #region Submit for point of the person
 async function submitPoint(value: string): Promise<void> {
-  await onSetPoint(localStorage.name, { point: value, room: 'main' })
+  await onSetPoint(localStorage.name, value)
   selectedValue.value = value
 }
 // #endregion

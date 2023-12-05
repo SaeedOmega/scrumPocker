@@ -4,11 +4,6 @@ import ResultRow from '@/components/ResultRow.vue'
 import { onGetPoint, onResetPoints } from '../server.telefunc'
 import { computed, ref } from 'vue'
 
-type person = {
-  point: string
-  room: string
-}
-
 defineOptions({
   beforeRouteEnter(to, from, next) {
     if (!localStorage.name) {
@@ -21,13 +16,12 @@ defineOptions({
 
 let finalAverage = 0
 let count = 0
-const selectedRoom = ref<string>('main')
-const pointList = ref<Map<string, person>>(new Map())
+const pointList = ref<Map<string, string>>(new Map())
 
 // #region Check any Person send '?'
 const isShow = computed<boolean>(() => {
   for (const person of pointList.value) {
-    if (person[1].point == '?') return false
+    if (person[1] == '?') return false
   }
   return true
 })
@@ -40,8 +34,8 @@ async function average() {
   onGetPoint().then((r) => {
     pointList.value = r
     r.forEach((item) => {
-      if (+item.point && item.room == selectedRoom.value) {
-        finalAverage += item.point ? +item.point : 0
+      if (+item) {
+        finalAverage += item ? +item : 0
         count++
       }
     })
@@ -74,7 +68,7 @@ average()
           v-for="(item, index) in pointList"
           :key="index"
           :name="item[0]"
-          :point="!isShow ? (item[1].point == '?' ? '?' : '-') : item[1].point"
+          :point="!isShow ? (item[1] == '?' ? '?' : '-') : item[1]"
           :type="'row'"
         />
         <ResultRow
