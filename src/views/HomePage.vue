@@ -43,9 +43,9 @@ async function submitPoint(value: string): Promise<void> {
 
 <template>
   <div class="h-screen w-screen flex flex-col justify-center items-center">
-    <span
+    <div
       :class="{ 'filter blur-sm': selectedValue }"
-      class="flex justify-around w-full self-start"
+      class="flex mb-10 justify-around w-full self-start"
     >
       <div class="flex gap-5">
         <button class="p-3 rounded-xl border-white border-1">Create Room</button>
@@ -53,7 +53,7 @@ async function submitPoint(value: string): Promise<void> {
       </div>
       <div class="grow" />
       <button class="p-3 rounded-xl border-white invisible border-1">Delete Room</button>
-    </span>
+    </div>
     <div
       :class="{ 'filter blur-sm': selectedValue }"
       class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center"
