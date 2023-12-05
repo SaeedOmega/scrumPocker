@@ -62,7 +62,6 @@ async function submitPoint(value: string): Promise<void> {
         :key="btn.key"
         :text="btn.key"
         :selected="selectedValue"
-        :number="btn.value"
       />
     </div>
     <SelectedCard
