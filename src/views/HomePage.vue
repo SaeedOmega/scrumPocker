@@ -51,7 +51,7 @@ async function submitPoint(value: string): Promise<void> {
         <button class="p-3 rounded-xl border-white border-1">Create Room</button>
         <button class="p-3 rounded-xl border-white border-1">Change Room</button>
       </div>
-      <div class="grow"></div>
+      <div class="grow" />
       <button class="p-3 rounded-xl border-white invisible border-1">Delete Room</button>
     </span>
     <div
