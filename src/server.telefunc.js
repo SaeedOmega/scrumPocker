@@ -1,16 +1,13 @@
-export { onGetPoint, onSetPoint, onResetPoints }
+export { onGetPoint, onSetPoint, onResetPoints, onDelete }
 
 const points = new Map()
-const teams = [{ name: 'main', creator: 'admin', id: 1 }]
-let counterID = 2
 
 async function onGetPoint() {
   return points
 }
 
 async function onSetPoint(name, point) {
-  points.set(name, { ...point, id: counterID })
-  counterID++
+  points.set(name, point)
 }
 
 async function onResetPoints() {

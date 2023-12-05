@@ -1,16 +1,12 @@
 <script setup lang="ts">
 //@ts-ignore
 import ResultRow from '@/components/ResultRow.vue'
-import { onGetPoint, onResetPoints, onGetRooms } from '../server.telefunc'
+import { onGetPoint, onResetPoints } from '../server.telefunc'
 import { computed, ref } from 'vue'
 
 type person = {
   point: string
   room: string
-}
-type room = {
-  name: string
-  creator: string
 }
 
 defineOptions({
@@ -25,7 +21,6 @@ defineOptions({
 
 let finalAverage = 0
 let count = 0
-let rooms = ref<Array<room>>([])
 const selectedRoom = ref<string>('main')
 const pointList = ref<Map<string, person>>(new Map())
 const filteredPointList = computed<Array<{ name: string; point: string; room: string }>>(() => {
@@ -40,10 +35,6 @@ const isShow = computed<boolean>(() => {
     if (person[1].point == '?') return false
   }
   return true
-})
-
-onGetRooms().then((r) => {
-  rooms.value = r
 })
 
 async function average() {
@@ -75,9 +66,6 @@ average()
       <span class="flex gap-5">
         <button @click="average" class="p-3 rounded-xl border-white border-1">Refresh</button>
         <button @click="reset" class="p-3 rounded-xl border-white border-1">Reset</button>
-        <select v-model="selectedRoom" class="p-3 rounded-xl border-white border-1">
-          <option v-for="room in rooms" :value="room.name" :key="room.name">{{ room.name }}</option>
-        </select>
       </span>
 
       <div class="flex flex-col border-white border-1 rounded-xl">

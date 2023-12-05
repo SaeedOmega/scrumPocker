@@ -41,7 +41,10 @@ async function submitPoint(value: string): Promise<void> {
 
 <template>
   <div class="h-screen w-screen flex flex-col justify-center gap-10 items-center">
-    <span class="flex justify-around w-full self-start">
+    <span
+      :class="{ 'filter blur-sm': selectedValue }"
+      class="flex justify-around w-full self-start"
+    >
       <div class="flex gap-5">
         <button class="p-3 rounded-xl border-white border-1">Create Room</button>
         <button class="p-3 rounded-xl border-white border-1">Change Room</button>
