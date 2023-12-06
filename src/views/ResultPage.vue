@@ -39,7 +39,7 @@ async function average() {
         count++
       }
     })
-    let res = (finalAverage /= count).toFixed(2)
+    let res = (finalAverage / count).toFixed(2)
     finalAverage = +res
   })
 }
