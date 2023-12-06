@@ -28,7 +28,7 @@ const isShow = computed<boolean>(() => {
 // #endregion
 
 // #region calculated average
-async function average() {
+async function updateAverage() {
   finalAverage = 0
   count = 0
   onGetPoint().then((result) => {
@@ -39,8 +39,8 @@ async function average() {
         count++
       }
     })
-    let averageTwoDigit = (finalAverage / count).toFixed(2)
-    finalAverage = +averageTwoDigit
+    let average = (finalAverage / count).toFixed(2)
+    finalAverage = +average
   })
 }
 // #endregion
@@ -51,14 +51,14 @@ async function reset() {
 }
 // #endregion
 
-average()
+updateAverage()
 </script>
 
 <template>
   <div class="h-screen w-screen flex flex-col justify-center items-center">
     <div class="flex flex-col gap-5 w-full p-10">
       <span class="flex gap-5">
-        <button @click="average" class="p-3 rounded-xl border-white border-1">Refresh</button>
+        <button @click="updateAverage" class="p-3 rounded-xl border-white border-1">Refresh</button>
         <button @click="reset" class="p-3 rounded-xl border-white border-1">Reset</button>
       </span>
 
