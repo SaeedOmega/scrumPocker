@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { onDelete } from '../server.telefunc'
 
-defineProps<{
-  text: string | null
-}>()
+const text = defineModel<string | null>()
 const emit = defineEmits(['value'])
 
 async function handleBack() {

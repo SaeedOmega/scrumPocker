@@ -34,7 +34,7 @@ const buttonsValues = [
 ]
 
 // #region Submit for point of the person
-async function submitPoint(value: string): Promise<void> {
+async function submitPoint(value: string) {
   await onSetPoint(localStorage.name, value)
   selectedValue.value = value
 }
@@ -55,14 +55,6 @@ async function submitPoint(value: string): Promise<void> {
         :selected="selectedValue"
       />
     </div>
-    <SelectedCard
-      @value="
-        (e) => {
-          selectedValue = e
-        }
-      "
-      :text="selectedValue"
-      v-show="selectedValue"
-    />
+    <SelectedCard v-model="selectedValue" v-show="selectedValue" />
   </div>
 </template>

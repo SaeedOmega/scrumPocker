@@ -13,7 +13,11 @@ const port = 3000
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      script: {
+        defineModel: true
+      }
+    }),
     vueJsx(),
     windi(),
     telefunc({
