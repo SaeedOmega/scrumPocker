@@ -31,9 +31,9 @@ const isShow = computed<boolean>(() => {
 async function average() {
   finalAverage = 0
   count = 0
-  onGetPoint().then((r) => {
-    pointList.value = r
-    r.forEach((item) => {
+  onGetPoint().then((result) => {
+    pointList.value = result
+    result.forEach((item) => {
       if (+item) {
         finalAverage += +item
         count++
