@@ -21,7 +21,7 @@ const pointList = ref<Map<string, string>>(new Map())
 // #region Check any Person send '?'
 const isShow = computed<boolean>(() => {
   for (const person of pointList.value) {
-    if (person[1] == '?') return false
+    if (person[1] === '?') return false
   }
   return true
 })
