@@ -72,7 +72,7 @@ updateAverage()
       </span>
 
       <div class="flex flex-col border-white border-1 rounded-xl">
-        <ResultRow :name="'Name'" :point="'Point'" :type="'header'" />
+        <ResultRow name="Name" point="Point" type="header" />
         <ResultRow
           v-for="(item, index) in pointList"
           :key="index"
@@ -80,7 +80,7 @@ updateAverage()
           :point="showPoint(item)"
           :type="'row'"
         />
-        <ResultRow :name="'Result'" :point="showAveragePoint()" :type="'result'" />
+        <ResultRow name="Result" :point="showAveragePoint()" type="result" />
       </div>
     </div>
   </div>
