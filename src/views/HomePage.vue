@@ -48,11 +48,11 @@ async function submitPoint(value: string) {
       class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center"
     >
       <NumberCard
-        @click="submitPoint(item.value)"
         v-for="item in buttonsValues"
         :key="item.key"
         :text="item.key"
         :selected="selectedValue"
+        @click="submitPoint(item.value)"
       />
     </div>
     <SelectedCard v-model="selectedValue" v-show="selectedValue" />
