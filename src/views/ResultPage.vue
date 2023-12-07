@@ -48,10 +48,10 @@ async function reset() {
 }
 
 // #region if one person send '?' all show -
-function showAveragePoint() {
+function getAverageToShow() {
   return !shouldShow.value || isNaN(finalAverage) ? '-' : finalAverage.toString()
 }
-function showPoint(item: { 1: string }) {
+function getPointToShow(item: { 1: string }) {
   return !shouldShow.value ? (item[1] == '?' ? '?' : '-') : item[1]
 }
 // #endregion
@@ -73,10 +73,10 @@ updateAverage()
           v-for="(item, index) in pointList"
           :key="index"
           :name="item[0]"
-          :point="showPoint(item)"
+          :point="getPointToShow(item)"
           :type="'row'"
         />
-        <ResultRow name="Result" :point="showAveragePoint()" type="result" />
+        <ResultRow name="Result" :point="getAverageToShow()" type="result" />
       </div>
     </div>
   </div>
