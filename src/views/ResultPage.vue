@@ -19,7 +19,7 @@ let count = 0
 const pointList = ref<Map<string, string>>(new Map())
 
 // #region Check any Person send '?'
-const isShow = computed<boolean>(() => {
+const shouldShow = computed<boolean>(() => {
   for (const person of pointList.value) {
     if (person[1] === '?') return false
   }
@@ -53,10 +53,10 @@ async function reset() {
 
 // #region if one person send '?' all show -
 function showAveragePoint() {
-  return !isShow.value || isNaN(finalAverage) ? '-' : finalAverage.toString()
+  return !shouldShow.value || isNaN(finalAverage) ? '-' : finalAverage.toString()
 }
 function showPoint(item: { 1: string }) {
-  return !isShow.value ? (item[1] == '?' ? '?' : '-') : item[1]
+  return !shouldShow.value ? (item[1] == '?' ? '?' : '-') : item[1]
 }
 // #endregion
 
