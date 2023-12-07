@@ -15,22 +15,20 @@ defineOptions({
 })
 
 let finalAverage = 0
-let count = 0
 const pointList = ref<Map<string, string>>(new Map())
 
-// #region Check any Person send '?'
+// Check any Person send '?'
 const shouldShow = computed<boolean>(() => {
   for (const person of pointList.value) {
     if (person[1] === '?') return false
   }
   return true
 })
-// #endregion
 
-// #region calculated average
+// calculated average
 async function updateAverage() {
   finalAverage = 0
-  count = 0
+  let count = 0
   onGetPoint().then((result) => {
     pointList.value = result
     result.forEach((item) => {
@@ -43,13 +41,11 @@ async function updateAverage() {
     finalAverage = +average
   })
 }
-// #endregion
-// #region Reset List
+// Reset List
 async function reset() {
   onResetPoints()
   updateAverage()
 }
-// #endregion
 
 // #region if one person send '?' all show -
 function showAveragePoint() {

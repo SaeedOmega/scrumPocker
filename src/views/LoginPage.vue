@@ -5,12 +5,11 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const name = ref<string>('')
 
-// #region login and save name in localStorage
+// login and save name in localStorage
 function login(name: string): void {
   localStorage.name = name
   router.push('/')
 }
-// #endregion
 </script>
 
 <template>
