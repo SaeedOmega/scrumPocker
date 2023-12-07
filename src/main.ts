@@ -1,6 +1,8 @@
-import './assets/main.css'
+import './main.css'
+import 'virtual:windi.css'
 
 import { createApp } from 'vue'
+
 import App from './App.vue'
 import router from './router'
 
