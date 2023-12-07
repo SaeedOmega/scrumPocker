@@ -16,7 +16,6 @@ async function handleBack() {
 <template>
   <div @click="handleBack()" class="absolute flex justify-center items-center h-screen w-screen">
     <div
-      @click.stop.prevent
       :class="[
         text != 'I Cant' ? 'scale-400' : 'scale-250',
         text != 'I Dont Want' ? 'scale-400' : 'scale-150'
