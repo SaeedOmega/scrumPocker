@@ -90,7 +90,7 @@ updateAverage()
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col justify-center items-center">
+  <div class="w-screen h-screen flex flex-col justify-center items-center">
     <div class="flex flex-col gap-5 w-full p-10">
       <span class="flex gap-5">
         <button @click="updateAverage" class="p-3 rounded-xl border-white border-1">Refresh</button>

@@ -21,7 +21,7 @@ function login(name: string): void {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col justify-center items-center">
+  <div class=" w-screen flex flex-col justify-center items-center">
     <form @submit.prevent="login(name)" class="flex gap-5 justify-center">
       <input
         type="text"

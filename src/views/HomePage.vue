@@ -3,6 +3,18 @@ import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref } from 'vue'
 import SelectedCard from '@/components/SelectedCard.vue'
+import numberNim from '../assets/buttons/1.png'
+import numberOne from '../assets/buttons/2.png'
+import numberTwo from '../assets/buttons/3.png'
+import numberThree from '../assets/buttons/4.png'
+import numberFive from '../assets/buttons/5.png'
+import numberEight from '../assets/buttons/6.png'
+import numberThirteen from '../assets/buttons/7.png'
+import numberTwentyOne from '../assets/buttons/8.png'
+import numberThirtyFour from '../assets/buttons/9.png'
+import QuestionMark from '../assets/buttons/10.png'
+import infinity from '../assets/buttons/11.png'
+import coffee from '../assets/buttons/12.png'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -16,21 +28,18 @@ defineOptions({
 
 const selectedValue = ref<string | null>(null)
 const buttonsValues = [
-  { key: '1/2', value: '1/2' },
-  { key: '1', value: '1' },
-  { key: '2', value: '2' },
-  { key: '3', value: '3' },
-  { key: '5', value: '5' },
-  { key: '8', value: '8' },
-  { key: '13', value: '13' },
-  { key: '21', value: '21' },
-  { key: '34', value: '34' },
-  { key: '55', value: '55' },
-  { key: '89', value: '89' },
-  { key: '144', value: '144' },
-  { key: '?', value: '?' },
-  { key: '∞', value: 'I Cant' },
-  { key: '☕', value: 'I Dont Want' }
+  { key: '1/2', value: '1/2', src: numberNim },
+  { key: '1', value: '1', src: numberOne },
+  { key: '2', value: '2', src: numberTwo },
+  { key: '3', value: '3', src: numberThree },
+  { key: '5', value: '5', src: numberFive },
+  { key: '8', value: '8', src: numberEight },
+  { key: '13', value: '13', src: numberThirteen },
+  { key: '21', value: '21', src: numberTwentyOne },
+  { key: '34', value: '34', src: numberThirtyFour },
+  { key: '?', value: '?', src: QuestionMark },
+  { key: '∞', value: 'I Cant', src: infinity },
+  { key: '☕', value: 'I Dont Want', src: coffee }
 ]
 
 /**
@@ -49,16 +58,16 @@ async function submitPoint(value: string) {
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col justify-center items-center">
+  <div class="w-screen justify-center items-center flex flex-col">
+    <div class="font-Knewave self-center mb-20 m-13 text-center text-xl">ScrumPocker</div>
     <div
       :class="{ 'filter blur-sm': selectedValue }"
-      class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center"
+      class="flex max-w-380px flex-wrap gap-6 justify-center items-center"
     >
       <NumberCard
         v-for="item in buttonsValues"
+        :src="item.src"
         :key="item.key"
-        :text="item.key"
-        :selected="selectedValue"
         @click="submitPoint(item.value)"
       />
     </div>
