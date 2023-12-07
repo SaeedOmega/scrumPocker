@@ -1,5 +1,4 @@
 <script setup lang="ts">
-//@ts-ignore
 import ResultRow from '@/components/ResultRow.vue'
 import { onGetPoint, onResetPoints } from '../server.telefunc'
 import { computed, ref } from 'vue'
