@@ -33,7 +33,15 @@ const buttonsValues = [
   { key: '☕', value: 'I Dont Want' }
 ]
 
-// Submit for point of the person
+/**
+ *
+ * send localStroage.name and selectedPoint by user to server for save
+ *
+ * @param value string data === point
+ *
+ * @returns void
+ *
+ */
 async function submitPoint(value: string) {
   await onSetPoint(localStorage.name, value)
   selectedValue.value = value

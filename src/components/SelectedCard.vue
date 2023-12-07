@@ -3,6 +3,10 @@ import { onDelete } from '../server.telefunc'
 
 const text = defineModel<string | null>()
 
+/**
+ * delete this user from average table
+ * close pointCard
+ */
 async function handleBack() {
   await onDelete(localStorage.name)
   text.value = null

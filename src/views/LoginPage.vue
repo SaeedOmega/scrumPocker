@@ -5,7 +5,15 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const name = ref<string>('')
 
-// login and save name in localStorage
+/**
+ *
+ * set localStorage with user input
+ * 
+ * @param name string data
+ * 
+ * @returns void
+ *
+ */
 function login(name: string): void {
   localStorage.name = name
   router.push('/')

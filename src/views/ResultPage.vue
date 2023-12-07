@@ -17,7 +17,12 @@ defineOptions({
 let finalAverage = 0
 const pointList = ref<Map<string, string>>(new Map())
 
-// Check any Person send '?'
+/**
+ * Returns false if a person sent '?' else Returns true.
+ *
+ * @returns true or false
+ *
+ */
 const shouldShow = computed<boolean>(() => {
   for (const person of pointList.value) {
     if (person[1] === '?') return false
@@ -25,7 +30,12 @@ const shouldShow = computed<boolean>(() => {
   return true
 })
 
-// calculated average
+/**
+ * Calculate average of data of Map from server side
+ * set result with finalAverage
+ * @returns void
+ *
+ */
 async function updateAverage() {
   finalAverage = 0
   let count = 0
@@ -41,16 +51,37 @@ async function updateAverage() {
     finalAverage = +average
   })
 }
-// Reset List
+/**
+ * reset all date in server.
+ *
+ * @returns void
+ *
+ */
 async function reset() {
   onResetPoints()
   updateAverage()
 }
 
 // #region if one person send '?' all show -
+/**
+ * Returns a string.
+ * this output show in tags to users
+ * if one of user sent '?' or we havent no numbric data for avereage this is show '-'
+ *
+ * @returns string
+ *
+ */
 function getAverageToShow() {
   return !shouldShow.value || isNaN(finalAverage) ? '-' : finalAverage.toString()
 }
+/**
+ * Returns a string.
+ * this output show in tags to users
+ * if one of user sent '?' this is show '-'
+ *
+ * @returns string
+ *
+ */
 function getPointToShow(item: { 1: string }) {
   return !shouldShow.value ? (item[1] == '?' ? '?' : '-') : item[1]
 }
