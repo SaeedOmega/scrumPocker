@@ -2,11 +2,10 @@
 import { onDelete } from '../server.telefunc'
 
 const text = defineModel<string | null>()
-const emit = defineEmits(['value'])
 
 async function handleBack() {
   await onDelete(localStorage.name)
-  emit('value', null)
+  text.value = null
 }
 </script>
 
