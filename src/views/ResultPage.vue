@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ResultRow from '@/components/ResultRow.vue'
-import { onGetPoint, onResetPoints } from '../server.telefunc'
-import { computed, ref } from 'vue'
+import { onGetPoint, onResetPoints, onDelete } from '../server.telefunc'
+import { computed, ref, watch } from 'vue'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -12,6 +12,8 @@ defineOptions({
     next()
   }
 })
+
+const selectedImg = defineModel<string | null>()
 
 let finalAverage = 0
 const pointList = ref<Map<string, string>>(new Map())
@@ -43,6 +45,9 @@ async function updateAverage() {
     result.forEach((item) => {
       if (+item) {
         finalAverage += +item
+        count++
+      } else if (item == '1/2') {
+        finalAverage += 0.5
         count++
       }
     })
@@ -86,19 +91,30 @@ function getPointToShow(item: { 1: string }) {
 }
 // #endregion
 
-updateAverage()
+async function back() {
+  await onDelete(localStorage.name)
+  selectedImg.value = null
+}
+
+watch(selectedImg, () => {
+  updateAverage()
+})
 </script>
 
 <template>
-  <div class="w-screen h-screen flex flex-col justify-center items-center">
-    <div class="flex flex-col gap-5 w-full p-10">
+  <div class="max-w-480px w-screen h-full flex flex-col justify-center items-center">
+    <div class="font-Knewave self-center mb-20 m-13 text-center text-xl">ScrumPocker</div>
+    <img v-if="selectedImg" :src="selectedImg" class="w-140px" alt="" />
+    <div class="flex flex-col gap-5 max-w-480px w-full p-10">
       <span class="flex gap-5">
         <button @click="updateAverage" class="p-3 rounded-xl border-white border-1">Refresh</button>
         <button @click="reset" class="p-3 rounded-xl border-white border-1">Reset</button>
+        <button @click="back" class="p-3 cursor-pointer rounded-xl border-white border-1">
+          Back
+        </button>
       </span>
 
-      <div class="flex flex-col border-white border-1 rounded-xl">
-        <ResultRow name="Name" point="Point" type="header" />
+      <div class="flex flex-col">
         <ResultRow
           v-for="(item, index) in pointList"
           :key="index"

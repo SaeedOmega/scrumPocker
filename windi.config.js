@@ -5,7 +5,8 @@ export default defineConfig({
   theme: {
     extend: {
       fontFamily: {
-        Knewave: 'Knewave'
+        Knewave: 'Knewave',
+        roboto: 'roboto'
       }
     }
   }
