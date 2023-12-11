@@ -1,48 +1,48 @@
 @font-face {
   font-family: 'Knewave';
-  src: url('./assets/fonts/Knewave-Regular.ttf');
+  src: url(./assets/fonts/Knewave-Regular.woff2) format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'roboto';
-  src: url('./assets/fonts/roboto/Roboto-Thin.ttf');
+  src: url(./assets/fonts/roboto/Roboto-Thin.woff2) format('woff2');
   font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'roboto';
-  src: url('./assets/fonts/roboto/Roboto-Light.ttf');
+  src: url(./assets/fonts/roboto/Roboto-Light.woff2) format('woff2');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'roboto';
-  src: url('./assets/fonts/roboto/Roboto-Medium.ttf');
+  src: url(./assets/fonts/roboto/Roboto-Medium.woff2) format('woff2');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'roboto';
-  src: url('./assets/fonts/roboto/Roboto-Regular.ttf');
+  src: url(./assets/fonts/roboto/Roboto-Regular.woff2) format('woff2');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'roboto';
-  src: url('./assets/fonts/roboto/Roboto-Black.ttf');
+  src: url(./assets/fonts/roboto/Roboto-Black.woff2) format('woff2');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'roboto';
-  src: url('./assets/fonts/roboto/Roboto-Bold.ttf');
+  src: url(./assets/fonts/roboto/Roboto-Bold.woff2) format('woff2');
   font-weight: 600;
   font-style: normal;
 }

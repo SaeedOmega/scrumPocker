@@ -61,10 +61,10 @@ async function submitPoint(value: string, img: string) {
   <div class="group flex justify-center items-center perspect-2000px">
     <div
       :class="{ 'rotate-y-180': selectedImg }"
-      class="preserve-3d backface-hidden relative transform transition-transform duration-500"
+      class="preserve-3d relative transform transition-transform duration-500"
     >
       <div
-        class="max-w-360px <sm:inset-x-[5%] inset-x-[15%] justify-center absolute backface-hidden items-center flex flex-col"
+        class="max-w-360px transform rotate-x-0 <sm:inset-x-[5%] backface-hidden inset-x-[15%] justify-center absolute items-center flex flex-col"
       >
         <div class="font-Knewave self-center mb-20 m-13 text-center text-xl">ScrumPocker</div>
         <div
@@ -79,7 +79,7 @@ async function submitPoint(value: string, img: string) {
           />
         </div>
       </div>
-      <div class="transform rotate-y-180 flex backface-hidden">
+      <div class="transform rotate-y-180 rotate-x-0 flex backface-hidden">
         <ResultPage v-model="selectedImg" type="user" />
       </div>
     </div>

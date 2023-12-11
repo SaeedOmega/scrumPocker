@@ -108,7 +108,9 @@ watch(selectedImg, () => {
     <div class="flex flex-col gap-5 max-w-480px w-full p-10">
       <span class="flex gap-5">
         <button @click="updateAverage" class="p-3 rounded-xl border-white border-1">Refresh</button>
-        <button @click="reset" class="p-3 rounded-xl border-white border-1">Reset</button>
+        <button v-if="!selectedImg" @click="reset" class="p-3 rounded-xl border-white border-1">
+          Reset
+        </button>
         <button @click="back" class="p-3 cursor-pointer rounded-xl border-white border-1">
           Back
         </button>

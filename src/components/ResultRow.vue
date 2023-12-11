@@ -17,34 +17,23 @@ const prop = defineProps<{
   point: string
   type: string
 }>()
+const minionImages: { [index: string]: string } = {
+  '1/2': minion1,
+  '1': minion2,
+  '2': minion3,
+  '3': minion4,
+  '5': minion5,
+  '8': minion6,
+  '13': minion7,
+  '21': minion8,
+  '34': minion9,
+  '?': minion10,
+  '∞': minion11,
+  '☕': minion12
+}
 
 function setImageforPoint() {
-  switch (prop.point) {
-    case '1/2':
-      return minion1
-    case '1':
-      return minion2
-    case '2':
-      return minion3
-    case '3':
-      return minion4
-    case '5':
-      return minion5
-    case '8':
-      return minion6
-    case '13':
-      return minion7
-    case '21':
-      return minion8
-    case '34':
-      return minion9
-    case '?':
-      return minion10
-    case '∞':
-      return minion11
-    case '☕':
-      return minion12
-  }
+  return minionImages[prop.point]
 }
 </script>
 
