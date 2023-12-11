@@ -1,35 +1,22 @@
 <script setup lang="ts">
-import minion1 from '../assets/minions/1.png'
-import minion2 from '../assets/minions/2.png'
-import minion3 from '../assets/minions/3.png'
-import minion4 from '../assets/minions/4.png'
-import minion5 from '../assets/minions/5.png'
-import minion6 from '../assets/minions/6.png'
-import minion7 from '../assets/minions/7.png'
-import minion8 from '../assets/minions/8.png'
-import minion9 from '../assets/minions/9.png'
-import minion10 from '../assets/minions/10.png'
-import minion11 from '../assets/minions/11.png'
-import minion12 from '../assets/minions/12.png'
-
 const prop = defineProps<{
   name: string
   point: string
   type: string
 }>()
 const minionImages: { [index: string]: string } = {
-  '1/2': minion1,
-  '1': minion2,
-  '2': minion3,
-  '3': minion4,
-  '5': minion5,
-  '8': minion6,
-  '13': minion7,
-  '21': minion8,
-  '34': minion9,
-  '?': minion10,
-  '∞': minion11,
-  '☕': minion12
+  '1/2': '../../public/minions/1.png',
+  '1': '../../public/minions/2.png',
+  '2': '../../public/minions/3.png',
+  '3': '../../public/minions/4.png',
+  '5': '../../public/minions/5.png',
+  '8': '../../public/minions/6.png',
+  '13': '../../public/minions/7.png',
+  '21': '../../public/minions/8.png',
+  '34': '../../public/minions/9.png',
+  '?': '../../public/minions/10.png',
+  '∞': '../../public/minions/11.png',
+  '☕': '../../public/minions/12.png'
 }
 
 function setImageforPoint() {

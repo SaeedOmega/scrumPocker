@@ -2,18 +2,6 @@
 import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref } from 'vue'
-import numberNim from '../assets/buttons/1.png'
-import numberOne from '../assets/buttons/2.png'
-import numberTwo from '../assets/buttons/3.png'
-import numberThree from '../assets/buttons/4.png'
-import numberFive from '../assets/buttons/5.png'
-import numberEight from '../assets/buttons/6.png'
-import numberThirteen from '../assets/buttons/7.png'
-import numberTwentyOne from '../assets/buttons/8.png'
-import numberThirtyFour from '../assets/buttons/9.png'
-import QuestionMark from '../assets/buttons/10.png'
-import infinity from '../assets/buttons/11.png'
-import coffee from '../assets/buttons/12.png'
 import ResultPage from './ResultPage.vue'
 
 defineOptions({
@@ -28,18 +16,18 @@ defineOptions({
 
 const selectedImg = ref<string | null>(null)
 const buttonsValues = [
-  { key: '1/2', src: numberNim },
-  { key: '1', src: numberOne },
-  { key: '2', src: numberTwo },
-  { key: '3', src: numberThree },
-  { key: '5', src: numberFive },
-  { key: '8', src: numberEight },
-  { key: '13', src: numberThirteen },
-  { key: '21', src: numberTwentyOne },
-  { key: '34', src: numberThirtyFour },
-  { key: '?', src: QuestionMark },
-  { key: '∞', src: infinity },
-  { key: '☕', src: coffee }
+  { key: '1/2', src: '../../public/buttons/1.png' },
+  { key: '1', src: '../../public/buttons/2.png' },
+  { key: '2', src: '../../public/buttons/3.png' },
+  { key: '3', src: '../../public/buttons/4.png' },
+  { key: '5', src: '../../public/buttons/5.png' },
+  { key: '8', src: '../../public/buttons/6.png' },
+  { key: '13', src: '../../public/buttons/7.png' },
+  { key: '21', src: '../../public/buttons/8.png' },
+  { key: '34', src: '../../public/buttons/9.png' },
+  { key: '?', src: '../../public/buttons/10.png' },
+  { key: '∞', src: '../../public/buttons/11.png' },
+  { key: '☕', src: '../../public/buttons/12.png' }
 ]
 
 /**
@@ -85,5 +73,3 @@ async function submitPoint(value: string, img: string) {
     </div>
   </div>
 </template>
-
-<style></style>
