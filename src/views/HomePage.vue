@@ -16,18 +16,18 @@ defineOptions({
 
 const selectedImg = ref<string | null>(null)
 const buttonsValues = [
-  { key: '1/2', src: '../../public/buttons/1.png' },
-  { key: '1', src: '../../public/buttons/2.png' },
-  { key: '2', src: '../../public/buttons/3.png' },
-  { key: '3', src: '../../public/buttons/4.png' },
-  { key: '5', src: '../../public/buttons/5.png' },
-  { key: '8', src: '../../public/buttons/6.png' },
-  { key: '13', src: '../../public/buttons/7.png' },
-  { key: '21', src: '../../public/buttons/8.png' },
-  { key: '34', src: '../../public/buttons/9.png' },
-  { key: '?', src: '../../public/buttons/10.png' },
-  { key: '∞', src: '../../public/buttons/11.png' },
-  { key: '☕', src: '../../public/buttons/12.png' }
+  { key: '1/2', src: 'buttons/1.png' },
+  { key: '1', src: 'buttons/2.png' },
+  { key: '2', src: 'buttons/3.png' },
+  { key: '3', src: 'buttons/4.png' },
+  { key: '5', src: 'buttons/5.png' },
+  { key: '8', src: 'buttons/6.png' },
+  { key: '13', src: 'buttons/7.png' },
+  { key: '21', src: 'buttons/8.png' },
+  { key: '34', src: 'buttons/9.png' },
+  { key: '?', src: 'buttons/10.png' },
+  { key: '∞', src: 'buttons/11.png' },
+  { key: '☕', src: 'buttons/12.png' }
 ]
 
 /**

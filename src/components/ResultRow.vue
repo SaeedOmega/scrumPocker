@@ -4,23 +4,41 @@ const prop = defineProps<{
   point: string
   type: string
 }>()
-const minionImages: { [index: string]: string } = {
-  '1/2': '../../public/minions/1.png',
-  '1': '../../public/minions/2.png',
-  '2': '../../public/minions/3.png',
-  '3': '../../public/minions/4.png',
-  '5': '../../public/minions/5.png',
-  '8': '../../public/minions/6.png',
-  '13': '../../public/minions/7.png',
-  '21': '../../public/minions/8.png',
-  '34': '../../public/minions/9.png',
-  '?': '../../public/minions/10.png',
-  '∞': '../../public/minions/11.png',
-  '☕': '../../public/minions/12.png'
-}
 
 function setImageforPoint() {
+  const minionImages: { [index: string]: string } = {
+    '1/2': 'minions/1.png',
+    '1': 'minions/2.png',
+    '2': 'minions/3.png',
+    '3': 'minions/4.png',
+    '5': 'minions/5.png',
+    '8': 'minions/6.png',
+    '13': 'minions/7.png',
+    '21': 'minions/8.png',
+    '34': 'minions/9.png',
+    '?': 'minions/10.png',
+    '∞': 'minions/11.png',
+    '☕': 'minions/12.png'
+  }
   return minionImages[prop.point]
+}
+
+function generateBgColor() {
+  const minionBg: { [index: string]: string } = {
+    '1/2': 'from-[#e6a99f] via-[#eabab1] to-transparent',
+    '1': 'from-[#ffb628] via-[#fed148] to-transparent',
+    '2': 'from-[#ffb628] via-[#fed148] to-transparent',
+    '3': 'from-[#ffb628] via-[#fed148] to-transparent',
+    '5': 'from-[#ffb628] via-[#fed148] to-transparent',
+    '8': 'from-[#38884e] via-[#38884e] to-transparent',
+    '13': 'from-[#514647] via-[#6c6363] to-transparent',
+    '21': 'from-[#4268a9] via-[#446ba7] to-transparent',
+    '34': 'from-[#7d66ab] via-[#725ba4] to-transparent',
+    '?': 'from-[#ff7628] via-[#fe9f48] to-transparent',
+    '∞': 'from-[#bbb] via-[#bdbdbd] to-transparent',
+    '☕': 'from-[#826149] via-[#826149] to-transparent'
+  }
+  return minionBg[prop.point]
 }
 </script>
 
@@ -36,21 +54,14 @@ function setImageforPoint() {
       {{ name }}
     </div>
     <div
-      class="m-3 rounded-22px items-center flex gap-2 px-1 w-80px"
-      :class="{
-        'my-5': type != 'row',
-        'text-sm': point == 'I Dont Want',
-        bgColorYellow:
-          (point === '5' || point === '3' || point === '1' || point === '2') && type != 'result',
-        bgColorPink: point === '1/2' && type != 'result',
-        bgColorGreen: point === '8' && type != 'result',
-        bgColorBlack: point === '13' && type != 'result',
-        bgColorBlue: point === '21' && type != 'result',
-        bgColorPurple: point === '34' && type != 'result',
-        bgColorOrange: point === '?' && type != 'result',
-        bgColorGray: point === '∞' && type != 'result',
-        bgColorBrown: point === '☕' && type != 'result'
-      }"
+      class="m-3 rounded-22px bg-gradient-to-b items-center flex gap-2 px-1 w-80px"
+      :class="[
+        {
+          'my-5': type != 'row',
+          'text-sm': point == 'I Dont Want'
+        },
+        type != 'result' && generateBgColor()
+      ]"
     >
       <p
         :class="{
@@ -70,33 +81,3 @@ function setImageforPoint() {
     </div>
   </div>
 </template>
-
-<style>
-.bgColorYellow {
-  background: linear-gradient(180deg, #ffb628 0%, #fed148 46.88%, rgba(255, 211, 29, 0) 100%);
-}
-.bgColorGreen {
-  background: linear-gradient(180deg, #38884e 0%, #38884e 46.88%, rgba(56, 136, 78, 0) 100%);
-}
-.bgColorPink {
-  background: linear-gradient(180deg, #e6a99f 0%, #eabab1 46.88%, rgba(238, 189, 180, 0) 100%);
-}
-.bgColorBlack {
-  background: linear-gradient(180deg, #514647 0%, #6c6363 46.88%, rgba(129, 117, 117, 0) 100%);
-}
-.bgColorBlue {
-  background: linear-gradient(180deg, #4268a9 0%, #446ba7 46.88%, rgba(134, 195, 223, 0) 100%);
-}
-.bgColorPurple {
-  background: linear-gradient(180deg, #7d66ab 0%, #725ba4 48.44%, rgba(147, 128, 187, 0) 100%);
-}
-.bgColorOrange {
-  background: linear-gradient(180deg, #ff7628 0%, #fe9f48 46.88%, rgba(255, 137, 29, 0) 100%);
-}
-.bgColorGray {
-  background: linear-gradient(180deg, #bbb 0%, #bdbdbd 46.88%, rgba(193, 193, 193, 0) 100%);
-}
-.bgColorBrown {
-  background: linear-gradient(180deg, #826149 0%, #826149 46.88%, rgba(130, 97, 73, 0) 100%);
-}
-</style>

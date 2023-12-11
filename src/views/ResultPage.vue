@@ -102,17 +102,16 @@ watch(selectedImg, () => {
 </script>
 
 <template>
-  <div class="max-w-480px w-screen h-full flex flex-col justify-center items-center">
+  <div @click="back" class="max-w-480px w-screen h-full flex flex-col justify-center items-center">
     <div class="font-Knewave self-center mb-20 m-13 text-center text-xl">ScrumPocker</div>
     <img v-if="selectedImg" :src="selectedImg" class="w-140px" alt="" />
-    <div class="flex flex-col gap-5 max-w-480px w-full p-10">
+    <div class="flex flex-col gap-5 w-full p-10">
       <span class="flex gap-5">
-        <button @click="updateAverage" class="p-3 rounded-xl border-white border-1">Refresh</button>
-        <button v-if="!selectedImg" @click="reset" class="p-3 rounded-xl border-white border-1">
-          Reset
+        <button @click.stop="updateAverage" class="p-3 rounded-xl border-black border-1">
+          Refresh
         </button>
-        <button @click="back" class="p-3 cursor-pointer rounded-xl border-white border-1">
-          Back
+        <button v-if="!selectedImg" @click="reset" class="p-3 rounded-xl border-black border-1">
+          Reset
         </button>
       </span>
 
