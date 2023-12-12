@@ -13,10 +13,10 @@ defineOptions({
   }
 })
 
-defineProps<{ value: string | null }>()
+defineProps<{ selectedImg: string | null; value: string | null }>()
 
-const selectedImg = defineModel<string | boolean | null>()
-
+const isResult = localStorage.name == 'result' ? true : false
+const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 const pointList = ref<Map<string, string>>(new Map())
 
@@ -94,17 +94,21 @@ function getPointToShow(item: { 1: string }) {
 // #endregion
 
 async function back() {
-  await onDelete(localStorage.name)
-  selectedImg.value = false
+  isShow.value = false
+  setTimeout(async () => await onDelete(localStorage.name), 100)
 }
 
-watch(selectedImg, () => {
+watch(isShow, () => {
   updateAverage()
 })
+updateAverage()
 </script>
 
 <template>
-  <div @click="back" class="m-auto flex-grow max-w-480px flex flex-col justify-center items-center">
+  <div
+    @click="back"
+    class="m-auto flex-grow max-w-480px min-h-screen flex flex-col justify-center items-center"
+  >
     <div class="font-Knewave self-center mb-20 m-13 text-center text-xl select-none">
       ScrumPocker
     </div>
@@ -115,13 +119,13 @@ watch(selectedImg, () => {
     >
       {{ value }}
     </div>
-    <div v-if="!selectedImg" class="flex-grow"></div>
+    <div v-if="!value" class="flex-grow"></div>
     <div class="flex flex-col flex-grow gap-5 w-full p-5">
       <span class="flex gap-5">
         <button @click.stop="updateAverage" class="p-3 rounded-xl border-black border-1">
           Refresh
         </button>
-        <button v-if="!selectedImg" @click="reset" class="p-3 rounded-xl border-black border-1">
+        <button v-if="isResult" @click="reset" class="p-3 rounded-xl border-black border-1">
           Reset
         </button>
       </span>

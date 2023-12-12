@@ -11,6 +11,9 @@ defineOptions({
     if (!localStorage.name) {
       next('/login')
       return
+    } else if (localStorage.name == 'result') {
+      next('/result')
+      return
     }
     next()
   }
@@ -18,6 +21,7 @@ defineOptions({
 
 const selectedImg = ref<string | null>(null)
 const selectedValue = ref<string | null>(null)
+const isShow = ref<boolean>(false)
 const buttonsValues = [
   { key: '1/2', src: 'buttons/1.png' },
   { key: '1', src: 'buttons/2.png' },
@@ -44,20 +48,21 @@ const buttonsValues = [
  */
 async function submitPoint(value: string, img: string) {
   await onSetPoint(localStorage.name, value)
+  isShow.value = true
   selectedImg.value = img
   selectedValue.value = value
 }
 </script>
 
 <template>
-  <vue-flip v-model="selectedImg" width="100%" height="100%">
+  <vue-flip v-model="isShow" width="100%" height="100%">
     <template v-slot:front>
       <div class="m-auto justify-center items-center flex flex-col">
         <div class="font-Knewave self-center mb-20 m-13 text-center select-none text-xl">
           ScrumPocker
         </div>
         <div
-          :class="{ 'filter blur-sm': selectedImg }"
+          :class="{ 'filter blur-sm': isShow }"
           class="flex flex-wrap max-w-412px gap-7 justify-center items-center"
         >
           <NumberCard
@@ -72,7 +77,13 @@ async function submitPoint(value: string, img: string) {
     </template>
     <template v-slot:back>
       <div>
-        <ResultPage v-model="selectedImg" :value="selectedValue" type="user" />
+        <ResultPage
+          @close="(e) => (selectedValue = e)"
+          v-model="isShow"
+          :value="selectedValue"
+          :selected-img="selectedImg"
+          type="user"
+        />
       </div>
     </template>
   </vue-flip>
