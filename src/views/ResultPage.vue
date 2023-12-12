@@ -13,6 +13,8 @@ defineOptions({
   }
 })
 
+defineProps<{ value: string }>()
+
 const selectedImg = defineModel<string | null>()
 
 let finalAverage = 0
@@ -104,7 +106,13 @@ watch(selectedImg, () => {
 <template>
   <div @click="back" class="max-w-480px w-screen h-full flex flex-col justify-center items-center">
     <div class="font-Knewave self-center mb-20 m-13 text-center text-xl">ScrumPocker</div>
-    <img v-if="selectedImg" :src="selectedImg" class="w-140px" alt="" />
+    <div
+      v-if="selectedImg"
+      class="text-white bg-center h-250px w-250px bg-no-repeat font-bold bg-contain pt-3 text-60px text-center"
+      :style="{ backgroundImage: `url(${selectedImg})` }"
+    >
+      {{ value }}
+    </div>
     <div class="flex flex-col gap-5 w-full p-10">
       <span class="flex gap-5">
         <button @click.stop="updateAverage" class="p-3 rounded-xl border-black border-1">

@@ -15,6 +15,7 @@ defineOptions({
 })
 
 const selectedImg = ref<string | null>(null)
+const selectedValue = ref<string | null>(null)
 const buttonsValues = [
   { key: '1/2', src: 'buttons/1.png' },
   { key: '1', src: 'buttons/2.png' },
@@ -42,6 +43,7 @@ const buttonsValues = [
 async function submitPoint(value: string, img: string) {
   await onSetPoint(localStorage.name, value)
   selectedImg.value = img
+  selectedValue.value = value
 }
 </script>
 
@@ -63,12 +65,13 @@ async function submitPoint(value: string, img: string) {
             v-for="item in buttonsValues"
             :src="item.src"
             :key="item.key"
+            :value="item.key"
             @click="submitPoint(item.key, item.src)"
           />
         </div>
       </div>
       <div class="transform rotate-y-180 rotate-x-0 flex backface-hidden">
-        <ResultPage v-model="selectedImg" type="user" />
+        <ResultPage v-model="selectedImg" :value="selectedValue" type="user" />
       </div>
     </div>
   </div>
