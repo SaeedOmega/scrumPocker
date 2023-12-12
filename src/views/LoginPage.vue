@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import minionImage from '../assets/loginMinionsImage.png'
 
 const router = useRouter()
 const name = ref<string>('')
@@ -21,22 +22,32 @@ function login(name: string): void {
 </script>
 
 <template>
-  <div class="h-screen flex flex-col justify-center items-center">
-    <form @submit.prevent="login(name)" class="flex gap-5 justify-center">
-      <input
-        type="text"
-        class="bg-transparent border-white w-6/10 shadow-sm shadow-gray-600 placeholder:text-[rgba(9,9,9,0.4)] rounded-xl border-style-solid border-2 font-sans text-xl outline-none rounded-5 p-5 text-white"
-        placeholder="Type Your Name..."
-        v-model="name"
-        autofocus
-      />
-      <button
-        type="button"
-        class="bg-transparent rounded-xl border-white shadow-sm shadow-gray-600 border-style-solid border-2 font-sans text-xl rounded-5 p-5 text-white active:bg-[#94b6fb]"
-        @click="login(name)"
-      >
-        Submit
-      </button>
+  <div class="flex flex-col flex-grow gap-10 justify-center items-center">
+    <div class="font-Knewave mb-140px self-center mb-20 m-13 text-center text-xl select-none">
+      ScrumPocker
+    </div>
+    <div class="font-light mb-10 text-24px">Enter Your name</div>
+    <form @submit.prevent="login(name)" class="flex flex-col items-start justify-center">
+      <label for="name" class="text-12px opacity-60">Your name</label>
+      <div class="h-7 flex gap-2 border-b-black border-b">
+        <input
+          id="name"
+          type="text"
+          class="bg-transparent h-full placeholder:text-[rgba(9,9,9,0.4)] outline-none px-2"
+          placeholder="Saeed"
+          v-model="name"
+          autofocus
+        />
+        <button
+          type="button"
+          :class="{ invisible: name == '' }"
+          class="bg-transparent h-full rounded-md active:bg-[#94b6fb]"
+          @click="login(name)"
+        >
+          Submit
+        </button>
+      </div>
     </form>
+    <img :src="minionImage" alt="minions" width="250" />
   </div>
 </template>

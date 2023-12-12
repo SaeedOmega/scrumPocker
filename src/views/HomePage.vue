@@ -1,4 +1,6 @@
 <script setup lang="ts">
+//@ts-ignore
+import { VueFlip } from 'vue-flip'
 import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref } from 'vue'
@@ -48,18 +50,15 @@ async function submitPoint(value: string, img: string) {
 </script>
 
 <template>
-  <div class="group flex justify-center items-center perspect-2000px">
-    <div
-      :class="{ 'rotate-y-180': selectedImg }"
-      class="preserve-3d relative transform transition-transform duration-500"
-    >
-      <div
-        class="max-w-360px transform rotate-x-0 <sm:inset-x-[5%] backface-hidden inset-x-[15%] justify-center absolute items-center flex flex-col"
-      >
-        <div class="font-Knewave self-center mb-20 m-13 text-center text-xl">ScrumPocker</div>
+  <vue-flip v-model="selectedImg" width="100%" height="100%">
+    <template v-slot:front>
+      <div class="m-auto justify-center items-center flex flex-col">
+        <div class="font-Knewave self-center mb-20 m-13 text-center select-none text-xl">
+          ScrumPocker
+        </div>
         <div
           :class="{ 'filter blur-sm': selectedImg }"
-          class="flex flex-wrap gap-6 justify-center items-center"
+          class="flex flex-wrap max-w-412px gap-7 justify-center items-center"
         >
           <NumberCard
             v-for="item in buttonsValues"
@@ -70,9 +69,11 @@ async function submitPoint(value: string, img: string) {
           />
         </div>
       </div>
-      <div class="transform rotate-y-180 rotate-x-0 flex backface-hidden">
+    </template>
+    <template v-slot:back>
+      <div>
         <ResultPage v-model="selectedImg" :value="selectedValue" type="user" />
       </div>
-    </div>
-  </div>
+    </template>
+  </vue-flip>
 </template>
