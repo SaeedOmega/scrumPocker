@@ -79,7 +79,7 @@ async function submitPoint(value: string, img: string) {
       <div>
         <ResultPage
           v-model="isShow"
-          :value="selectedValue"
+          :value-of-point="selectedValue"
           :selected-img="selectedImg"
           type="user"
         />

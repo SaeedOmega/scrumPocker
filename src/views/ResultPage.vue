@@ -15,7 +15,7 @@ defineOptions({
 })
 const router = useRouter()
 
-defineProps<{ selectedImg: string | null; value: string | null }>()
+defineProps<{ selectedImg: string | null; valueOfPoint: string | null }>()
 
 const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
@@ -140,9 +140,9 @@ setInterval(() => {
       class="text-white bg-center h-230px w-250px bg-no-repeat font-bold select-none bg-contain pt-3 text-60px text-center"
       :style="{ backgroundImage: `url(${selectedImg})` }"
     >
-      {{ value }}
+      {{ valueOfPoint }}
     </div>
-    <div v-if="!value" class="flex-grow"></div>
+    <div v-if="!valueOfPoint" class="flex-grow"></div>
     <div class="flex flex-col flex-grow gap-5 w-full p-5">
       <span class="flex gap-5">
         <!-- <button @click.stop="updateAverage" class="p-3 rounded-xl border-black border-1">
