@@ -67,9 +67,9 @@ async function submitPoint(value: string, img: string) {
         >
           <NumberCard
             v-for="item in buttonsValues"
-            :src="item.src"
+            :background-image-src="item.src"
             :key="item.key"
-            :value="item.key"
+            :value-of-point="item.key"
             @click="submitPoint(item.key, item.src)"
           />
         </div>

@@ -2,6 +2,7 @@
 const prop = defineProps<{
   name: string
   point: string
+  // for define and diffrent between resultRow or personPointRow
   type: string
 }>()
 
@@ -42,15 +43,16 @@ function getBgColor() {
   return minionBg[prop.point]
 }
 
-// if you click result row in resultPage page doesnt back
-function backHandler(event: Event) {
+// در صورت عادی وقتی رو هرجای کامپوننت ریزالت پیج کلیک بشه به برمیگرده به صفحه امتیاز دهی
+// این رو برای این گذاشتم که وقتی روی سطر نتایج کلیک شد به صفحه امتیاز دهی برنگرده
+function handleBack(event: Event) {
   if (prop.type == 'result') event.stopPropagation()
 }
 </script>
 
 <template>
   <div
-    @click="backHandler"
+    @click="handleBack"
     :class="{ 'border-b-1px': type != 'result' }"
     class="flex gap-5 w-full items-center border-dashed border-black border-opacity-12"
   >

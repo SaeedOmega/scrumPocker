@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ResultRow from '@/components/ResultRow.vue'
-import { onGetPoint, onResetPoints, onDelete } from '../server.telefunc'
-import { computed, ref, watch } from 'vue'
+import { onGetPoint, onResetPoints, onSetPoint } from '../server.telefunc'
+import { computed, ref, watch, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 defineOptions({
@@ -20,7 +20,20 @@ defineProps<{ selectedImg: string | null; value: string | null }>()
 const isResult = localStorage.name == 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
-const pointList = ref<Map<string, string>>(new Map())
+const allPointList = ref<Map<string, string>>(new Map())
+/**
+ * Returns person that send a commend.
+ *
+ * @returns a map of person
+ *
+ */
+const pointList = computed<Map<string, string>>(() => {
+  const miniMap = new Map()
+  for (const person of allPointList.value) {
+    if (person[1]) miniMap.set(person[0], person[1])
+  }
+  return miniMap
+})
 
 /**
  * Returns false if a person sent '?' else Returns true.
@@ -41,23 +54,20 @@ const shouldShow = computed<boolean>(() => {
  * @returns void
  *
  */
-async function updateAverage() {
+function updateAverage() {
   finalAverage = 0
   let count = 0
-  onGetPoint().then((result) => {
-    pointList.value = result
-    result.forEach((item) => {
-      if (+item) {
-        finalAverage += +item
-        count++
-      } else if (item == '1/2') {
-        finalAverage += 0.5
-        count++
-      }
-    })
-    let average = (finalAverage / count).toFixed(2)
-    finalAverage = +average
+  pointList.value.forEach((item) => {
+    if (+item) {
+      finalAverage += +item
+      count++
+    } else if (item == '1/2') {
+      finalAverage += 0.5
+      count++
+    }
   })
+  let average = (finalAverage / count).toFixed(2)
+  finalAverage = +average
 }
 /**
  * reset all date in server.
@@ -91,7 +101,7 @@ function getAverageToShow() {
  *
  */
 function getPointToShow(item: { 1: string }) {
-  return !shouldShow.value ? (item[1] == '?' ? '?' : '-') : item[1]
+  return !shouldShow.value ? (item[1] === '?' ? '?' : '-') : item[1]
 }
 // #endregion
 
@@ -99,14 +109,22 @@ async function back() {
   if (isShow.value) {
     isShow.value = false
     router.push('/')
-    setTimeout(async () => await onDelete(localStorage.name), 100)
+    setTimeout(async () => await onSetPoint(localStorage.name, null), 100)
   }
 }
 
 watch(isShow, () => {
   updateAverage()
 })
+watchEffect(() => {
+  updateAverage()
+})
 updateAverage()
+setInterval(() => {
+  onGetPoint().then((result) => {
+    allPointList.value = result
+  })
+}, 750)
 </script>
 
 <template>
@@ -127,9 +145,9 @@ updateAverage()
     <div v-if="!value" class="flex-grow"></div>
     <div class="flex flex-col flex-grow gap-5 w-full p-5">
       <span class="flex gap-5">
-        <button @click.stop="updateAverage" class="p-3 rounded-xl border-black border-1">
+        <!-- <button @click.stop="updateAverage" class="p-3 rounded-xl border-black border-1">
           Refresh
-        </button>
+        </button> -->
         <button v-if="isResult" @click="reset" class="p-3 rounded-xl border-black border-1">
           Reset
         </button>
