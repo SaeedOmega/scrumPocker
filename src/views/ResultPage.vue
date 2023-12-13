@@ -90,7 +90,11 @@ async function reset() {
  *
  */
 function getAverageToShow() {
-  return !shouldShow.value || isNaN(finalAverage) ? '-' : finalAverage.toString()
+  return !shouldShow.value ||
+    isNaN(finalAverage) ||
+    pointList.value.size === allPointList.value.size
+    ? '-'
+    : finalAverage.toString()
 }
 /**
  * Returns a string.
@@ -101,7 +105,11 @@ function getAverageToShow() {
  *
  */
 function getPointToShow(item: { 1: string }) {
-  return !shouldShow.value ? (item[1] === '?' ? '?' : '-') : item[1]
+  return !shouldShow.value || pointList.value.size === allPointList.value.size
+    ? item[1] === '?'
+      ? '?'
+      : '-'
+    : item[1]
 }
 // #endregion
 
@@ -130,7 +138,7 @@ setInterval(() => {
 <template>
   <div
     @click="back"
-    class="m-auto flex-grow max-w-480px w-full min-h-screen flex flex-col justify-center items-center"
+    class="m-auto flex-grow max-w-480px w-full flex flex-col justify-center items-center"
   >
     <div class="font-Knewave self-center mb-20 m-13 text-center text-xl select-none">
       ScrumPocker
@@ -154,6 +162,7 @@ setInterval(() => {
       </span>
 
       <div class="flex flex-col">
+        <div>Please Send</div>
         <ResultRow
           v-for="(item, index) in pointList"
           :key="index"

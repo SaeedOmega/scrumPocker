@@ -55,35 +55,37 @@ async function submitPoint(value: string, img: string) {
 </script>
 
 <template>
-  <vue-flip v-model="isShow" width="100%" height="100%">
-    <template v-slot:front>
-      <div class="m-auto justify-center items-center flex flex-col">
-        <div class="font-Knewave self-center mb-20 m-13 text-center select-none text-xl">
-          ScrumPocker
+  <div class="flex flex-col flex-grow">
+    <vue-flip v-model="isShow" width="100%" height="100%">
+      <template v-slot:front>
+        <div class="m-auto justify-center items-center flex flex-col">
+          <div class="font-Knewave self-center mb-20 m-13 text-center select-none text-xl">
+            ScrumPocker
+          </div>
+          <div
+            :class="{ 'filter blur-sm': isShow }"
+            class="flex flex-wrap max-w-360px gap-2.1 justify-center items-center"
+          >
+            <NumberCard
+              v-for="item in buttonsValues"
+              :background-image-src="item.src"
+              :key="item.key"
+              :value="item.key"
+              @click="submitPoint(item.key, item.src)"
+            />
+          </div>
         </div>
-        <div
-          :class="{ 'filter blur-sm': isShow }"
-          class="flex flex-wrap max-w-360px gap-2.1 justify-center items-center"
-        >
-          <NumberCard
-            v-for="item in buttonsValues"
-            :background-image-src="item.src"
-            :key="item.key"
-            :value-of-point="item.key"
-            @click="submitPoint(item.key, item.src)"
+      </template>
+      <template v-slot:back>
+        <div>
+          <ResultPage
+            v-model="isShow"
+            :value-of-point="selectedValue"
+            :selected-img="selectedImg"
+            type="user"
           />
         </div>
-      </div>
-    </template>
-    <template v-slot:back>
-      <div>
-        <ResultPage
-          v-model="isShow"
-          :value-of-point="selectedValue"
-          :selected-img="selectedImg"
-          type="user"
-        />
-      </div>
-    </template>
-  </vue-flip>
+      </template>
+    </vue-flip>
+  </div>
 </template>

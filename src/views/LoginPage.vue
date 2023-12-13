@@ -3,15 +3,15 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import minionImage from '../assets/loginMinionsImage.png'
 
-defineOptions({
-  beforeRouteEnter(to, from, next) {
-    if (localStorage.name) {
-      next('/')
-      return
-    }
-    next()
-  }
-})
+// defineOptions({
+//   beforeRouteEnter(to, from, next) {
+//     if (localStorage.name) {
+//       next('/')
+//       return
+//     }
+//     next()
+//   }
+// })
 
 const router = useRouter()
 const name = ref<string>('')
