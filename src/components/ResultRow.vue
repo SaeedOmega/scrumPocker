@@ -42,14 +42,15 @@ function getBgColor() {
   return minionBg[prop.point]
 }
 
-function handler(event: Event) {
+// if you click result row in resultPage page doesnt back
+function backHandler(event: Event) {
   if (prop.type == 'result') event.stopPropagation()
 }
 </script>
 
 <template>
   <div
-    @click="handler"
+    @click="backHandler"
     :class="{ 'border-b-1px': type != 'result' }"
     class="flex gap-5 w-full items-center border-dashed border-black border-opacity-12"
   >
