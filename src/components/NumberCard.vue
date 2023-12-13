@@ -13,9 +13,3 @@ defineProps<{
     {{ value }}
   </div>
 </template>
-
-<style>
-.bg {
-  background-image: src;
-}
-</style>
