@@ -3,7 +3,7 @@
 import { VueFlip } from 'vue-flip'
 import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ResultPage from './ResultPage.vue'
 
 defineOptions({
@@ -52,6 +52,10 @@ async function submitPoint(value: string, img: string) {
   selectedImg.value = img
   selectedValue.value = value
 }
+
+onMounted(async () => {
+  await onSetPoint(localStorage.name, null)
+})
 </script>
 
 <template>

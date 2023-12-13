@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ResultRow from '@/components/ResultRow.vue'
 import { onGetPoint, onResetPoints, onSetPoint } from '../server.telefunc'
-import { computed, ref, watch, watchEffect } from 'vue'
+import { computed, ref, watch, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 defineOptions({
@@ -21,6 +21,14 @@ const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 const allPointList = ref<Map<string, string>>(new Map())
+
+const dontVotePerson = computed<Map<string, string>>(() => {
+  const miniMap = new Map()
+  for (const person of allPointList.value) {
+    if (!person[1] && person[0] != localStorage.name) miniMap.set(person[0], person[1])
+  }
+  return miniMap
+})
 /**
  * Returns person that send a commend.
  *
@@ -90,9 +98,7 @@ async function reset() {
  *
  */
 function getAverageToShow() {
-  return !shouldShow.value ||
-    isNaN(finalAverage) ||
-    pointList.value.size === allPointList.value.size
+  return !shouldShow.value || isNaN(finalAverage) || pointList.value.size < allPointList.value.size
     ? '-'
     : finalAverage.toString()
 }
@@ -105,7 +111,7 @@ function getAverageToShow() {
  *
  */
 function getPointToShow(item: { 1: string }) {
-  return !shouldShow.value || pointList.value.size === allPointList.value.size
+  return !shouldShow.value || pointList.value.size < allPointList.value.size
     ? item[1] === '?'
       ? '?'
       : '-'
@@ -128,11 +134,15 @@ watchEffect(() => {
   updateAverage()
 })
 updateAverage()
-setInterval(() => {
+
+let timer = setInterval(() => {
   onGetPoint().then((result) => {
     allPointList.value = result
   })
 }, 750)
+onUnmounted(() => {
+  clearInterval(timer)
+})
 </script>
 
 <template>
@@ -156,13 +166,43 @@ setInterval(() => {
         <!-- <button @click.stop="updateAverage" class="p-3 rounded-xl border-black border-1">
           Refresh
         </button> -->
-        <button v-if="isResult" @click="reset" class="p-3 rounded-xl border-black border-1">
+        <button
+          v-if="isResult && pointList.size >= allPointList.size"
+          @click="reset"
+          class="p-3 rounded-xl border-black border-1"
+        >
           Reset
         </button>
       </span>
-
-      <div class="flex flex-col">
-        <div>Please Send</div>
+      <div class="flex flex-col" v-show="pointList.size < allPointList.size && pointList.size > 0">
+        <div class="self-center text-20px flex gap-2">
+          <div id="wrapper">
+            <div class="profile-main-loader">
+              <div class="loader">
+                <svg class="circular-loader" viewBox="25 25 50 50">
+                  <circle
+                    class="loader-path"
+                    cx="50"
+                    cy="50"
+                    r="20"
+                    fill="none"
+                    stroke="#70c542"
+                    stroke-width="2"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div>Waiting for</div>
+        </div>
+        <div class="flex flex-col gap-3 mt-3 self-center">
+          <div v-for="person in dontVotePerson" :key="person[0]">{{ person[0] }}</div>
+        </div>
+      </div>
+      <div
+        v-show="pointList.size >= allPointList.size || pointList.size === 0"
+        class="flex flex-col"
+      >
         <ResultRow
           v-for="(item, index) in pointList"
           :key="index"

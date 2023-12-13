@@ -3,7 +3,7 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="mainBackground flex flex-col flex-grow font-roboto">
+  <div class="mainBackground overflow-auto flex flex-col flex-grow font-roboto">
     <RouterView />
   </div>
 </template>

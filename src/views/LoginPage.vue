@@ -51,7 +51,7 @@ function login(name: string): void {
         />
         <button
           type="button"
-          :class="{ invisible: name == '' }"
+          :class="{ invisible: !name }"
           class="bg-transparent h-full rounded-md active:bg-[#94b6fb]"
           @click="login(name)"
         >
