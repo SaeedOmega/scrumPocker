@@ -17,7 +17,7 @@ const router = useRouter()
 
 defineProps<{ selectedImg: string | null; value: string | null }>()
 
-const isResult = localStorage.name == 'result' ? true : false
+const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 const allPointList = ref<Map<string, string>>(new Map())
@@ -61,7 +61,7 @@ function updateAverage() {
     if (+item) {
       finalAverage += +item
       count++
-    } else if (item == '1/2') {
+    } else if (item === '1/2') {
       finalAverage += 0.5
       count++
     }
