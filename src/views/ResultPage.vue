@@ -2,6 +2,7 @@
 import ResultRow from '@/components/ResultRow.vue'
 import { onGetPoint, onResetPoints, onDelete } from '../server.telefunc'
 import { computed, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -12,6 +13,7 @@ defineOptions({
     next()
   }
 })
+const router = useRouter()
 
 defineProps<{ selectedImg: string | null; value: string | null }>()
 
@@ -95,6 +97,7 @@ function getPointToShow(item: { 1: string }) {
 
 async function back() {
   isShow.value = false
+  router.push('/')
   setTimeout(async () => await onDelete(localStorage.name), 100)
 }
 

@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import minionImage from '../assets/loginMinionsImage.png'
+
+defineOptions({
+  beforeRouteEnter(to, from, next) {
+    if (localStorage.name) {
+      next('/')
+      return
+    }
+    next()
+  }
+})
 
 const router = useRouter()
 const name = ref<string>('')
@@ -19,15 +29,18 @@ function login(name: string): void {
   localStorage.name = name
   router.push('/')
 }
+watch([name], () => {
+  console.log(name.value)
+})
 </script>
 
 <template>
   <div class="flex flex-col flex-grow gap-10 justify-center items-center">
-    <div class="font-Knewave mb-140px self-center mb-20 m-13 text-center text-xl select-none">
+    <div class="font-Knewave mb-70px self-center mb-20 m-13 text-center text-xl select-none">
       ScrumPocker
     </div>
     <div class="font-light text-24px">Enter Your name</div>
-    <div class="font-light mb-10 text-12px">Type 'result' for reset option in resultPage</div>
+    <div class="font-light text-12px">Type 'result' for reset option in resultPage</div>
     <form @submit.prevent="login(name)" class="flex flex-col items-start justify-center">
       <label for="name" class="text-12px opacity-60">Your name</label>
       <div class="h-7 flex gap-2 border-b-black border-b">
@@ -49,6 +62,6 @@ function login(name: string): void {
         </button>
       </div>
     </form>
-    <img :src="minionImage" alt="minions" width="250" />
+    <img :src="minionImage" alt="minions" width="200" />
   </div>
 </template>

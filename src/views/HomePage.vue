@@ -63,7 +63,7 @@ async function submitPoint(value: string, img: string) {
         </div>
         <div
           :class="{ 'filter blur-sm': isShow }"
-          class="flex flex-wrap max-w-412px gap-7 justify-center items-center"
+          class="flex flex-wrap max-w-360px gap-2.1 justify-center items-center"
         >
           <NumberCard
             v-for="item in buttonsValues"

@@ -5,41 +5,43 @@ const prop = defineProps<{
   type: string
 }>()
 
+const minionImages: Record<string, string> = {
+  '1/2': 'minions/1.png',
+  '1': 'minions/2.png',
+  '2': 'minions/3.png',
+  '3': 'minions/4.png',
+  '5': 'minions/5.png',
+  '8': 'minions/6.png',
+  '13': 'minions/7.png',
+  '21': 'minions/8.png',
+  '34': 'minions/9.png',
+  '?': 'minions/10.png',
+  '∞': 'minions/11.png',
+  '☕': 'minions/12.png'
+}
+const minionBg: Record<string, string> = {
+  '1/2': 'from-[#e6a99f] via-[#eabab1] to-transparent',
+  '1': 'from-[#ffb628] via-[#fed148] to-transparent',
+  '2': 'from-[#ffb628] via-[#fed148] to-transparent',
+  '3': 'from-[#ffb628] via-[#fed148] to-transparent',
+  '5': 'from-[#ffb628] via-[#fed148] to-transparent',
+  '8': 'from-[#38884e] via-[#38884e] to-transparent',
+  '13': 'from-[#514647] via-[#6c6363] to-transparent',
+  '21': 'from-[#4268a9] via-[#446ba7] to-transparent',
+  '34': 'from-[#7d66ab] via-[#725ba4] to-transparent',
+  '?': 'from-[#ff7628] via-[#fe9f48] to-transparent',
+  '∞': 'from-[#bbb] via-[#bdbdbd] to-transparent',
+  '☕': 'from-[#826149] via-[#826149] to-transparent'
+}
+
 function setImageforPoint() {
-  const minionImages: { [index: string]: string } = {
-    '1/2': 'minions/1.png',
-    '1': 'minions/2.png',
-    '2': 'minions/3.png',
-    '3': 'minions/4.png',
-    '5': 'minions/5.png',
-    '8': 'minions/6.png',
-    '13': 'minions/7.png',
-    '21': 'minions/8.png',
-    '34': 'minions/9.png',
-    '?': 'minions/10.png',
-    '∞': 'minions/11.png',
-    '☕': 'minions/12.png'
-  }
   return minionImages[prop.point]
 }
 
 function generateBgColor() {
-  const minionBg: { [index: string]: string } = {
-    '1/2': 'from-[#e6a99f] via-[#eabab1] to-transparent',
-    '1': 'from-[#ffb628] via-[#fed148] to-transparent',
-    '2': 'from-[#ffb628] via-[#fed148] to-transparent',
-    '3': 'from-[#ffb628] via-[#fed148] to-transparent',
-    '5': 'from-[#ffb628] via-[#fed148] to-transparent',
-    '8': 'from-[#38884e] via-[#38884e] to-transparent',
-    '13': 'from-[#514647] via-[#6c6363] to-transparent',
-    '21': 'from-[#4268a9] via-[#446ba7] to-transparent',
-    '34': 'from-[#7d66ab] via-[#725ba4] to-transparent',
-    '?': 'from-[#ff7628] via-[#fe9f48] to-transparent',
-    '∞': 'from-[#bbb] via-[#bdbdbd] to-transparent',
-    '☕': 'from-[#826149] via-[#826149] to-transparent'
-  }
   return minionBg[prop.point]
 }
+
 function handler(event: Event) {
   if (prop.type == 'result') event.stopPropagation()
 }
