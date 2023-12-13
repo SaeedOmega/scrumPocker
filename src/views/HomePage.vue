@@ -78,7 +78,6 @@ async function submitPoint(value: string, img: string) {
     <template v-slot:back>
       <div>
         <ResultPage
-          @close="(e) => (selectedValue = e)"
           v-model="isShow"
           :value="selectedValue"
           :selected-img="selectedImg"

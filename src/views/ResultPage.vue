@@ -96,9 +96,11 @@ function getPointToShow(item: { 1: string }) {
 // #endregion
 
 async function back() {
-  isShow.value = false
-  router.push('/')
-  setTimeout(async () => await onDelete(localStorage.name), 100)
+  if (isShow.value) {
+    isShow.value = false
+    router.push('/')
+    setTimeout(async () => await onDelete(localStorage.name), 100)
+  }
 }
 
 watch(isShow, () => {
@@ -110,7 +112,7 @@ updateAverage()
 <template>
   <div
     @click="back"
-    class="m-auto flex-grow max-w-480px min-h-screen flex flex-col justify-center items-center"
+    class="m-auto flex-grow max-w-480px w-full min-h-screen flex flex-col justify-center items-center"
   >
     <div class="font-Knewave self-center mb-20 m-13 text-center text-xl select-none">
       ScrumPocker
