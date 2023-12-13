@@ -34,11 +34,11 @@ const minionBg: Record<string, string> = {
   '☕': 'from-[#826149] via-[#826149] to-transparent'
 }
 
-function setImageforPoint() {
+function getImageforPoint() {
   return minionImages[prop.point]
 }
 
-function generateBgColor() {
+function getBgColor() {
   return minionBg[prop.point]
 }
 
@@ -66,7 +66,7 @@ function handler(event: Event) {
           'my-5': type != 'row',
           'text-sm': point == 'I Dont Want'
         },
-        type != 'result' && generateBgColor()
+        type != 'result' && getBgColor()
       ]"
     >
       <p
@@ -81,7 +81,7 @@ function handler(event: Event) {
       <img
         v-if="type != 'result' && point != '-'"
         class="w-38px h-39px shadow-'0px 10px 10px 0px #0000001A'"
-        :src="setImageforPoint()"
+        :src="getImageforPoint()"
         alt=""
       />
     </div>
