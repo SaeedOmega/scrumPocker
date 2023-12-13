@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import minionImage from '../assets/loginMinionsImage.png'
 
@@ -29,9 +29,6 @@ function login(name: string): void {
   localStorage.name = name
   router.push('/')
 }
-watch([name], () => {
-  console.log(name.value)
-})
 </script>
 
 <template>
