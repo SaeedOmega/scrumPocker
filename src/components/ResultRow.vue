@@ -53,8 +53,7 @@ function handleBack(event: Event) {
 <template>
   <div
     @click="handleBack"
-    :class="{ 'border-b-1px': type != 'result' }"
-    class="flex gap-5 w-full items-center border-dashed border-black border-opacity-12"
+    class="flex gap-5 w-full last:border-none border-b-1px items-center border-dashed border-black border-opacity-12"
   >
     <div
       class="flex-grow m-3 text-18px select-none font-medium"

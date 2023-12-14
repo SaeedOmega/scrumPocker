@@ -1,7 +1,7 @@
 <script setup lang="ts">
 //@ts-ignore
 import { VueFlip } from 'vue-flip'
-import { onSetPoint } from '../server.telefunc'
+import { onSetPoint, onGetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref, onMounted } from 'vue'
 import ResultPage from './ResultPage.vue'
@@ -54,16 +54,24 @@ async function submitPoint(value: string, img: string) {
 }
 
 onMounted(async () => {
-  await onSetPoint(localStorage.name, null)
+  if (localStorage.name != 'result') await onSetPoint(localStorage.name, null)
 })
+setInterval(async () => {
+  onGetPoint().then(async (result) => {
+    if (localStorage.name != 'result' && !result.has(localStorage.name) && !isShow.value)
+      await onSetPoint(localStorage.name, null)
+    else if (selectedValue.value && isShow.value)
+      await onSetPoint(localStorage.name, selectedValue.value)
+  })
+}, 1000)
 </script>
 
 <template>
-  <div class="flex flex-col flex-grow">
-    <vue-flip v-model="isShow" width="100%" height="100%">
+  <div class="flex flex-col flex-grow overflow-auto">
+    <vue-flip v-model="isShow" width="100%">
       <template v-slot:front>
         <div class="m-auto justify-center items-center flex flex-col">
-          <div class="font-Knewave self-center mb-20 m-13 text-center select-none text-xl">
+          <div class="font-Knewave self-center mb-13 m-13 text-center select-none text-xl">
             ScrumPocker
           </div>
           <div
@@ -81,14 +89,15 @@ onMounted(async () => {
         </div>
       </template>
       <template v-slot:back>
-        <div>
+        <Transition class="delay-100">
           <ResultPage
+            v-if="isShow"
             v-model="isShow"
             :value-of-point="selectedValue"
             :selected-img="selectedImg"
             type="user"
           />
-        </div>
+        </Transition>
       </template>
     </vue-flip>
   </div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ResultRow from '@/components/ResultRow.vue'
 import { onGetPoint, onResetPoints, onSetPoint } from '../server.telefunc'
-import { computed, ref, watch, watchEffect, onUnmounted } from 'vue'
+import { computed, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 defineOptions({
@@ -22,6 +22,25 @@ const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 const allPointList = ref<Map<string, string>>(new Map())
 
+/**
+ * Returns state of waiting for allVote or Not.
+ *
+ * @returns Boolean
+ *
+ */
+const loading = computed<boolean>(() => {
+  let isLoading = true
+  if (pointList.value.size < allPointList.value.size && pointList.value.size >= 0) isLoading = true
+  else isLoading = false
+  return isLoading
+})
+
+/**
+ * Returns person that doesnt send a vote.
+ *
+ * @returns a map of person
+ *
+ */
 const dontVotePerson = computed<Map<string, string>>(() => {
   const miniMap = new Map()
   for (const person of allPointList.value) {
@@ -127,21 +146,21 @@ async function back() {
   }
 }
 
-watch(isShow, () => {
-  updateAverage()
-})
 watchEffect(() => {
   updateAverage()
 })
-updateAverage()
+// for first
+onGetPoint().then((result) => {
+  allPointList.value = result
+})
 
-let timer = setInterval(() => {
+let realTimePoint = setInterval(() => {
   onGetPoint().then((result) => {
     allPointList.value = result
   })
 }, 750)
 onUnmounted(() => {
-  clearInterval(timer)
+  clearInterval(realTimePoint)
 })
 </script>
 
@@ -167,14 +186,14 @@ onUnmounted(() => {
           Refresh
         </button> -->
         <button
-          v-if="isResult && pointList.size >= allPointList.size"
+          v-if="isResult"
           @click="reset"
-          class="p-3 rounded-xl border-black border-1"
+          class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
         >
           Reset
         </button>
       </span>
-      <div class="flex flex-col" v-show="pointList.size < allPointList.size && pointList.size > 0">
+      <div class="flex flex-col" v-show="loading">
         <div class="self-center text-20px flex gap-2">
           <div id="wrapper">
             <div class="profile-main-loader">
@@ -195,14 +214,12 @@ onUnmounted(() => {
           </div>
           <div>Waiting for</div>
         </div>
-        <div class="flex flex-col gap-3 mt-3 self-center">
+        <div class="flex flex-col gap-3 mt-3 ml-5 self-center">
           <div v-for="person in dontVotePerson" :key="person[0]">{{ person[0] }}</div>
         </div>
       </div>
-      <div
-        v-show="pointList.size >= allPointList.size || pointList.size === 0"
-        class="flex flex-col"
-      >
+      <div v-show="!loading" class="flex flex-col">
+        <ResultRow name="Result" :point="getAverageToShow()" type="result" />
         <ResultRow
           v-for="(item, index) in pointList"
           :key="index"
@@ -210,7 +227,6 @@ onUnmounted(() => {
           :point="getPointToShow(item)"
           :type="'row'"
         />
-        <ResultRow name="Result" :point="getAverageToShow()" type="result" />
       </div>
     </div>
   </div>
