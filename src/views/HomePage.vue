@@ -54,11 +54,11 @@ async function submitPoint(value: string, img: string) {
 }
 
 onMounted(async () => {
-  if (localStorage.name != 'result') await onSetPoint(localStorage.name, null)
+  if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
 })
 setInterval(async () => {
   onGetPoint().then(async (result) => {
-    if (localStorage.name != 'result' && !result.has(localStorage.name) && !isShow.value)
+    if (localStorage.name !== 'result' && !result.has(localStorage.name) && !isShow.value)
       await onSetPoint(localStorage.name, null)
     else if (selectedValue.value && isShow.value)
       await onSetPoint(localStorage.name, selectedValue.value)

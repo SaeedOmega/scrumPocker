@@ -57,7 +57,7 @@ function handleBack(event: Event) {
   >
     <div
       class="flex-grow m-3 text-18px select-none font-medium"
-      :class="{ 'my-5': type != 'row', 'font-bold underline': type === 'result' }"
+      :class="{ 'my-5': type !== 'row', 'font-bold underline': type === 'result' }"
     >
       {{ name }}
     </div>
@@ -65,15 +65,15 @@ function handleBack(event: Event) {
       class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1 w-80px"
       :class="[
         {
-          'my-5': type != 'row',
+          'my-5': type !== 'row',
           'text-sm': point == 'I Dont Want'
         },
-        type != 'result' && getBgColor()
+        type !== 'result' && getBgColor()
       ]"
     >
       <p
         :class="{
-          'text-white': type != 'result' && point != '-',
+          'text-white': type !== 'result' && point !== '-',
           'font-bold': type === 'result'
         }"
         class="flex-grow select-none font-bold text-18px text-center"
@@ -81,7 +81,7 @@ function handleBack(event: Event) {
         {{ point }}
       </p>
       <img
-        v-if="type != 'result' && point != '-'"
+        v-if="type !== 'result' && point !== '-'"
         class="w-38px h-39px shadow-'0px 10px 10px 0px #0000001A'"
         :src="getImageforPoint()"
         alt=""

@@ -45,7 +45,7 @@ const loading = computed<boolean>(() => {
 const dontVotePerson = computed<Map<string, string>>(() => {
   const miniMap = new Map()
   for (const person of allPointList.value) {
-    if (!person[1] && person[0] != localStorage.name) miniMap.set(person[0], person[1])
+    if (!person[1] && person[0] !== localStorage.name) miniMap.set(person[0], person[1])
   }
   return miniMap
 })
