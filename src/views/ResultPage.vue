@@ -14,6 +14,8 @@ defineOptions({
 })
 
 let finalAverage = 0
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let middleOfPoints = 0
 const pointList = ref<Map<string, string>>(new Map())
 
 /**
@@ -50,6 +52,31 @@ async function updateAverage() {
     finalAverage = +average
   })
 }
+
+/**
+ * Calculate average of data of Map from server side
+ * set result with finalAverage
+ * @returns void
+ *
+ */
+function updateMiddleOfPoints() {
+  let arrayOfPoints: number[] = []
+  pointList.value.forEach((item) => {
+    if (+item) {
+      arrayOfPoints.push(+item)
+    } else if (item === '1/2') {
+      arrayOfPoints.push(0.5)
+    }
+  })
+  arrayOfPoints.sort((a: number, b: number) => a - b)
+  if (arrayOfPoints.length % 2 !== 0) {
+    middleOfPoints = arrayOfPoints[(arrayOfPoints.length - 1) / 2]
+  } else
+    middleOfPoints =
+      (arrayOfPoints[arrayOfPoints.length / 2 - 1] + arrayOfPoints[arrayOfPoints.length / 2 - 2]) /
+      2
+}
+
 /**
  * reset all date in server.
  *
@@ -72,6 +99,17 @@ async function reset() {
  */
 function getAverageToShow() {
   return !shouldShow.value || isNaN(finalAverage) ? '-' : finalAverage.toString()
+}
+/**
+ * Returns a string.
+ * this output show in tags to users
+ * if one of user sent '?' or we havent no numbric data for avereage this is show '-'
+ *
+ * @returns string
+ *
+ */
+function getMiddleToShow() {
+  return !shouldShow.value || isNaN(middleOfPoints) ? '-' : middleOfPoints.toString()
 }
 /**
  * Returns a string.
