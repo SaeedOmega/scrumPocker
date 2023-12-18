@@ -3,6 +3,7 @@ import ResultRow from '@/components/ResultRow.vue'
 import { onGetPoint, onResetPoints, onSetPoint } from '../server.telefunc'
 import { computed, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
+import waiting from '../assets/ic_waiting.png'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -242,11 +243,18 @@ onUnmounted(() => {
             </div>
             <div>Waiting for</div>
           </div>
-          <div class="flex flex-col gap-3 mt-3 ml-5 self-center">
+          <ul class="flex flex-col gap-3 mt-3 ml-5 self-center">
             <transition-group name="bounce">
-              <div v-for="person in dontVotePerson" :key="person[0]">{{ person[0] }}</div>
+              <li
+                v-for="person in dontVotePerson"
+                class="font-medium flex items-center gap-3"
+                :key="person[0]"
+              >
+                <img :src="waiting" class="h-4.5" />
+                <span>{{ person[0] }}</span>
+              </li>
             </transition-group>
-          </div>
+          </ul>
         </div>
       </transition>
 
