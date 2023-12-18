@@ -193,41 +193,76 @@ onUnmounted(() => {
           Reset
         </button>
       </span>
-      <div class="flex flex-col" v-show="loading">
-        <div class="self-center text-20px flex gap-2">
-          <div id="wrapper">
-            <div class="profile-main-loader">
-              <div class="loader">
-                <svg class="circular-loader" viewBox="25 25 50 50">
-                  <circle
-                    class="loader-path"
-                    cx="50"
-                    cy="50"
-                    r="20"
-                    fill="none"
-                    stroke="#70c542"
-                    stroke-width="2"
-                  />
-                </svg>
+      <transition name="bounce">
+        <div class="flex flex-col" v-show="loading">
+          <div class="self-center text-20px flex gap-2">
+            <div id="wrapper">
+              <div class="profile-main-loader">
+                <div class="loader">
+                  <svg class="circular-loader" viewBox="25 25 50 50">
+                    <circle
+                      class="loader-path"
+                      cx="50"
+                      cy="50"
+                      r="20"
+                      fill="none"
+                      stroke="#70c542"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
+            <div>Waiting for</div>
           </div>
-          <div>Waiting for</div>
+          <div class="flex flex-col gap-3 mt-3 ml-5 self-center">
+            <transition-group name="bounce">
+              <div v-for="person in dontVotePerson" :key="person[0]">{{ person[0] }}</div>
+            </transition-group>
+          </div>
         </div>
-        <div class="flex flex-col gap-3 mt-3 ml-5 self-center">
-          <div v-for="person in dontVotePerson" :key="person[0]">{{ person[0] }}</div>
+      </transition>
+      
+      <transition name="bounce">
+        <div v-show="!loading" class="flex flex-col">
+          <ResultRow name="Result" :point="getAverageToShow()" type="result" />
+          <transition-group name="bounce">
+            <ResultRow
+              v-for="(item, index) in pointList"
+              :key="index"
+              :name="item[0]"
+              :point="getPointToShow(item)"
+              :type="'row'"
+            />
+          </transition-group>
         </div>
-      </div>
-      <div v-show="!loading" class="flex flex-col">
-        <ResultRow name="Result" :point="getAverageToShow()" type="result" />
-        <ResultRow
-          v-for="(item, index) in pointList"
-          :key="index"
-          :name="item[0]"
-          :point="getPointToShow(item)"
-          :type="'row'"
-        />
-      </div>
+      </transition>
     </div>
   </div>
 </template>
+
+<style>
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-out 0.5s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+</style>
