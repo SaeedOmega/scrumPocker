@@ -74,33 +74,33 @@ const shouldShow = computed<boolean>(() => {
   }
   return true
 })
-/**
- * a number
- * @param num
- *
- * return nearstFibonacciNumber to input
- * @returns number
- */
-function closestFibonacci(num: number) {
-  if (num <= 0.5) {
-    return 0.5
-  }
+// /**
+//  * a number
+//  * @param num
+//  *
+//  * return nearstFibonacciNumber to input
+//  * @returns number
+//  */
+// function closestFibonacci(num: number) {
+//   if (num <= 0.5) {
+//     return 0.5
+//   }
 
-  let prevFib = 1
-  let currFib = 2
-  // حلقه تا زمانی ادامه می‌یابد که عدد جاری کوچک‌تر یا مساوی عدد ورودی باشد
-  while (currFib <= num) {
-    let newFib = prevFib + currFib
-    prevFib = currFib
-    currFib = newFib
-  }
-  // بررسی می‌کند که عدد ورودی به کدام عدد فیبوناتچی نزدیک‌تر است
-  if (num - prevFib > currFib - num) {
-    return currFib
-  } else {
-    return prevFib
-  }
-}
+//   let prevFib = 1
+//   let currFib = 2
+//   // حلقه تا زمانی ادامه می‌یابد که عدد جاری کوچک‌تر یا مساوی عدد ورودی باشد
+//   while (currFib <= num) {
+//     let newFib = prevFib + currFib
+//     prevFib = currFib
+//     currFib = newFib
+//   }
+//   // بررسی می‌کند که عدد ورودی به کدام عدد فیبوناتچی نزدیک‌تر است
+//   if (num - prevFib > currFib - num) {
+//     return currFib
+//   } else {
+//     return prevFib
+//   }
+// }
 
 /**
  * Calculate average of data of Map from server side
