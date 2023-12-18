@@ -73,7 +73,7 @@ function handleBack(event: Event) {
         type !== 'result' && getBgColor()
       ]"
     >
-      <p
+      <span
         :class="{
           'text-white': type !== 'result' && point !== '-',
           'font-bold': type === 'result'
@@ -81,7 +81,7 @@ function handleBack(event: Event) {
         class="flex-grow select-none font-bold text-18px text-center"
       >
         {{ point }}
-      </p>
+      </span>
       <img
         v-if="type !== 'result' && point !== '-'"
         class="w-38px h-39px shadow-'0px 10px 10px 0px #0000001A'"
