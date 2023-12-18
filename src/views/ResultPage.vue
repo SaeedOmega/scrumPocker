@@ -21,8 +21,6 @@ const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 const allPointList = ref<Map<string, string>>(new Map())
-const fibonacciNumbers = [1, 2, 3, 5, 8, 13, 21, 34]
-
 /**
  * Returns state of waiting for allVote or Not.
  *

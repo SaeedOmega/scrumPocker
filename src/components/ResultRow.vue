@@ -1,8 +1,10 @@
 <script setup lang="ts">
 const prop = defineProps<{
+  // نام کسی که امتیاز داده
   name: string
+  // مقدار امتیاز آن شخص
   point: string
-  // for define and diffrent between resultRow or personPointRow
+  // اگر این کامپوننت شامل تایو باشه فقط میتونه مقدار ریزالت باشه که دیزاین سطر ریزالت فرق میکنه
   type: string
 }>()
 
