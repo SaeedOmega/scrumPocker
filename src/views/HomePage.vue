@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 import SelectedCard from '@/components/SelectedCard.vue'
 
 defineOptions({
@@ -12,6 +12,12 @@ defineOptions({
     }
     next()
   }
+})
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let wakeLock = null
+navigator.wakeLock.request('screen').then((lock) => {
+  wakeLock = lock
 })
 
 const selectedValue = ref<string | null>(null)
@@ -46,6 +52,9 @@ async function submitPoint(value: string) {
   await onSetPoint(localStorage.name, value)
   selectedValue.value = value
 }
+onUnmounted(() => {
+  wakeLock = null
+})
 </script>
 
 <template>
