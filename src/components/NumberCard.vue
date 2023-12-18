@@ -1,6 +1,8 @@
 <script setup lang="ts">
 defineProps<{
+  //backgroundImageAddress for Each Number
   backgroundImageSrc: string
+  // value of each Number Card
   value: string
 }>()
 </script>

@@ -21,6 +21,7 @@ const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 const allPointList = ref<Map<string, string>>(new Map())
+const fibonacciNumbers = [1, 2, 3, 5, 8, 13, 21, 34]
 
 /**
  * Returns state of waiting for allVote or Not.
@@ -74,6 +75,33 @@ const shouldShow = computed<boolean>(() => {
   }
   return true
 })
+/**
+ * a number
+ * @param num
+ *
+ * return nearstFibonacciNumber to input
+ * @returns number
+ */
+function closestFibonacci(num: number) {
+  if (num <= 0.5) {
+    return 0.5
+  }
+
+  let prevFib = 1
+  let currFib = 2
+  // حلقه تا زمانی ادامه می‌یابد که عدد جاری کوچک‌تر یا مساوی عدد ورودی باشد
+  while (currFib <= num) {
+    let newFib = prevFib + currFib
+    prevFib = currFib
+    currFib = newFib
+  }
+  // بررسی می‌کند که عدد ورودی به کدام عدد فیبوناتچی نزدیک‌تر است
+  if (num - prevFib > currFib - num) {
+    return currFib
+  } else {
+    return prevFib
+  }
+}
 
 /**
  * Calculate average of data of Map from server side
@@ -95,6 +123,7 @@ function updateAverage() {
   })
   let average = (finalAverage / count).toFixed(2)
   finalAverage = +average
+  finalAverage = closestFibonacci(finalAverage)
 }
 /**
  * reset all date in server.
@@ -222,7 +251,7 @@ onUnmounted(() => {
           </div>
         </div>
       </transition>
-      
+
       <transition name="bounce">
         <div v-show="!loading" class="flex flex-col">
           <ResultRow name="Result" :point="getAverageToShow()" type="result" />
