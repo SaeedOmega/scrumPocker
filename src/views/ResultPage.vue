@@ -122,7 +122,7 @@ function updateAverage() {
   })
   let average = (finalAverage / count).toFixed(2)
   finalAverage = +average
-  finalAverage = closestFibonacci(finalAverage)
+  // finalAverage = closestFibonacci(finalAverage)
 }
 /**
  * reset all date in server.
