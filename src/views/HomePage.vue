@@ -57,12 +57,14 @@ onMounted(async () => {
   if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
 })
 setInterval(async () => {
-  onGetPoint().then(async (result) => {
-    if (localStorage.name !== 'result' && !result.has(localStorage.name) && !isShow.value)
-      await onSetPoint(localStorage.name, null)
-    else if (selectedValue.value && isShow.value)
-      await onSetPoint(localStorage.name, selectedValue.value)
-  })
+  if (
+    localStorage.name !== 'result' &&
+    !(await onGetPoint()).has(localStorage.name) &&
+    !isShow.value
+  )
+    await onSetPoint(localStorage.name, null)
+  else if (selectedValue.value && isShow.value)
+    await onSetPoint(localStorage.name, selectedValue.value)
 }, 1000)
 </script>
 
