@@ -21,6 +21,13 @@ defineProps<{ selectedImg: string | null; valueOfPoint: string | null }>()
 const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
+let doInterval = true
+let realTimePoint = setInterval(() => {
+  if (!doInterval) return
+  onGetPoint().then((result) => {
+    allPointList.value = result
+  })
+}, 750)
 const allPointList = ref<Map<string, string>>(new Map())
 /**
  * Returns state of waiting for allVote or Not.
@@ -30,7 +37,7 @@ const allPointList = ref<Map<string, string>>(new Map())
  */
 const loading = computed<boolean>(() => {
   let isLoading = true
-  if (pointList.value.size < allPointList.value.size && pointList.value.size >= 0) isLoading = true
+  if (pointList.value.size < allPointList.value.size && pointList.value.size > 0) isLoading = true
   else isLoading = false
   return isLoading
 })
@@ -108,7 +115,11 @@ const shouldShow = computed<boolean>(() => {
  * @returns void
  *
  */
-function updateAverage() {
+function updateAverage(refresh?: true) {
+  if (refresh)
+    onGetPoint().then((result) => {
+      allPointList.value = result
+    })
   finalAverage = 0
   let count = 0
   pointList.value.forEach((item) => {
@@ -174,19 +185,17 @@ async function back() {
   }
 }
 
-watchEffect(() => {
-  updateAverage()
-})
 // for first
 onGetPoint().then((result) => {
   allPointList.value = result
 })
 
-let realTimePoint = setInterval(() => {
-  onGetPoint().then((result) => {
-    allPointList.value = result
-  })
-}, 750)
+watchEffect(() => {
+  if (!loading.value && allPointList.value.size !== 0) doInterval = false
+  else if (loading.value) doInterval = true
+  updateAverage()
+})
+
 onUnmounted(() => {
   clearInterval(realTimePoint)
 })
@@ -210,9 +219,13 @@ onUnmounted(() => {
     <div v-if="!valueOfPoint" class="flex-grow"></div>
     <div class="flex flex-col flex-grow gap-5 w-full p-5">
       <span class="flex gap-5">
-        <!-- <button @click.stop="updateAverage" class="p-3 rounded-xl border-black border-1">
+        <button
+          v-show="!loading"
+          @click.stop="updateAverage(true)"
+          class="p-3 rounded-xl border-black border-1"
+        >
           Refresh
-        </button> -->
+        </button>
         <button
           v-if="isResult"
           @click="reset"
