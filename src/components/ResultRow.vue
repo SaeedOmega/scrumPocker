@@ -5,7 +5,7 @@ const prop = defineProps<{
   // مقدار امتیاز آن شخص
   point: string
   // اگر این کامپوننت شامل تایو باشه فقط میتونه مقدار ریزالت باشه که دیزاین سطر ریزالت فرق میکنه
-  type: string
+  type?: 'result' | 'row'
 }>()
 
 const minionImages: Record<string, string> = {
