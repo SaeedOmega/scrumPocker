@@ -84,7 +84,7 @@ function handleBack(event: Event) {
       </span>
       <img
         v-if="type !== 'result' && point !== '-'"
-        class="w-38px h-39px shadow-'0px 10px 10px 0px #0000001A'"
+        class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
         :src="getImageforPoint()"
         alt=""
       />
