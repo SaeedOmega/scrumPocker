@@ -59,6 +59,6 @@ function login(name: string): void {
         </button>
       </div>
     </form>
-    <img :src="minionImage" alt="minions" width="200" />
+    <img :src="minionImage" alt="minions" width="200" height="323" />
   </div>
 </template>

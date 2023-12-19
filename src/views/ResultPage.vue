@@ -22,7 +22,7 @@ const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 let doInterval = true
-let realTimePoint = setInterval(() => {
+let getterInterval = setInterval(() => {
   if (!doInterval) return
   onGetPoint().then((result) => {
     allPointList.value = result
@@ -197,7 +197,7 @@ watchEffect(() => {
 })
 
 onUnmounted(() => {
-  clearInterval(realTimePoint)
+  clearInterval(getterInterval)
 })
 </script>
 
