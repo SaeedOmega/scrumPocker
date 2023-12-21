@@ -19,6 +19,7 @@ defineOptions({
   }
 })
 
+// این تابع یک تابع جاوا اسکریپتی هست که باید سایت گواهی امن داشته باشه تا تابع به درستی کار کنه و یک یکوست ارسال میکنه که در صفحه موبایل باعث میشه صفحه خاموش نشه
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let wakeLock = null
 navigator.wakeLock.request('screen').then((lock) => {
@@ -73,6 +74,7 @@ onMounted(async () => {
   if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
 })
 onUnmounted(() => {
+  // موقعی که از این کامپوننت یا پیج خروج کنیم صفحه گوشی از این حالت برداشته میشه و بسته به تایمی که در گوشی کاربر تنظیم شده صفحه گوشی خاموش میشه
   wakeLock = null
 })
 </script>
