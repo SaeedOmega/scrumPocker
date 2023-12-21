@@ -4,6 +4,9 @@ import { onGetPoint, onResetPoints, onSetPoint } from '../server.telefunc'
 import { computed, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import waiting from '../assets/ic_waiting.png'
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -206,15 +209,15 @@ onUnmounted(() => {
     @click="back"
     class="m-auto flex-grow max-w-480px w-full flex flex-col justify-center items-center"
   >
-    <div class="font-Knewave self-center mb-20 m-13 text-center text-xl select-none">
-      ScrumPocker
-    </div>
     <div
       v-if="selectedImg"
       class="text-white bg-center h-230px w-250px bg-no-repeat font-bold select-none bg-contain pt-3 text-60px text-center"
       :style="{ backgroundImage: `url(${selectedImg})` }"
     >
-      {{ valueOfPoint }}
+      {{
+        //@ts-ignore
+        $t(valueOfPoint)
+      }}
     </div>
     <div v-if="!valueOfPoint" class="flex-grow"></div>
     <div class="flex flex-col flex-grow gap-5 w-full p-5">
@@ -224,18 +227,22 @@ onUnmounted(() => {
           @click.stop="updateAverage(true)"
           class="p-3 rounded-xl border-black border-1"
         >
-          Refresh
+          {{ $t('refreshBottom') }}
         </button>
         <button
           v-if="isResult"
           @click="reset"
           class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
         >
-          Reset
+          {{ $t('resetBottom') }}
         </button>
       </span>
       <transition name="bounce">
-        <div class="flex flex-col" v-show="loading">
+        <div
+          :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
+          class="flex flex-col"
+          v-show="loading"
+        >
           <div class="self-center text-20px flex gap-2">
             <div id="wrapper">
               <div class="profile-main-loader">
@@ -254,7 +261,7 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <div>Waiting for</div>
+            <div>{{ $t('Waitingfor') }}</div>
           </div>
           <ul class="flex flex-col gap-3 mt-3 ml-5 self-center">
             <transition-group name="bounce">
@@ -272,7 +279,11 @@ onUnmounted(() => {
       </transition>
 
       <transition name="bounce">
-        <div v-show="!loading" class="flex flex-col">
+        <div
+          :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
+          v-show="!loading"
+          class="flex flex-col"
+        >
           <ResultRow name="Result" :point="getAverageToShow()" type="result" />
           <transition-group name="bounce">
             <ResultRow

@@ -61,7 +61,7 @@ function handleBack(event: Event) {
       class="flex-grow m-3 text-18px select-none font-medium"
       :class="{ 'my-5': type !== 'row', 'font-bold underline': type === 'result' }"
     >
-      {{ name }}
+      {{ name === 'Result' ? $t('result') : name }}
     </div>
     <div
       class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1 w-80px"
@@ -80,7 +80,7 @@ function handleBack(event: Event) {
         }"
         class="flex-grow select-none font-bold text-18px text-center"
       >
-        {{ point }}
+        {{ type === 'result' && +point ? (+point).toLocaleString('fa-ir') : $t(point) }}
       </span>
       <img
         v-if="type !== 'result' && point !== '-'"
