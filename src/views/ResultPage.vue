@@ -21,6 +21,7 @@ defineProps<{ selectedImg: string | null; valueOfPoint: string | null }>()
 const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
+let middleOfPoints = 0
 let doInterval = true
 let getterInterval = setInterval(() => {
   if (!doInterval) return
@@ -135,17 +136,17 @@ function updateAverage(refresh?: true) {
   finalAverage = +average
   // finalAverage = closestFibonacci(finalAverage)
 }
-// /**
-//  * Returns a string.
-//  * this output show in tags to users
-//  * if one of user sent '?' or we havent no numbric data for avereage this is show '-'
-//  *
-//  * @returns string
-//  *
-//  */
-// function getMiddleToShow() {
-//   return !shouldShow.value || isNaN(middleOfPoints) ? '-' : middleOfPoints.toString()
-// }
+/**
+ * Returns a string.
+ * this output show in tags to users
+ * if one of user sent '?' or we havent no numbric data for avereage this is show '-'
+ *
+ * @returns string
+ *
+ */
+function getMiddleToShow() {
+  return !shouldShow.value || isNaN(middleOfPoints) ? '-' : middleOfPoints.toString()
+}
 /**
  * reset all date in server.
  *
