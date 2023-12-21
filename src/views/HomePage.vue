@@ -20,11 +20,14 @@ defineOptions({
 })
 
 // این تابع یک تابع جاوا اسکریپتی هست که باید سایت گواهی امن داشته باشه تا تابع به درستی کار کنه و یک یکوست ارسال میکنه که در صفحه موبایل باعث میشه صفحه خاموش نشه
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-let wakeLock = null
-navigator.wakeLock.request('screen').then((lock) => {
-  wakeLock = lock
-})
+let wakeLock: any
+try {
+  navigator.wakeLock.request('screen').then((lock) => {
+    wakeLock = lock
+  })
+} catch (error) {
+  console.log(error)
+}
 
 const selectedImg = ref<string | null>(null)
 const selectedValue = ref<string | null>(null)
@@ -70,12 +73,19 @@ setInterval(async () => {
   else if (selectedValue.value && isShow.value)
     await onSetPoint(localStorage.name, selectedValue.value)
 }, 1000)
+document.addEventListener('visibilitychange', async () => {
+  if (wakeLock !== null && document.visibilityState === 'visible') {
+    wakeLock = await navigator.wakeLock.request('screen')
+  }
+})
 onMounted(async () => {
   if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
 })
 onUnmounted(() => {
   // موقعی که از این کامپوننت یا پیج خروج کنیم صفحه گوشی از این حالت برداشته میشه و بسته به تایمی که در گوشی کاربر تنظیم شده صفحه گوشی خاموش میشه
-  wakeLock = null
+  wakeLock.release().then(() => {
+    wakeLock = null
+  })
 })
 </script>
 
