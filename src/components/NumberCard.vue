@@ -1,13 +1,17 @@
 <script setup lang="ts">
-defineProps({
-  text: String
-})
+defineProps<{
+  //backgroundImageAddress for Each Number
+  backgroundImageSrc: string
+  // value of each Number Card
+  value: string
+}>()
 </script>
 
 <template>
   <div
-    class="min-w-20 h-20 flex justify-center items-center active:bg-[rgb(81,126,246)] rounded-10px border-white border-5 border-style-solid hover:cursor-pointer shadow-sm shadow-black font-500 text-4xl"
+    class="text-white h-130px w-84px font-bold pt-3 text-30px bg-contain text-center select-none bg-origin-border"
+    :style="{ backgroundImage: `url(${backgroundImageSrc})` }"
   >
-    {{ text }}
+    {{ value }}
   </div>
 </template>

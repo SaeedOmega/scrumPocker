@@ -1,36 +1,40 @@
 <script setup lang="ts">
-import { onSetPoint } from '../server.telefunc'
+//@ts-ignore
+import { VueFlip } from 'vue-flip'
+import { onSetPoint, onGetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
-import { ref } from 'vue'
-import SelectedCard from '@/components/SelectedCard.vue'
+import { ref, onMounted } from 'vue'
+import ResultPage from './ResultPage.vue'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
     if (!localStorage.name) {
       next('/login')
       return
+    } else if (localStorage.name === 'result') {
+      next('/result')
+      return
     }
     next()
   }
 })
 
+const selectedImg = ref<string | null>(null)
 const selectedValue = ref<string | null>(null)
+const isShow = ref<boolean>(false)
 const buttonsValues = [
-  { key: '1/2', value: '1/2' },
-  { key: '1', value: '1' },
-  { key: '2', value: '2' },
-  { key: '3', value: '3' },
-  { key: '5', value: '5' },
-  { key: '8', value: '8' },
-  { key: '13', value: '13' },
-  { key: '21', value: '21' },
-  { key: '34', value: '34' },
-  { key: '55', value: '55' },
-  { key: '89', value: '89' },
-  { key: '144', value: '144' },
-  { key: '?', value: '?' },
-  { key: '∞', value: 'I Cant' },
-  { key: '☕', value: 'I Dont Want' }
+  { key: '1/2', src: 'buttons/1.png' },
+  { key: '1', src: 'buttons/2.png' },
+  { key: '2', src: 'buttons/3.png' },
+  { key: '3', src: 'buttons/4.png' },
+  { key: '5', src: 'buttons/5.png' },
+  { key: '8', src: 'buttons/6.png' },
+  { key: '13', src: 'buttons/7.png' },
+  { key: '21', src: 'buttons/8.png' },
+  { key: '34', src: 'buttons/9.png' },
+  { key: '?', src: 'buttons/10.png' },
+  { key: '∞', src: 'buttons/11.png' },
+  { key: '☕', src: 'buttons/12.png' }
 ]
 
 /**
@@ -42,26 +46,61 @@ const buttonsValues = [
  * @returns void
  *
  */
-async function submitPoint(value: string) {
+async function submitPoint(value: string, img: string) {
   await onSetPoint(localStorage.name, value)
+  isShow.value = true
+  selectedImg.value = img
   selectedValue.value = value
 }
+
+onMounted(async () => {
+  if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
+})
+setInterval(async () => {
+  if (
+    localStorage.name !== 'result' &&
+    !(await onGetPoint()).has(localStorage.name) &&
+    !isShow.value
+  )
+    await onSetPoint(localStorage.name, null)
+  else if (selectedValue.value && isShow.value)
+    await onSetPoint(localStorage.name, selectedValue.value)
+}, 1000)
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col justify-center items-center">
-    <div
-      :class="{ 'filter blur-sm': selectedValue }"
-      class="inline-grid justify-items-center grid-cols-3 gap-8 w-full content-center"
-    >
-      <NumberCard
-        v-for="item in buttonsValues"
-        :key="item.key"
-        :text="item.key"
-        :selected="selectedValue"
-        @click="submitPoint(item.value)"
-      />
-    </div>
-    <SelectedCard v-model="selectedValue" v-show="selectedValue" />
+  <div class="flex flex-col flex-grow overflow-auto">
+    <vue-flip v-model="isShow" width="100%" height="100%">
+      <template v-slot:front>
+        <div class="m-auto justify-center items-center flex flex-col">
+          <div class="font-Knewave self-center mb-13 m-13 text-center select-none text-xl">
+            ScrumPocker
+          </div>
+          <div
+            :class="{ 'filter blur-sm': isShow }"
+            class="flex flex-wrap max-w-360px gap-2.1 justify-center items-center"
+          >
+            <NumberCard
+              v-for="item in buttonsValues"
+              :background-image-src="item.src"
+              :key="item.key"
+              :value="item.key"
+              @click="submitPoint(item.key, item.src)"
+            />
+          </div>
+        </div>
+      </template>
+      <template v-slot:back>
+        <Transition class="delay-100">
+          <ResultPage
+            v-if="isShow"
+            v-model="isShow"
+            :value-of-point="selectedValue"
+            :selected-img="selectedImg"
+            type="user"
+          />
+        </Transition>
+      </template>
+    </vue-flip>
   </div>
 </template>
