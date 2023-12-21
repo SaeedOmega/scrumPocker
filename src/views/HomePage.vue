@@ -20,13 +20,13 @@ defineOptions({
 })
 
 // این تابع یک تابع جاوا اسکریپتی هست که باید سایت گواهی امن داشته باشه تا تابع به درستی کار کنه و یک یکوست ارسال میکنه که در صفحه موبایل باعث میشه صفحه خاموش نشه
-let wakeLock: any
+let wakeLock: WakeLockSentinel | null = null
 try {
   navigator.wakeLock.request('screen').then((lock) => {
     wakeLock = lock
   })
 } catch (error) {
-  console.log(error)
+  console.log('Your Browser not Support WakeLock')
 }
 
 const selectedImg = ref<string | null>(null)
@@ -84,7 +84,7 @@ onMounted(async () => {
 })
 onUnmounted(() => {
   // موقعی که از این کامپوننت یا پیج خروج کنیم صفحه گوشی از این حالت برداشته میشه و بسته به تایمی که در گوشی کاربر تنظیم شده صفحه گوشی خاموش میشه
-  wakeLock.release().then(() => {
+  wakeLock?.release().then(() => {
     wakeLock = null
   })
 })
