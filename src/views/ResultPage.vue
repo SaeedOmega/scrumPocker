@@ -136,6 +136,39 @@ function updateAverage(refresh?: true) {
   finalAverage = +average
   // finalAverage = closestFibonacci(finalAverage)
 }
+
+/**
+ * Calculate Middle of data of Map from server side
+ * set result with middleOfPoints
+ * @returns void
+ *
+ */
+function updateMiddleOfPoints(refresh?: true) {
+  if (refresh)
+    onGetPoint().then((result) => {
+      allPointList.value = result
+    })
+  let arrayOfPoints: number[] = []
+  pointList.value.forEach((e) => {
+    if (+e) arrayOfPoints.push(+e)
+    else if (e === '1/2') arrayOfPoints.push(0.5)
+  })
+  arrayOfPoints.sort((a: number, b: number) => a - b)
+  if (arrayOfPoints.length % 2 !== 0)
+    middleOfPoints = arrayOfPoints[Math.floor((arrayOfPoints.length - 1) / 2)]
+  else
+    middleOfPoints =
+      (arrayOfPoints[Math.floor((arrayOfPoints.length - 1) / 2)] +
+        arrayOfPoints[Math.floor(arrayOfPoints.length / 2)]) /
+      2
+  // finalAverage = closestFibonacci(finalAverage)
+}
+
+function onRefreshClick(refresh?: true) {
+  updateAverage(refresh)
+  updateMiddleOfPoints(refresh)
+}
+
 /**
  * Returns a string.
  * this output show in tags to users
@@ -156,6 +189,7 @@ function getMiddleToShow() {
 async function reset() {
   onResetPoints()
   updateAverage()
+  updateMiddleOfPoints()
 }
 
 // #region if one person send '?' all show -
@@ -206,6 +240,7 @@ watchEffect(() => {
   if (!loading.value && allPointList.value.size !== 0) doInterval = false
   else if (loading.value) doInterval = true
   updateAverage()
+  updateMiddleOfPoints()
 })
 
 onUnmounted(() => {
@@ -233,7 +268,7 @@ onUnmounted(() => {
       <span class="flex gap-5">
         <button
           v-show="!loading"
-          @click.stop="updateAverage(true)"
+          @click.stop="onRefreshClick(true)"
           class="p-3 rounded-xl border-black border-1"
         >
           Refresh
@@ -285,7 +320,7 @@ onUnmounted(() => {
 
       <transition name="bounce">
         <div v-show="!loading" class="flex flex-col">
-          <ResultRow name="Result" :point="getAverageToShow()" type="result" />
+          <ResultRow :point="getAverageToShow()" :middle-point="getMiddleToShow()" type="result" />
           <transition-group name="bounce">
             <ResultRow
               v-for="(item, index) in pointList"

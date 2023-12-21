@@ -1,9 +1,10 @@
 <script setup lang="ts">
 const prop = defineProps<{
   // نام کسی که امتیاز داده
-  name: string
+  name?: string
   // مقدار امتیاز آن شخص
   point: string
+  middlePoint?: string
   // اگر این کامپوننت شامل تایو باشه فقط میتونه مقدار ریزالت باشه که دیزاین سطر ریزالت فرق میکنه
   type?: 'result' | 'row'
 }>()
@@ -61,14 +62,15 @@ function handleBack(event: Event) {
       class="flex-grow m-3 text-18px select-none font-medium"
       :class="{ 'my-5': type !== 'row', 'font-bold underline': type === 'result' }"
     >
-      {{ name }}
+      {{ type === 'result' ? 'Average' : name }}
     </div>
     <div
-      class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1 w-80px"
+      class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
       :class="[
         {
           'my-5': type !== 'row',
-          'text-sm': point == 'I Dont Want'
+          'text-sm': point == 'I Dont Want',
+          'w-80px': type !== 'result'
         },
         type !== 'result' && getBgColor()
       ]"
@@ -81,6 +83,40 @@ function handleBack(event: Event) {
         class="flex-grow select-none font-bold text-18px text-center"
       >
         {{ point }}
+      </span>
+      <img
+        v-if="type !== 'result' && point !== '-'"
+        class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
+        :src="getImageforPoint()"
+        alt=""
+      />
+    </div>
+    <div v-if="type === 'result'" class="border-l-1px border-dashed border-black h-10 grow"></div>
+    <div
+      v-if="type === 'result'"
+      class="flex-grow m-3 text-18px select-none font-medium"
+      :class="{ 'font-bold underline': type === 'result' }"
+    >
+      Middle
+    </div>
+    <div
+      v-if="type === 'result'"
+      class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
+      :class="[
+        {
+          'text-sm': point == 'I Dont Want'
+        },
+        type !== 'result' && getBgColor()
+      ]"
+    >
+      <span
+        :class="{
+          'text-white': type !== 'result' && point !== '-',
+          'font-bold': type === 'result'
+        }"
+        class="flex-grow select-none font-bold text-18px text-center"
+      >
+        {{ middlePoint }}
       </span>
       <img
         v-if="type !== 'result' && point !== '-'"
