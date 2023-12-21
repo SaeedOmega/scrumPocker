@@ -87,6 +87,11 @@ onUnmounted(() => {
   wakeLock?.release().then(() => {
     wakeLock = null
   })
+  document.removeEventListener('visibilitychange', async () => {
+    if (wakeLock !== null && document.visibilityState === 'visible') {
+      wakeLock = await navigator.wakeLock.request('screen')
+    }
+  })
 })
 </script>
 
