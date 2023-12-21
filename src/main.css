@@ -1,4 +1,66 @@
+@import url('./loading.css');
+@font-face {
+  font-family: 'Knewave';
+  src: url(./assets/fonts/Knewave-Regular.woff2) format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url(./assets/fonts/roboto/Roboto-Thin.woff2) format('woff2');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url(./assets/fonts/roboto/Roboto-Light.woff2) format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url(./assets/fonts/roboto/Roboto-Medium.woff2) format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url(./assets/fonts/roboto/Roboto-Regular.woff2) format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url(./assets/fonts/roboto/Roboto-Black.woff2) format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url(./assets/fonts/roboto/Roboto-Bold.woff2) format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+
 * {
   margin: 0;
   padding: 0;
+}
+
+html {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
