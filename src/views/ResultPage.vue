@@ -154,13 +154,14 @@ function updateMiddleOfPoints(refresh?: true) {
     else if (e === '1/2') arrayOfPoints.push(0.5)
   })
   arrayOfPoints.sort((a: number, b: number) => a - b)
-  if (arrayOfPoints.length % 2 !== 0)
+  if (arrayOfPoints.length % 2 !== 0) {
     middleOfPoints = arrayOfPoints[Math.floor((arrayOfPoints.length - 1) / 2)]
-  else
+  } else {
     middleOfPoints =
       (arrayOfPoints[Math.floor((arrayOfPoints.length - 1) / 2)] +
         arrayOfPoints[Math.floor(arrayOfPoints.length / 2)]) /
       2
+  }
   // finalAverage = closestFibonacci(finalAverage)
 }
 
