@@ -73,6 +73,7 @@ setInterval(async () => {
   else if (selectedValue.value && isShow.value)
     await onSetPoint(localStorage.name, selectedValue.value)
 }, 1000)
+// این ایونت لیستنر برای وقتی هست که کاربر به یک تب دیگر رفت و دوباره برگشت به تب اسکرام پوکر باز هم صفحه گوشی او روشن بماند
 document.addEventListener('visibilitychange', async () => {
   if (wakeLock !== null && document.visibilityState === 'visible') {
     wakeLock = await navigator.wakeLock.request('screen')
