@@ -1,5 +1,4 @@
 {
-  "name": "Scrum Pocker",
   "1/2": "1/2",
   "1": "1",
   "2": "2",
@@ -12,6 +11,7 @@
   "?": "?",
   "∞": "∞",
   "☕": "☕",
+  "-": "-",
   "EnterYourname": "Enter Your name",
   "tozihat": "Type 'result' for reset option in resultPage",
   "label": "Your name",

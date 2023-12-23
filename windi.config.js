@@ -6,7 +6,8 @@ export default defineConfig({
     extend: {
       fontFamily: {
         Knewave: 'Knewave',
-        roboto: 'roboto'
+        roboto: 'roboto',
+        mikhak: 'Mikhak'
       }
     }
   }

@@ -36,8 +36,27 @@ function login(name: string): void {
 
 <template>
   <div class="flex flex-col flex-grow gap-10 justify-center items-center">
-    <div class="font-light text-24px">{{ $t('EnterYourname') }}</div>
-    <div :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'" class="font-light text-12px">
+    <div
+      style="
+        font-variation-settings:
+          'DSTY' 0,
+          'KSHD' 100,
+          'wght' 500;
+      "
+      class="font-light text-24px"
+    >
+      {{ $t('EnterYourname') }}
+    </div>
+    <div
+      style="
+        font-variation-settings:
+          'DSTY' 0,
+          'KSHD' 100,
+          'wght' 300;
+      "
+      :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
+      class="font-light text-12px"
+    >
       {{ $t('tozihat') }}
     </div>
     <form
@@ -45,7 +64,17 @@ function login(name: string): void {
       @submit.prevent="login(name)"
       class="flex flex-col items-start justify-center"
     >
-      <label for="name" class="text-12px opacity-60">{{ $t('label') }}</label>
+      <label
+        style="
+          font-variation-settings:
+            'DSTY' 0,
+            'KSHD' 100,
+            'wght' 500;
+        "
+        for="name"
+        class="text-12px opacity-60"
+        >{{ $t('label') }}</label
+      >
       <div class="h-7 flex gap-2 border-b-black border-b">
         <input
           id="name"
