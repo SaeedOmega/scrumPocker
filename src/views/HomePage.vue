@@ -5,6 +5,7 @@ import { onSetPoint, onGetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref, onMounted } from 'vue'
 import ResultPage from './ResultPage.vue'
+import ErrorToast from '@/components/ErrorToast.vue'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -19,6 +20,7 @@ defineOptions({
   }
 })
 
+const errorRequsetMessage = ref<string | null>(null)
 const selectedImg = ref<string | null>(null)
 const selectedValue = ref<string | null>(null)
 const isShow = ref<boolean>(false)
@@ -47,30 +49,56 @@ const buttonsValues = [
  *
  */
 async function submitPoint(value: string, img: string) {
-  await onSetPoint(localStorage.name, value)
-  isShow.value = true
-  selectedImg.value = img
-  selectedValue.value = value
+  try {
+    await onSetPoint(localStorage.name, value)
+    isShow.value = true
+    selectedImg.value = img
+    selectedValue.value = value
+  } catch (error) {
+    //@ts-ignore
+    errorRequsetMessage.value = error.message
+  }
 }
 
 onMounted(async () => {
   if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
 })
 setInterval(async () => {
-  if (
-    localStorage.name !== 'result' &&
-    !(await onGetPoint()).has(localStorage.name) &&
-    !isShow.value
-  )
-    await onSetPoint(localStorage.name, null)
+  let list
+  try {
+    list = await onGetPoint()
+  } catch (error) {
+    //@ts-ignore
+    errorRequsetMessage.value = error.message
+  }
+  if (localStorage.name !== 'result' && !list?.has(localStorage.name) && !isShow.value)
+    try {
+      await onSetPoint(localStorage.name, null)
+    } catch (error) {
+      //@ts-ignore
+      errorRequsetMessage.value = error.message
+    }
   else if (selectedValue.value && isShow.value)
-    await onSetPoint(localStorage.name, selectedValue.value)
+    try {
+      await onSetPoint(localStorage.name, selectedValue.value)
+    } catch (error) {
+      //@ts-ignore
+      errorRequsetMessage.value = error.message
+    }
 }, 1000)
 </script>
 
 <template>
   <div class="flex flex-col flex-grow overflow-auto">
-    <vue-flip v-model="isShow" width="100%" height="100%">
+    <Transition name="bounce">
+      <ErrorToast v-show="errorRequsetMessage && !isShow" v-model="errorRequsetMessage" />
+    </Transition>
+    <vue-flip
+      v-model="isShow"
+      width="100%"
+      height="100%"
+      :class="{ 'filter blur-sm': errorRequsetMessage && !isShow }"
+    >
       <template v-slot:front>
         <div class="m-auto justify-center items-center flex flex-col">
           <div class="font-Knewave self-center mb-13 m-13 text-center select-none text-xl">
@@ -104,3 +132,29 @@ setInterval(async () => {
     </vue-flip>
   </div>
 </template>
+
+<style>
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-out 0.5s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+</style>
