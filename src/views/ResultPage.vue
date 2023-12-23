@@ -14,6 +14,9 @@ defineOptions({
     if (!localStorage.name) {
       next('/login')
       return
+    } else if (localStorage.name !== 'result') {
+      next('/')
+      return
     }
     next()
   }
