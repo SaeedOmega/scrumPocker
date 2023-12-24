@@ -75,7 +75,7 @@ function login(name: string): void {
         class="text-12px opacity-60"
         >{{ $t('label') }}</label
       >
-      <div class="h-7 flex gap-2 border-b-black border-b">
+      <div class="h-7 flex gap-2 border-b-black border-b w-248px">
         <input
           id="name"
           type="text"
@@ -86,7 +86,7 @@ function login(name: string): void {
         />
         <button
           type="button"
-          :class="{ invisible: !name }"
+          v-show="name"
           class="bg-transparent h-full rounded-md active:bg-[#94b6fb]"
           @click="login(name)"
         >
