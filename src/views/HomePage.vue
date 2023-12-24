@@ -20,6 +20,7 @@ defineOptions({
 })
 
 // این تابع یک تابع جاوا اسکریپتی هست که باید سایت گواهی امن داشته باشه تا تابع به درستی کار کنه و یک یکوست ارسال میکنه که در صفحه موبایل باعث میشه صفحه خاموش نشه
+// for work correctly this feature you need https server config
 let wakeLock: WakeLockSentinel | null = null
 try {
   navigator.wakeLock.request('screen').then((lock) => {
