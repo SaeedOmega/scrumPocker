@@ -59,7 +59,10 @@ function handleBack(event: Event) {
   >
     <div
       class="flex-grow m- text-18px select-none"
-      :class="[{ 'my-5': type !== 'row' }, type === 'result' ? 'result' : 'noResult']"
+      :class="[
+        { 'my-5': type !== 'row', 'font-mikhak': name.match(/^[\u0600-\u06FF\s]+$/) },
+        type === 'result' ? 'result' : 'noResult'
+      ]"
     >
       {{ name === 'Result' ? $t('result') : name }}
     </div>

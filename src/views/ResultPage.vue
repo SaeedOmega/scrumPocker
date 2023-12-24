@@ -312,6 +312,7 @@ onUnmounted(() => {
                       'KSHD' 100,
                       'wght' 500;
                   "
+                  :class="{ 'font-mikhak': person[0].match(/^[\u0600-\u06FF\s]+$/) }"
                   >{{ person[0] }}</span
                 >
               </li>

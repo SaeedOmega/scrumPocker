@@ -2,9 +2,6 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import minionImage from '../assets/loginMinionsImage.png'
-import { useI18n } from 'vue-i18n'
-
-const i18n = useI18n()
 
 // defineOptions({
 //   beforeRouteEnter(to, from, next) {
@@ -54,13 +51,13 @@ function login(name: string): void {
           'KSHD' 100,
           'wght' 300;
       "
-      :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
+      :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'"
       class="font-light text-12px"
     >
       {{ $t('tozihat') }}
     </div>
     <form
-      :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
+      :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'"
       @submit.prevent="login(name)"
       class="flex flex-col items-start justify-center"
     >
@@ -75,10 +72,23 @@ function login(name: string): void {
         class="text-12px opacity-60"
         >{{ $t('label') }}</label
       >
-      <div class="h-7 flex gap-2 border-b-black border-b w-248px">
+      <div
+        :class="[
+          $i18n.locale === 'fa' || !name.match(/^[\u0600-\u06FF\s]+$/) ? ' w-261px' : 'w-278px',
+          $i18n.locale === 'fa' ? 'gap-4' : 'gap-2'
+        ]"
+        class="h-7 flex border-b-black border-b"
+      >
         <input
           id="name"
           type="text"
+          style="
+            font-variation-settings:
+              'DSTY' 0,
+              'KSHD' 100,
+              'wght' 400;
+          "
+          :class="{ 'font-mikhak': name.match(/^[\u0600-\u06FF\s]+$/) }"
           class="bg-transparent h-full placeholder:text-[rgba(9,9,9,0.4)] outline-none px-2"
           :placeholder="$t('namePlaceHolder')"
           v-model="name"
