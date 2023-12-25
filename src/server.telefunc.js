@@ -1,13 +1,25 @@
 export { onGetPoint, onSetPoint, onResetPoints, onDelete }
 
 const points = new Map()
+const rooms = new Map()
 
-async function onGetPoint() {
-  return points
+function getRoom(name) {
+  let room = rooms.get(name)
+  if (!room) {
+    room = new Map()
+    rooms.set(name, room)
+  }
+  return room
 }
 
-async function onSetPoint(name, point) {
-  points.set(name, point)
+async function onGetPoint(roomName) {
+  const room = getRoom(roomName)
+  return room
+}
+
+async function onSetPoint(name, point, roomName = 'main') {
+  const room = getRoom(roomName)
+  room.set(name, point)
 }
 
 async function onResetPoints() {

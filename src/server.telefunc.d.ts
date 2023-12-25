@@ -1,8 +1,8 @@
 export { onGetPoint, onSetPoint, onResetPoints, onDelete }
 
-async function onGetPoint(): Promise<Map<string, person>>
+async function onGetPoint(roomName: string): Promise<Map<string, person>>
 
-async function onSetPoint(name: string, point: person): Promise<void>
+async function onSetPoint(name: string, point: person, roomName: string): Promise<void>
 
 async function onResetPoints(): Promise<void>
 
