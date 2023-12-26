@@ -17,13 +17,7 @@ const router = useRouter()
 const name = ref<string>('')
 
 /**
- *
- * set localStorage with user input
- *
- * @param name string data
- *
- * @returns void
- *
+ * لوکال استورج رو با نام کاربر ذخیره میکنیم
  */
 function login(name: string): void {
   localStorage.name = name

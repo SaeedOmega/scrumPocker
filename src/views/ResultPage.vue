@@ -31,10 +31,7 @@ let getterInterval = setInterval(() => {
 }, 750)
 const allPointList = ref<Map<string, string>>(new Map())
 /**
- * Returns state of waiting for allVote or Not.
- *
- * @returns Boolean
- *
+ * وضعیت لودینگ بودن  کامپوننت رو برمیگدونه
  */
 const loading = computed<boolean>(() => {
   let isLoading = true
@@ -43,11 +40,10 @@ const loading = computed<boolean>(() => {
   return isLoading
 })
 
+/** ⁧سلام ⁩ */
+
 /**
- * Returns person that doesnt send a vote.
- *
- * @returns a map of person
- *
+ * کسانی که رای ندادن رو برمیگدونه
  */
 const dontVotePerson = computed<Map<string, string>>(() => {
   const miniMap = new Map()
@@ -57,10 +53,7 @@ const dontVotePerson = computed<Map<string, string>>(() => {
   return miniMap
 })
 /**
- * Returns person that send a commend.
- *
- * @returns a map of person
- *
+ * کسانی که رای دادن رو برمیگردونه
  */
 const pointList = computed<Map<string, string>>(() => {
   const miniMap = new Map()
@@ -71,10 +64,8 @@ const pointList = computed<Map<string, string>>(() => {
 })
 
 /**
- * Returns false if a person sent '?' else Returns true.
- *
- * @returns true or false
- *
+ * اگ یک نفر کاراکتر علامت سوال فرستاده باشه این کامپیوتد
+ * مقدار فالس برمیگردونه تا بقیه امتیاز هارو هم نشون ندیم
  */
 const shouldShow = computed<boolean>(() => {
   for (const person of pointList.value) {
@@ -83,11 +74,7 @@ const shouldShow = computed<boolean>(() => {
   return true
 })
 // /**
-//  * a number
-//  * @param num
-//  *
-//  * return nearstFibonacciNumber to input
-//  * @returns number
+//  * یک عدد میگیره و نزدیک ترین عدد فیبونانچی به اون رو برمیگردونه
 //  */
 // function closestFibonacci(num: number) {
 //   if (num <= 0.5) {
@@ -111,10 +98,9 @@ const shouldShow = computed<boolean>(() => {
 // }
 
 /**
- * Calculate average of data of Map from server side
- * set result with finalAverage
- * @returns void
- *
+ * این تابع میانگین امتیاز ها رو محسابه میکنه
+ * اگر به آن ترو ارسال بشه همچنین لیست رو بروز میکنه
+ * که از این ورودی در کلیک کردن روی دکمه رفرش استفاده شده
  */
 function updateAverage(refresh?: true) {
   if (refresh)
@@ -138,10 +124,8 @@ function updateAverage(refresh?: true) {
 }
 
 /**
- * Calculate Middle of data of Map from server side
- * set result with middleOfPoints
- * @returns void
- *
+ * این تابع دقیقا مانند تابع میانگین است
+ * فقط عملکرد آن بدست آوردن میانه امتیاز ها است
  */
 function updateMiddleOfPoints(refresh?: true) {
   if (refresh)
@@ -171,21 +155,7 @@ function onRefreshClick(refresh?: true) {
 }
 
 /**
- * Returns a string.
- * this output show in tags to users
- * if one of user sent '?' or we havent no numbric data for avereage this is show '-'
- *
- * @returns string
- *
- */
-function getMiddleToShow() {
-  return !shouldShow.value || isNaN(middleOfPoints) ? '-' : middleOfPoints.toString()
-}
-/**
- * reset all date in server.
- *
- * @returns void
- *
+ * تمام داده های سمت سرور رو پاک میکنه
  */
 async function reset() {
   onResetPoints()
@@ -193,14 +163,11 @@ async function reset() {
   updateMiddleOfPoints()
 }
 
-// #region if one person send '?' all show -
+// #region در این قسمت توابعی نوشتم که اگر کسی علامت سوال فرستاده میانگین و میانه و امتیاز ها نشون داده نشوند
 /**
- * Returns a string.
- * this output show in tags to users
- * if one of user sent '?' or we havent no numbric data for avereage this is show '-'
- *
- * @returns string
- *
+ * این تابع چک میکنه اگ پوینت های کاربرا قابل اندازه گیری بود
+ * و کسی علامت سوال نفرستاده بود میانگین رو نشون میده
+ * وگرنه کاراکتر خط تیره نشون میده
  */
 function getAverageToShow() {
   return !shouldShow.value || isNaN(finalAverage) || pointList.value.size < allPointList.value.size
@@ -208,12 +175,17 @@ function getAverageToShow() {
     : finalAverage.toString()
 }
 /**
- * Returns a string.
- * this output show in tags to users
- * if one of user sent '?' this is show '-'
- *
- * @returns string
- *
+ * این تابع چک میکنه اگ پوینت های کاربرا قابل اندازه گیری بود
+ * و کسی علامت سوال نفرستاده بود میانه رو نشون میده
+ * وگرنه کاراکتر خط تیره نشون میده
+ */
+function getMiddleToShow() {
+  return !shouldShow.value || isNaN(middleOfPoints) ? '-' : middleOfPoints.toString()
+}
+/**
+ * این تابع چک میکنه اگ پوینت های کاربرا شامل علامت سوال نبود
+ * پوینت هر نفر رو نشون میده
+ * وگرنه کاراکتر خط تیره نشون میده
  */
 function getPointToShow(item: { 1: string }) {
   return !shouldShow.value || pointList.value.size < allPointList.value.size
@@ -232,7 +204,7 @@ async function back() {
   }
 }
 
-// for first
+// وقتی بار اول کامپوننت فراخانی میشه
 onGetPoint().then((result) => {
   allPointList.value = result
 })

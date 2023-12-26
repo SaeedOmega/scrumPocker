@@ -19,8 +19,10 @@ defineOptions({
   }
 })
 
-// این تابع یک تابع جاوا اسکریپتی هست که باید سایت گواهی امن داشته باشه تا تابع به درستی کار کنه و یک یکوست ارسال میکنه که در صفحه موبایل باعث میشه صفحه خاموش نشه
-// for work correctly this feature you need https server config
+/**
+ * این تابع یک تابع جاوا اسکریپتی هست که باید سایت گواهی امن داشته باشه تا تابع به درستی کار کنه و یک یکوست ارسال میکنه که در صفحه موبایل باعث میشه صفحه خاموش نشه
+ * ⁧برای درست کار کردن این فیچر باید سرور رو https بالا بیاریم
+ */
 let wakeLock: WakeLockSentinel | null = null
 try {
   navigator.wakeLock.request('screen').then((lock) => {
@@ -49,13 +51,7 @@ const buttonsValues = [
 ]
 
 /**
- *
- * send localStroage.name and selectedPoint by user to server for save
- *
- * @param value string data === point
- *
- * @returns void
- *
+ * این تابع نام کاربر با امتیازی که ثبت کرده رو به سمت سرور ارسال میکند
  */
 async function submitPoint(value: string, img: string) {
   await onSetPoint(localStorage.name, value)
