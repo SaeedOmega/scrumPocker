@@ -101,10 +101,7 @@ onUnmounted(() => {
           <div class="font-Knewave self-center mb-13 m-13 text-center select-none text-xl">
             ScrumPocker
           </div>
-          <div
-            :class="{ 'filter blur-sm': isShow }"
-            class="flex flex-wrap max-w-360px gap-2.1 justify-center items-center"
-          >
+          <div :class="{ 'filter blur-sm': isShow }" class="grid grid-cols-3">
             <NumberCard
               v-for="item in buttonsValues"
               :background-image-src="item.src"

@@ -65,7 +65,7 @@ function handleBack(event: Event) {
 <template>
   <div
     @click="handleBack"
-    class="flex gap-5 w-full last:border-none border-b-1px items-center border-dashed border-black border-opacity-12"
+    class="flex w-full last:border-none border-b-1px items-center border-dashed border-black border-opacity-12"
   >
     <div class="flex flex-grow">
       <div
@@ -75,7 +75,7 @@ function handleBack(event: Event) {
         {{ isTypeResult ? 'Average' : name }}
       </div>
       <div
-        class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
+        class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex px-1"
         :class="[
           {
             'my-5': type !== 'row',
@@ -96,13 +96,13 @@ function handleBack(event: Event) {
         </span>
         <img
           v-if="isShowPoint"
-          class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
+          class="w-38px h-39px ms-2 shadow-[0px_10px_10px_0px_#0000001A]"
           :src="getImageforPoint()"
           alt=""
         />
       </div>
     </div>
-    <div class="flex flex flex-grow" v-if="isTypeResult">
+    <div class="flex items-center flex-grow" v-if="isTypeResult">
       <div class="border-l-1px mr-5 border-dashed border-black h-10 grow"></div>
       <div
         class="flex-grow m-3 text-18px select-none font-medium"
@@ -110,30 +110,15 @@ function handleBack(event: Event) {
       >
         Middle
       </div>
-      <div
-        class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
-        :class="[
-          {
-            'text-sm': point == 'I Dont Want'
-          },
-          !isTypeResult && getBgColor()
-        ]"
+      <span
+        :class="{
+          'text-white': isShowPoint,
+          'font-bold': isTypeResult
+        }"
+        class="flex-grow select-none font-bold text-18px text-center"
       >
-        <span
-          :class="{
-            'text-white': isShowPoint,
-            'font-bold': isTypeResult
-          }"
-          class="flex-grow select-none font-bold text-18px text-center"
-        >
-          {{ middlePoint }}
-        </span>
-        <img
-          v-if="isShowPoint"
-          class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
-          :src="getImageforPoint()"
-        />
-      </div>
+        {{ middlePoint }}
+      </span>
     </div>
   </div>
 </template>

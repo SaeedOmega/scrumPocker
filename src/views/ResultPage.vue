@@ -265,8 +265,8 @@ onUnmounted(() => {
       {{ valueOfPoint }}
     </div>
     <div v-if="!valueOfPoint" class="flex-grow"></div>
-    <div class="flex flex-col flex-grow gap-5 w-full p-5">
-      <span class="flex gap-5">
+    <div class="flex flex-col flex-grow w-full p-5">
+      <span class="flex mb-5">
         <button
           v-show="!loading"
           @click.stop="onRefreshClick(true)"
@@ -277,14 +277,14 @@ onUnmounted(() => {
         <button
           v-if="isResult"
           @click="reset"
-          class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
+          class="p-3 rounded-xl ms-5 bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
         >
           Reset
         </button>
       </span>
       <transition name="bounce">
-        <div class="flex flex-col" v-show="loading">
-          <div class="self-center text-20px flex gap-2">
+        <div class="flex flex-col mb-5" v-show="loading">
+          <div class="self-center text-20px flex">
             <div id="wrapper">
               <div class="profile-main-loader">
                 <div class="loader">
@@ -302,17 +302,17 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <div>Waiting for</div>
+            <div class="ms-2">Waiting for</div>
           </div>
-          <ul class="flex flex-col gap-3 mt-3 ml-5 self-center">
+          <ul class="flex flex-col mt-3 ml-5 self-center">
             <transition-group name="bounce">
               <li
                 v-for="person in dontVotePerson"
-                class="font-medium flex items-center gap-3"
+                class="font-medium last:mb-0 mb-3 flex items-center"
                 :key="person[0]"
               >
                 <img :src="waiting" class="h-4.5" />
-                <span>{{ person[0] }}</span>
+                <span class="ms-3">{{ person[0] }}</span>
               </li>
             </transition-group>
           </ul>
