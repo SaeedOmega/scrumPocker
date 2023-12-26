@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const prop = defineProps<{
   // نام کسی که امتیاز داده
   name?: string
@@ -8,6 +10,13 @@ const prop = defineProps<{
   // اگر این کامپوننت شامل تایو باشه فقط میتونه مقدار ریزالت باشه که دیزاین سطر ریزالت فرق میکنه
   type?: 'result' | 'row'
 }>()
+
+const isTypeResult = computed<boolean>(() => {
+  return prop.type === 'result' ? true : false
+})
+const isShowPoint = computed<boolean>(() => {
+  return !isTypeResult.value && prop.point !== '-' ? true : false
+})
 
 const minionImages: Record<string, string> = {
   '1/2': 'minions/1.png',
@@ -61,9 +70,9 @@ function handleBack(event: Event) {
     <div class="flex flex-grow">
       <div
         class="flex-grow m-3 text-18px select-none font-medium"
-        :class="{ 'my-5': type !== 'row', 'font-bold underline': type === 'result' }"
+        :class="{ 'my-5': type !== 'row', 'font-bold underline': isTypeResult }"
       >
-        {{ type === 'result' ? 'Average' : name }}
+        {{ isTypeResult ? 'Average' : name }}
       </div>
       <div
         class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
@@ -71,33 +80,33 @@ function handleBack(event: Event) {
           {
             'my-5': type !== 'row',
             'text-sm': point == 'I Dont Want',
-            'w-80px': type !== 'result'
+            'w-80px': !isTypeResult
           },
-          type !== 'result' && getBgColor()
+          !isTypeResult && getBgColor()
         ]"
       >
         <span
           :class="{
-            'text-white': type !== 'result' && point !== '-',
-            'font-bold': type === 'result'
+            'text-white': isShowPoint,
+            'font-bold': isTypeResult
           }"
           class="flex-grow select-none font-bold text-18px text-center"
         >
           {{ point }}
         </span>
         <img
-          v-if="type !== 'result' && point !== '-'"
+          v-if="isShowPoint"
           class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
           :src="getImageforPoint()"
           alt=""
         />
       </div>
     </div>
-    <div class="flex flex flex-grow" v-if="type === 'result'">
+    <div class="flex flex flex-grow" v-if="isTypeResult">
       <div class="border-l-1px mr-5 border-dashed border-black h-10 grow"></div>
       <div
         class="flex-grow m-3 text-18px select-none font-medium"
-        :class="{ 'font-bold underline': type === 'result' }"
+        :class="{ 'font-bold underline': isTypeResult }"
       >
         Middle
       </div>
@@ -107,20 +116,20 @@ function handleBack(event: Event) {
           {
             'text-sm': point == 'I Dont Want'
           },
-          type !== 'result' && getBgColor()
+          !isTypeResult && getBgColor()
         ]"
       >
         <span
           :class="{
-            'text-white': type !== 'result' && point !== '-',
-            'font-bold': type === 'result'
+            'text-white': isShowPoint,
+            'font-bold': isTypeResult
           }"
           class="flex-grow select-none font-bold text-18px text-center"
         >
           {{ middlePoint }}
         </span>
         <img
-          v-if="type !== 'result' && point !== '-'"
+          v-if="isShowPoint"
           class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
           :src="getImageforPoint()"
           alt=""
