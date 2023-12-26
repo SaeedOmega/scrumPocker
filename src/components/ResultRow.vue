@@ -58,72 +58,74 @@ function handleBack(event: Event) {
     @click="handleBack"
     class="flex gap-5 w-full last:border-none border-b-1px items-center border-dashed border-black border-opacity-12"
   >
-    <div
-      class="flex-grow m-3 text-18px select-none font-medium"
-      :class="{ 'my-5': type !== 'row', 'font-bold underline': type === 'result' }"
-    >
-      {{ type === 'result' ? 'Average' : name }}
-    </div>
-    <div
-      class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
-      :class="[
-        {
-          'my-5': type !== 'row',
-          'text-sm': point == 'I Dont Want',
-          'w-80px': type !== 'result'
-        },
-        type !== 'result' && getBgColor()
-      ]"
-    >
-      <span
-        :class="{
-          'text-white': type !== 'result' && point !== '-',
-          'font-bold': type === 'result'
-        }"
-        class="flex-grow select-none font-bold text-18px text-center"
+    <div class="flex flex-grow">
+      <div
+        class="flex-grow m-3 text-18px select-none font-medium"
+        :class="{ 'my-5': type !== 'row', 'font-bold underline': type === 'result' }"
       >
-        {{ point }}
-      </span>
-      <img
-        v-if="type !== 'result' && point !== '-'"
-        class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
-        :src="getImageforPoint()"
-        alt=""
-      />
-    </div>
-    <div v-if="type === 'result'" class="border-l-1px border-dashed border-black h-10 grow"></div>
-    <div
-      v-if="type === 'result'"
-      class="flex-grow m-3 text-18px select-none font-medium"
-      :class="{ 'font-bold underline': type === 'result' }"
-    >
-      Middle
-    </div>
-    <div
-      v-if="type === 'result'"
-      class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
-      :class="[
-        {
-          'text-sm': point == 'I Dont Want'
-        },
-        type !== 'result' && getBgColor()
-      ]"
-    >
-      <span
-        :class="{
-          'text-white': type !== 'result' && point !== '-',
-          'font-bold': type === 'result'
-        }"
-        class="flex-grow select-none font-bold text-18px text-center"
+        {{ type === 'result' ? 'Average' : name }}
+      </div>
+      <div
+        class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
+        :class="[
+          {
+            'my-5': type !== 'row',
+            'text-sm': point == 'I Dont Want',
+            'w-80px': type !== 'result'
+          },
+          type !== 'result' && getBgColor()
+        ]"
       >
-        {{ middlePoint }}
-      </span>
-      <img
-        v-if="type !== 'result' && point !== '-'"
-        class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
-        :src="getImageforPoint()"
-        alt=""
-      />
+        <span
+          :class="{
+            'text-white': type !== 'result' && point !== '-',
+            'font-bold': type === 'result'
+          }"
+          class="flex-grow select-none font-bold text-18px text-center"
+        >
+          {{ point }}
+        </span>
+        <img
+          v-if="type !== 'result' && point !== '-'"
+          class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
+          :src="getImageforPoint()"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="flex flex flex-grow" v-if="type === 'result'">
+      <div class="border-l-1px mr-5 border-dashed border-black h-10 grow"></div>
+      <div
+        class="flex-grow m-3 text-18px select-none font-medium"
+        :class="{ 'font-bold underline': type === 'result' }"
+      >
+        Middle
+      </div>
+      <div
+        class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1"
+        :class="[
+          {
+            'text-sm': point == 'I Dont Want'
+          },
+          type !== 'result' && getBgColor()
+        ]"
+      >
+        <span
+          :class="{
+            'text-white': type !== 'result' && point !== '-',
+            'font-bold': type === 'result'
+          }"
+          class="flex-grow select-none font-bold text-18px text-center"
+        >
+          {{ middlePoint }}
+        </span>
+        <img
+          v-if="type !== 'result' && point !== '-'"
+          class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
+          :src="getImageforPoint()"
+          alt=""
+        />
+      </div>
     </div>
   </div>
 </template>
