@@ -132,7 +132,6 @@ function handleBack(event: Event) {
           v-if="isShowPoint"
           class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
           :src="getImageforPoint()"
-          alt=""
         />
       </div>
     </div>
