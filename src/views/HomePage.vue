@@ -8,7 +8,7 @@ import ResultPage from './ResultPage.vue'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
-    if (!localStorage.name) {
+    if (!localStorage.name || !localStorage.room) {
       next('/login')
       return
     } else if (localStorage.name === 'result') {
@@ -30,6 +30,7 @@ try {
   console.log('Your Browser not Support WakeLock')
 }
 
+const userRoom = localStorage.room
 const selectedImg = ref<string | null>(null)
 const selectedValue = ref<string | null>(null)
 const isShow = ref<boolean>(false)
@@ -58,7 +59,7 @@ const buttonsValues = [
  *
  */
 async function submitPoint(value: string, img: string) {
-  await onSetPoint(localStorage.name, value)
+  await onSetPoint(localStorage.name, value, userRoom)
   isShow.value = true
   selectedImg.value = img
   selectedValue.value = value
@@ -67,12 +68,12 @@ async function submitPoint(value: string, img: string) {
 setInterval(async () => {
   if (
     localStorage.name !== 'result' &&
-    !(await onGetPoint()).has(localStorage.name) &&
+    !(await onGetPoint(userRoom)).has(localStorage.name) &&
     !isShow.value
   )
-    await onSetPoint(localStorage.name, null)
+    await onSetPoint(localStorage.name, null, userRoom)
   else if (selectedValue.value && isShow.value)
-    await onSetPoint(localStorage.name, selectedValue.value)
+    await onSetPoint(localStorage.name, selectedValue.value, userRoom)
 }, 1000)
 // این ایونت لیستنر برای وقتی هست که کاربر به یک تب دیگر رفت و دوباره برگشت به تب اسکرام پوکر باز هم صفحه گوشی او روشن بماند
 async function stayWake() {
@@ -82,7 +83,7 @@ async function stayWake() {
 }
 document.addEventListener('visibilitychange', stayWake)
 onMounted(async () => {
-  if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
+  if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null, userRoom)
 })
 onUnmounted(() => {
   // موقعی که از این کامپوننت یا پیج خروج کنیم صفحه گوشی از این حالت برداشته میشه و بسته به تایمی که در گوشی کاربر تنظیم شده صفحه گوشی خاموش میشه
@@ -122,6 +123,7 @@ onUnmounted(() => {
             v-model="isShow"
             :value-of-point="selectedValue"
             :selected-img="selectedImg"
+            :room-name="userRoom"
             type="user"
           />
         </Transition>

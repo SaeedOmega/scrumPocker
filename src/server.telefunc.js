@@ -22,8 +22,9 @@ async function onSetPoint(name, point, roomName = 'main') {
   room.set(name, point)
 }
 
-async function onResetPoints() {
-  points.clear()
+async function onResetPoints(roomName) {
+  const room = getRoom(roomName)
+  room.clear()
 }
 async function onDelete(key) {
   points.delete(key)
