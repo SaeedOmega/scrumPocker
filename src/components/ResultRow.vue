@@ -11,9 +11,14 @@ const prop = defineProps<{
   type?: 'result' | 'row'
 }>()
 
+/** اگر تایپ کامپوننت ریزالت باشه مقدار ترو برمیگردونه */
 const isTypeResult = computed<boolean>(() => {
   return prop.type === 'result' ? true : false
 })
+/** اگ مقدار تایپ کامپوننت ریزالت نبود و پوینت هم خط تیره نبود
+ * مقدار ترو برمیگردونه که
+ * داخل تمپلیت برای نمایش پوینت ها استفاده کردم
+ */
 const isShowPoint = computed<boolean>(() => {
   return !isTypeResult.value && prop.point !== '-' ? true : false
 })
