@@ -4,11 +4,18 @@ import { onGetPoint, onResetPoints, onSetPoint } from '../server.telefunc'
 import { computed, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import waiting from '../assets/ic_waiting.png'
+import { useI18n } from 'vue-i18n'
+import defaultImg from '../assets/resultImg.png'
+
+const i18n = useI18n()
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
     if (!localStorage.name) {
       next('/login')
+      return
+    } else if (localStorage.name !== 'result') {
+      next('/')
       return
     }
     next()
@@ -16,7 +23,7 @@ defineOptions({
 })
 const router = useRouter()
 
-defineProps<{ selectedImg: string | null; valueOfPoint: string | null }>()
+const props = defineProps<{ selectedImg?: string | null; valueOfPoint?: string | null }>()
 
 const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
@@ -143,7 +150,7 @@ function updateAverage(refresh?: true) {
  */
 async function reset() {
   onResetPoints()
-  updateAverage()
+  updateAverage(true)
 }
 
 // #region if one person send '?' all show -
@@ -191,11 +198,10 @@ onGetPoint().then((result) => {
 })
 
 watchEffect(() => {
-  if (!loading.value && allPointList.value.size !== 0) doInterval = false
+  if (!loading.value && allPointList.value.size !== 0 && props.selectedImg) doInterval = false
   else if (loading.value) doInterval = true
   updateAverage()
 })
-
 onUnmounted(() => {
   clearInterval(getterInterval)
 })
@@ -206,36 +212,49 @@ onUnmounted(() => {
     @click="back"
     class="m-auto flex-grow max-w-480px w-full flex flex-col justify-center items-center"
   >
-    <div class="font-Knewave self-center mb-20 m-13 text-center text-xl select-none">
-      ScrumPocker
-    </div>
     <div
       v-if="selectedImg"
-      class="text-white bg-center h-230px w-250px bg-no-repeat font-bold select-none bg-contain pt-3 text-60px text-center"
-      :style="{ backgroundImage: `url(${selectedImg})` }"
+      class="text-white bg-center h-230px font-bold w-250px bg-no-repeat select-none bg-contain pt-3 text-67px text-center"
+      :style="{
+        backgroundImage: `url(${selectedImg})`
+      }"
+      :class="{ 'font-roboto': valueOfPoint === '∞' }"
     >
-      {{ valueOfPoint }}
+      {{
+        //@ts-ignore
+        $t(valueOfPoint)
+      }}
     </div>
-    <div v-if="!valueOfPoint" class="flex-grow"></div>
+    <div
+      v-if="!selectedImg"
+      class="bg-center mr-10 mb-5 h-300px w-300px bg-no-repeat select-none bg-contain pt-3"
+      :style="{
+        backgroundImage: `url(${defaultImg})`
+      }"
+    />
     <div class="flex flex-col flex-grow gap-5 w-full p-5">
       <span class="flex gap-5">
         <button
           v-show="!loading"
           @click.stop="updateAverage(true)"
-          class="p-3 rounded-xl border-black border-1"
+          class="p-3 rounded-xl border-black border-1 font-medium"
         >
-          Refresh
+          {{ $t('refresh') }}
         </button>
         <button
           v-if="isResult"
           @click="reset"
-          class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
+          class="p-3 rounded-xl bg-gradient-to-b font-medium transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
         >
-          Reset
+          {{ $t('reset') }}
         </button>
       </span>
       <transition name="bounce">
-        <div class="flex flex-col" v-show="loading">
+        <div
+          :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
+          class="flex flex-col"
+          v-show="loading"
+        >
           <div class="self-center text-20px flex gap-2">
             <div id="wrapper">
               <div class="profile-main-loader">
@@ -254,9 +273,11 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <div>Waiting for</div>
+            <div class="font-bold">
+              {{ $t('waitingfor') }}
+            </div>
           </div>
-          <ul class="flex flex-col gap-3 mt-3 ml-5 self-center">
+          <ul class="flex flex-col gap-3 mt-3 self-center">
             <transition-group name="bounce">
               <li
                 v-for="person in dontVotePerson"
@@ -264,7 +285,7 @@ onUnmounted(() => {
                 :key="person[0]"
               >
                 <img :src="waiting" class="h-4.5" />
-                <span>{{ person[0] }}</span>
+                <span class="font-medium">{{ person[0] }}</span>
               </li>
             </transition-group>
           </ul>
@@ -272,7 +293,11 @@ onUnmounted(() => {
       </transition>
 
       <transition name="bounce">
-        <div v-show="!loading" class="flex flex-col">
+        <div
+          :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
+          v-show="!loading"
+          class="flex flex-col"
+        >
           <ResultRow name="Result" :point="getAverageToShow()" type="result" />
           <transition-group name="bounce">
             <ResultRow

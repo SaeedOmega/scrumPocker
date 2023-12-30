@@ -29,33 +29,52 @@ function login(name: string): void {
   localStorage.name = name
   router.push('/')
 }
+
+/** این تابع چک میکنه ببینه
+ * اسمی که بعنوان ورودی بهش پاس داده شده فارسی هست یا خیر
+ */
+function checkNameIsPersion(name: string) {
+  return !name.match(/^[\u0600-\u06FF\s]+$/) ? false : true
+}
 </script>
 
 <template>
   <div class="flex flex-col flex-grow gap-10 justify-center items-center">
-    <div class="font-Knewave mb-70px self-center mb-20 m-13 text-center text-xl select-none">
-      ScrumPocker
+    <div class="font-medium text-24px">
+      {{ $t('enterYourname') }}
     </div>
-    <div class="font-light text-24px">Enter Your name</div>
-    <div class="font-light text-12px">Type 'result' for reset option in resultPage</div>
-    <form @submit.prevent="login(name)" class="flex flex-col items-start justify-center">
-      <label for="name" class="text-12px opacity-60">Your name</label>
-      <div class="h-7 flex gap-2 border-b-black border-b">
+    <div :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'" class="font-light text-12px">
+      {{ $t('loginPageDescription') }}
+    </div>
+    <form
+      :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'"
+      @submit.prevent="login(name)"
+      class="flex flex-col items-start justify-center"
+    >
+      <label for="name" class="text-12px opacity-60 font-medium">{{ $t('yourName') }}</label>
+      <div
+        :class="[
+          $i18n.locale === 'fa' || !checkNameIsPersion(name) ? ' w-261px' : 'w-278px',
+          $i18n.locale === 'fa' ? 'gap-4' : 'gap-2'
+        ]"
+        class="h-7 flex border-b-black border-b"
+      >
         <input
           id="name"
           type="text"
+          :class="{ 'font-mikhak': checkNameIsPersion(name) }"
           class="bg-transparent h-full placeholder:text-[rgba(9,9,9,0.4)] outline-none px-2"
-          placeholder="name"
+          :placeholder="$t('namePlaceHolder')"
           v-model="name"
           autofocus
         />
         <button
           type="button"
-          :class="{ invisible: !name }"
+          v-show="name"
           class="bg-transparent h-full rounded-md active:bg-[#94b6fb]"
           @click="login(name)"
         >
-          Submit
+          {{ $t('submit') }}
         </button>
       </div>
     </form>
