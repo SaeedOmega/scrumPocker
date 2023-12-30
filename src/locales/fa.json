@@ -13,12 +13,12 @@
   "☕": "☕",
   "-": "-",
   "enterYourname": "نام خود را وارد کنید",
-  "tozihat": "برای دیدن صفحه نتایج و قابلیت ریست کردن لیست 'result' را چاپ کنید",
-  "label": "نام شما",
+  "loginPageDescription": "برای دیدن صفحه نتایج و قابلیت ریست کردن لیست 'result' را چاپ کنید",
+  "yourName": "نام شما",
   "namePlaceHolder": "نام",
   "submit": "ثبت",
-  "refreshBottom": "تازه سازی",
-  "resetBottom": "ریست کردن",
+  "refresh": "تازه سازی",
+  "reset": "ریست کردن",
   "waitingfor": "برای افراد زیر منتظر بمانید",
   "result": "نتیجه"
 }

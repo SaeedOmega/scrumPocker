@@ -29,6 +29,13 @@ function login(name: string): void {
   localStorage.name = name
   router.push('/')
 }
+
+/** این تابع چک میکنه ببینه
+ * اسمی که بعنوان ورودی بهش پاس داده شده فارسی هست یا خیر
+ */
+function checkNameIsPersion(name: string) {
+  return !name.match(/^[\u0600-\u06FF\s]+$/) ? false : true
+}
 </script>
 
 <template>
@@ -37,17 +44,17 @@ function login(name: string): void {
       {{ $t('enterYourname') }}
     </div>
     <div :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'" class="font-light text-12px">
-      {{ $t('tozihat') }}
+      {{ $t('loginPageDescription') }}
     </div>
     <form
       :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'"
       @submit.prevent="login(name)"
       class="flex flex-col items-start justify-center"
     >
-      <label for="name" class="text-12px opacity-60 font-medium">{{ $t('label') }}</label>
+      <label for="name" class="text-12px opacity-60 font-medium">{{ $t('yourName') }}</label>
       <div
         :class="[
-          $i18n.locale === 'fa' || !name.match(/^[\u0600-\u06FF\s]+$/) ? ' w-261px' : 'w-278px',
+          $i18n.locale === 'fa' || !checkNameIsPersion(name) ? ' w-261px' : 'w-278px',
           $i18n.locale === 'fa' ? 'gap-4' : 'gap-2'
         ]"
         class="h-7 flex border-b-black border-b"
@@ -55,7 +62,7 @@ function login(name: string): void {
         <input
           id="name"
           type="text"
-          :class="{ 'font-mikhak': name.match(/^[\u0600-\u06FF\s]+$/) }"
+          :class="{ 'font-mikhak': checkNameIsPersion(name) }"
           class="bg-transparent h-full placeholder:text-[rgba(9,9,9,0.4)] outline-none px-2"
           :placeholder="$t('namePlaceHolder')"
           v-model="name"

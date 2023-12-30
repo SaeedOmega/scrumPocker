@@ -23,7 +23,7 @@ defineOptions({
 })
 const router = useRouter()
 
-const prop = defineProps<{ selectedImg?: string | null; valueOfPoint?: string | null }>()
+const props = defineProps<{ selectedImg?: string | null; valueOfPoint?: string | null }>()
 
 const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
@@ -198,7 +198,7 @@ onGetPoint().then((result) => {
 })
 
 watchEffect(() => {
-  if (!loading.value && allPointList.value.size !== 0 && prop.selectedImg) doInterval = false
+  if (!loading.value && allPointList.value.size !== 0 && props.selectedImg) doInterval = false
   else if (loading.value) doInterval = true
   updateAverage()
 })
@@ -239,14 +239,14 @@ onUnmounted(() => {
           @click.stop="updateAverage(true)"
           class="p-3 rounded-xl border-black border-1 font-medium"
         >
-          {{ $t('refreshBottom') }}
+          {{ $t('refresh') }}
         </button>
         <button
           v-if="isResult"
           @click="reset"
           class="p-3 rounded-xl bg-gradient-to-b font-medium transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
         >
-          {{ $t('resetBottom') }}
+          {{ $t('reset') }}
         </button>
       </span>
       <transition name="bounce">
@@ -285,10 +285,7 @@ onUnmounted(() => {
                 :key="person[0]"
               >
                 <img :src="waiting" class="h-4.5" />
-                <span
-                  :class="{ 'font-mikhak font-medium': person[0].match(/^[\u0600-\u06FF\s]+$/) }"
-                  >{{ person[0] }}</span
-                >
+                <span class="font-medium">{{ person[0] }}</span>
               </li>
             </transition-group>
           </ul>

@@ -13,12 +13,12 @@
   "☕": "☕",
   "-": "-",
   "enterYourname": "Enter Your name",
-  "tozihat": "Type 'result' for reset option in resultPage",
-  "label": "Your name",
+  "loginPageDescription": "Type 'result' for reset option in resultPage",
+  "yourName": "Your name",
   "namePlaceHolder": "name",
   "submit": "Submit",
-  "refreshBottom": "Refresh",
-  "resetBottom": "Reset",
+  "refresh": "Refresh",
+  "reset": "Reset",
   "waitingfor": "Waiting for",
   "result": "Result"
 }
