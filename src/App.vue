@@ -5,11 +5,10 @@ import { ref, watch } from 'vue'
 
 const i18n = useI18n()
 const lang = ref(localStorage.lang)
-i18n.locale.value = lang.value === 'ENG' ? 'en' : 'fa'
+i18n.locale.value = lang.value
 
 watch(lang, () => {
-  if (localStorage.lang === 'ENG') i18n.locale.value = 'en'
-  else if (localStorage.lang === 'فا') i18n.locale.value = 'fa'
+  i18n.locale.value = localStorage.lang
 })
 function onClickLanguage(language: string) {
   //@ts-ignore
@@ -26,7 +25,7 @@ function onClickLanguage(language: string) {
     <div class="flex self-center select-none items-center relative">
       <div class="absolute flex left-[-80px] items-center gap-10px">
         <div
-          @click="onClickLanguage('ENG')"
+          @click="onClickLanguage('en')"
           :class="{
             'text-white pr-2 bg-gradient-to-b  from-[#514647] via-[#6c6363] to-transparent':
               i18n.locale.value === 'en'
@@ -37,7 +36,7 @@ function onClickLanguage(language: string) {
         </div>
         <div class="border-l-1px border-dashed border-[rgba(0,0,0,0.32)] w-0.3 h-3"></div>
         <div
-          @click="onClickLanguage('فا')"
+          @click="onClickLanguage('fa')"
           :class="{
             'text-white bg-gradient-to-b  from-[#514647] via-[#6c6363] to-transparent':
               i18n.locale.value === 'fa'
