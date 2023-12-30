@@ -197,8 +197,7 @@ async function back() {
       try {
         await onSetPoint(localStorage.name, null)
       } catch (error) {
-        //@ts-ignore
-        errorRequsetMessage.value = error.message
+        if (error instanceof Error) errorRequsetMessage.value = error.message
       }
     }, 100)
   }

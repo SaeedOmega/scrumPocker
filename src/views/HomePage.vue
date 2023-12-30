@@ -66,8 +66,7 @@ async function submitPoint(value: string, img: string) {
     selectedImg.value = img
     selectedValue.value = value
   } catch (error) {
-    //@ts-ignore
-    errorRequsetMessage.value = error.message
+    if (error instanceof Error) errorRequsetMessage.value = error.message
   }
 }
 
@@ -76,22 +75,19 @@ setInterval(async () => {
   try {
     list = await onGetPoint()
   } catch (error) {
-    //@ts-ignore
-    errorRequsetMessage.value = error.message
+    if (error instanceof Error) errorRequsetMessage.value = error.message
   }
   if (localStorage.name !== 'result' && !list?.has(localStorage.name) && !isShow.value)
     try {
       await onSetPoint(localStorage.name, null)
     } catch (error) {
-      //@ts-ignore
-      errorRequsetMessage.value = error.message
+      if (error instanceof Error) errorRequsetMessage.value = error.message
     }
   else if (selectedValue.value && isShow.value)
     try {
       await onSetPoint(localStorage.name, selectedValue.value)
     } catch (error) {
-      //@ts-ignore
-      errorRequsetMessage.value = error.message
+      if (error instanceof Error) errorRequsetMessage.value = error.message
     }
 }, 1000)
 // این ایونت لیستنر برای وقتی هست که کاربر به یک تب دیگر رفت و دوباره برگشت به تب اسکرام پوکر باز هم صفحه گوشی او روشن بماند
