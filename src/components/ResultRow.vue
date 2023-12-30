@@ -82,7 +82,7 @@ function handleBack(event: Event) {
             'text-white': type !== 'result' && point !== '-',
             'font-roboto': point === '∞'
           },
-          type === 'result' ? 'result' : 'noResult'
+          type === 'result' ? 'font-extrabold' : 'font-medium'
         ]"
         class="flex-grow select-none font-bold text-18px text-center"
       >
@@ -103,19 +103,3 @@ function handleBack(event: Event) {
     </div>
   </div>
 </template>
-
-<style>
-.result {
-  font-variation-settings:
-    'DSTY' 0,
-    'KSHD' 100,
-    'wght' 800;
-}
-
-.noResult {
-  font-variation-settings:
-    'DSTY' 0,
-    'KSHD' 100,
-    'wght' 500;
-}
-</style>

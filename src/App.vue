@@ -7,7 +7,7 @@ const i18n = useI18n()
 const lang = ref(localStorage.lang)
 i18n.locale.value = lang.value === 'ENG' ? 'en' : 'fa'
 
-watch([lang], () => {
+watch(lang, () => {
   if (localStorage.lang === 'ENG') i18n.locale.value = 'en'
   else if (localStorage.lang === 'فا') i18n.locale.value = 'fa'
 })
@@ -20,7 +20,7 @@ function onClickLanguage(language: string) {
 
 <template>
   <div
-    :class="[i18n.locale.value === 'fa' ? 'font-mikhak' : 'font-roboto']"
+    :class="i18n.locale.value === 'fa' ? 'font-mikhak' : 'font-roboto'"
     class="mainBackground overflow-auto flex flex-col flex-grow"
   >
     <div class="flex self-center select-none items-center relative">

@@ -33,27 +33,10 @@ function login(name: string): void {
 
 <template>
   <div class="flex flex-col flex-grow gap-10 justify-center items-center">
-    <div
-      style="
-        font-variation-settings:
-          'DSTY' 0,
-          'KSHD' 100,
-          'wght' 500;
-      "
-      class="font-light text-24px"
-    >
+    <div class="font-medium text-24px">
       {{ $t('EnterYourname') }}
     </div>
-    <div
-      style="
-        font-variation-settings:
-          'DSTY' 0,
-          'KSHD' 100,
-          'wght' 300;
-      "
-      :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'"
-      class="font-light text-12px"
-    >
+    <div :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'" class="font-light text-12px">
       {{ $t('tozihat') }}
     </div>
     <form
@@ -61,17 +44,7 @@ function login(name: string): void {
       @submit.prevent="login(name)"
       class="flex flex-col items-start justify-center"
     >
-      <label
-        style="
-          font-variation-settings:
-            'DSTY' 0,
-            'KSHD' 100,
-            'wght' 500;
-        "
-        for="name"
-        class="text-12px opacity-60"
-        >{{ $t('label') }}</label
-      >
+      <label for="name" class="text-12px opacity-60 font-medium">{{ $t('label') }}</label>
       <div
         :class="[
           $i18n.locale === 'fa' || !name.match(/^[\u0600-\u06FF\s]+$/) ? ' w-261px' : 'w-278px',
@@ -82,12 +55,6 @@ function login(name: string): void {
         <input
           id="name"
           type="text"
-          style="
-            font-variation-settings:
-              'DSTY' 0,
-              'KSHD' 100,
-              'wght' 400;
-          "
           :class="{ 'font-mikhak': name.match(/^[\u0600-\u06FF\s]+$/) }"
           class="bg-transparent h-full placeholder:text-[rgba(9,9,9,0.4)] outline-none px-2"
           :placeholder="$t('namePlaceHolder')"

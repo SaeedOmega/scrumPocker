@@ -216,8 +216,7 @@ onUnmounted(() => {
       v-if="selectedImg"
       class="text-white bg-center h-230px font-bold w-250px bg-no-repeat select-none bg-contain pt-3 text-67px text-center"
       :style="{
-        backgroundImage: `url(${selectedImg})`,
-        fontVariationSettings: `'DSTY' 0,'KSHD' 100,'wght' 700`
+        backgroundImage: `url(${selectedImg})`
       }"
       :class="{ 'font-roboto': valueOfPoint === '∞' }"
     >
@@ -238,26 +237,14 @@ onUnmounted(() => {
         <button
           v-show="!loading"
           @click.stop="updateAverage(true)"
-          class="p-3 rounded-xl border-black border-1"
-          style="
-            font-variation-settings:
-              'DSTY' 0,
-              'KSHD' 100,
-              'wght' 500;
-          "
+          class="p-3 rounded-xl border-black border-1 font-medium"
         >
           {{ $t('refreshBottom') }}
         </button>
         <button
           v-if="isResult"
           @click="reset"
-          class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
-          style="
-            font-variation-settings:
-              'DSTY' 0,
-              'KSHD' 100,
-              'wght' 500;
-          "
+          class="p-3 rounded-xl bg-gradient-to-b font-medium transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
         >
           {{ $t('resetBottom') }}
         </button>
@@ -286,14 +273,7 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <div
-              style="
-                font-variation-settings:
-                  'DSTY' 0,
-                  'KSHD' 100,
-                  'wght' 700;
-              "
-            >
+            <div class="font-bold">
               {{ $t('Waitingfor') }}
             </div>
           </div>
@@ -306,13 +286,7 @@ onUnmounted(() => {
               >
                 <img :src="waiting" class="h-4.5" />
                 <span
-                  style="
-                    font-variation-settings:
-                      'DSTY' 0,
-                      'KSHD' 100,
-                      'wght' 500;
-                  "
-                  :class="{ 'font-mikhak': person[0].match(/^[\u0600-\u06FF\s]+$/) }"
+                  :class="{ 'font-mikhak font-medium': person[0].match(/^[\u0600-\u06FF\s]+$/) }"
                   >{{ person[0] }}</span
                 >
               </li>
