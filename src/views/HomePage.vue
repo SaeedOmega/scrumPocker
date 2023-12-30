@@ -1,10 +1,13 @@
 <script setup lang="ts">
 //@ts-ignore
 import { VueFlip } from 'vue-flip'
-import { onSetPoint, onGetPoint } from '../server.telefunc'
+import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 import ResultPage from './ResultPage.vue'
+//@ts-ignore
+import NProgress from 'nprogress'
+import ErrorToast from '@/components/ErrorToast.vue'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -19,6 +22,7 @@ defineOptions({
   }
 })
 
+const errorRequsetMessage = ref<string | null>(null)
 // این تابع یک تابع جاوا اسکریپتی هست که باید سایت گواهی امن داشته باشه تا تابع به درستی کار کنه و یک یکوست ارسال میکنه که در صفحه موبایل باعث میشه صفحه خاموش نشه
 // for work correctly this feature you need https server config
 let wakeLock: WakeLockSentinel | null = null
@@ -58,21 +62,32 @@ const buttonsValues = [
  *
  */
 async function submitPoint(value: string, img: string) {
-  await onSetPoint(localStorage.name, value)
-  isShow.value = true
-  selectedImg.value = img
-  selectedValue.value = value
+  try {
+    NProgress.start()
+    await onSetPoint(localStorage.name, value)
+    isShow.value = true
+    selectedImg.value = img
+    selectedValue.value = value
+    NProgress.done()
+  } catch (error) {
+    NProgress.done()
+    if (error instanceof Error) errorRequsetMessage.value = error.message
+  }
 }
 
 setInterval(async () => {
-  if (
-    localStorage.name !== 'result' &&
-    !(await onGetPoint()).has(localStorage.name) &&
-    !isShow.value
-  )
-    await onSetPoint(localStorage.name, null)
+  if (localStorage.name !== 'result' && !isShow.value)
+    try {
+      await onSetPoint(localStorage.name, null)
+    } catch (error) {
+      if (error instanceof Error) errorRequsetMessage.value = error.message
+    }
   else if (selectedValue.value && isShow.value)
-    await onSetPoint(localStorage.name, selectedValue.value)
+    try {
+      await onSetPoint(localStorage.name, selectedValue.value)
+    } catch (error) {
+      if (error instanceof Error) errorRequsetMessage.value = error.message
+    }
 }, 1000)
 // این ایونت لیستنر برای وقتی هست که کاربر به یک تب دیگر رفت و دوباره برگشت به تب اسکرام پوکر باز هم صفحه گوشی او روشن بماند
 async function stayWake() {
@@ -95,7 +110,15 @@ onUnmounted(() => {
 
 <template>
   <div class="flex flex-col flex-grow overflow-auto">
-    <vue-flip v-model="isShow" width="100%" height="100%">
+    <Transition name="bounce">
+      <ErrorToast v-show="errorRequsetMessage && !isShow" v-model="errorRequsetMessage" />
+    </Transition>
+    <vue-flip
+      v-model="isShow"
+      width="100%"
+      height="100%"
+      :class="{ 'filter blur-sm': errorRequsetMessage && !isShow }"
+    >
       <template v-slot:front>
         <div class="m-auto justify-center items-center flex flex-col">
           <div class="font-Knewave self-center mb-13 m-13 text-center select-none text-xl">
@@ -129,3 +152,4 @@ onUnmounted(() => {
     </vue-flip>
   </div>
 </template>
+

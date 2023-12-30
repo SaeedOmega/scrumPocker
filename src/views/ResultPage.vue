@@ -4,6 +4,9 @@ import { onGetPoint, onResetPoints, onSetPoint } from '../server.telefunc'
 import { computed, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import waiting from '../assets/ic_waiting.png'
+import ErrorToast from '@/components/ErrorToast.vue'
+//@ts-ignore
+import NProgress from 'nprogress'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -18,15 +21,20 @@ const router = useRouter()
 
 defineProps<{ selectedImg: string | null; valueOfPoint: string | null }>()
 
+const errorRequsetMessage = ref<string | null>(null)
 const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 let doInterval = true
 let getterInterval = setInterval(() => {
   if (!doInterval) return
-  onGetPoint().then((result) => {
-    allPointList.value = result
-  })
+  onGetPoint()
+    .then((result) => {
+      allPointList.value = result
+    })
+    .catch((error) => {
+      errorRequsetMessage.value = error.message
+    })
 }, 750)
 const allPointList = ref<Map<string, string>>(new Map())
 /**
@@ -37,7 +45,11 @@ const allPointList = ref<Map<string, string>>(new Map())
  */
 const loading = computed<boolean>(() => {
   let isLoading = true
-  if (pointList.value.size < allPointList.value.size && pointList.value.size > 0) isLoading = true
+  if (
+    (pointList.value.size < allPointList.value.size && pointList.value.size > 0) ||
+    pointList.value.size === 0
+  )
+    isLoading = true
   else isLoading = false
   return isLoading
 })
@@ -116,10 +128,18 @@ const shouldShow = computed<boolean>(() => {
  *
  */
 function updateAverage(refresh?: true) {
-  if (refresh)
-    onGetPoint().then((result) => {
-      allPointList.value = result
-    })
+  if (refresh) {
+    NProgress.start()
+    onGetPoint()
+      .then((result) => {
+        allPointList.value = result
+        NProgress.done()
+      })
+      .catch((error) => {
+        NProgress.done()
+        errorRequsetMessage.value = error.message
+      })
+  }
   finalAverage = 0
   let count = 0
   pointList.value.forEach((item) => {
@@ -142,7 +162,9 @@ function updateAverage(refresh?: true) {
  *
  */
 async function reset() {
-  onResetPoints()
+  onResetPoints().catch((error) => {
+    errorRequsetMessage.value = error.message
+  })
   updateAverage()
 }
 
@@ -177,18 +199,33 @@ function getPointToShow(item: { 1: string }) {
 }
 // #endregion
 
-async function back() {
+function back() {
   if (isShow.value) {
-    isShow.value = false
-    router.push('/')
-    setTimeout(async () => await onSetPoint(localStorage.name, null), 100)
+    setTimeout(() => {
+      NProgress.start()
+      onSetPoint(localStorage.name, null)
+        .then(() => {
+          NProgress.done()
+        })
+        .catch((error) => {
+          NProgress.done()
+          errorRequsetMessage.value = error.message
+        })
+      isShow.value = false
+      router.push('/')
+      NProgress.done()
+    }, 100)
   }
 }
 
 // for first
-onGetPoint().then((result) => {
-  allPointList.value = result
-})
+onGetPoint()
+  .then((result) => {
+    allPointList.value = result
+  })
+  .catch((error) => {
+    errorRequsetMessage.value = error.message
+  })
 
 watchEffect(() => {
   if (!loading.value && allPointList.value.size !== 0) doInterval = false
@@ -202,115 +239,95 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    @click="back"
-    class="m-auto flex-grow max-w-480px w-full flex flex-col justify-center items-center"
-  >
-    <div class="font-Knewave self-center mb-20 m-13 text-center text-xl select-none">
-      ScrumPocker
-    </div>
+  <div>
+    <Transition name="bounce">
+      <ErrorToast v-show="errorRequsetMessage" v-model="errorRequsetMessage" />
+    </Transition>
     <div
-      v-if="selectedImg"
-      class="text-white bg-center h-230px w-250px bg-no-repeat font-bold select-none bg-contain pt-3 text-60px text-center"
-      :style="{ backgroundImage: `url(${selectedImg})` }"
+      :class="{ 'filter blur-sm': errorRequsetMessage }"
+      @click="back"
+      class="m-auto flex-grow max-w-480px w-full flex flex-col justify-center items-center"
     >
-      {{ valueOfPoint }}
-    </div>
-    <div v-if="!valueOfPoint" class="flex-grow"></div>
-    <div class="flex flex-col flex-grow gap-5 w-full p-5">
-      <span class="flex gap-5">
-        <button
-          v-show="!loading"
-          @click.stop="updateAverage(true)"
-          class="p-3 rounded-xl border-black border-1"
-        >
-          Refresh
-        </button>
-        <button
-          v-if="isResult"
-          @click="reset"
-          class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
-        >
-          Reset
-        </button>
-      </span>
-      <transition name="bounce">
-        <div class="flex flex-col" v-show="loading">
-          <div class="self-center text-20px flex gap-2">
-            <div id="wrapper">
-              <div class="profile-main-loader">
-                <div class="loader">
-                  <svg class="circular-loader" viewBox="25 25 50 50">
-                    <circle
-                      class="loader-path"
-                      cx="50"
-                      cy="50"
-                      r="20"
-                      fill="none"
-                      stroke="#70c542"
-                      stroke-width="2"
-                    />
-                  </svg>
+      <div class="font-Knewave self-center mb-20 m-13 text-center text-xl select-none">
+        ScrumPocker
+      </div>
+      <div
+        v-if="selectedImg"
+        class="text-white bg-center h-230px w-250px bg-no-repeat font-bold select-none bg-contain pt-3 text-60px text-center"
+        :style="{ backgroundImage: `url(${selectedImg})` }"
+      >
+        {{ valueOfPoint }}
+      </div>
+      <div v-if="!valueOfPoint" class="flex-grow"></div>
+      <div class="flex flex-col flex-grow gap-5 w-full p-5">
+        <span class="flex gap-5">
+          <button
+            v-show="!loading"
+            @click.stop="updateAverage(true)"
+            class="p-3 rounded-xl border-black border-1"
+          >
+            Refresh
+          </button>
+          <button
+            v-if="isResult"
+            @click="reset"
+            class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
+          >
+            Reset
+          </button>
+        </span>
+        <transition name="bounce">
+          <div class="flex flex-col" v-show="loading">
+            <div class="self-center text-20px flex gap-2">
+              <div id="wrapper">
+                <div class="profile-main-loader">
+                  <div class="loader">
+                    <svg class="circular-loader" viewBox="25 25 50 50">
+                      <circle
+                        class="loader-path"
+                        cx="50"
+                        cy="50"
+                        r="20"
+                        fill="none"
+                        stroke="#70c542"
+                        stroke-width="2"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
+              <div>Waiting for</div>
             </div>
-            <div>Waiting for</div>
+            <ul class="flex flex-col gap-3 mt-3 ml-5 self-center">
+              <transition-group name="bounce">
+                <li
+                  v-for="person in dontVotePerson"
+                  class="font-medium flex items-center gap-3"
+                  :key="person[0]"
+                >
+                  <img :src="waiting" class="h-4.5" />
+                  <span>{{ person[0] }}</span>
+                </li>
+              </transition-group>
+            </ul>
           </div>
-          <ul class="flex flex-col gap-3 mt-3 ml-5 self-center">
-            <transition-group name="bounce">
-              <li
-                v-for="person in dontVotePerson"
-                class="font-medium flex items-center gap-3"
-                :key="person[0]"
-              >
-                <img :src="waiting" class="h-4.5" />
-                <span>{{ person[0] }}</span>
-              </li>
-            </transition-group>
-          </ul>
-        </div>
-      </transition>
+        </transition>
 
-      <transition name="bounce">
-        <div v-show="!loading" class="flex flex-col">
-          <ResultRow name="Result" :point="getAverageToShow()" type="result" />
-          <transition-group name="bounce">
-            <ResultRow
-              v-for="(item, index) in pointList"
-              :key="index"
-              :name="item[0]"
-              :point="getPointToShow(item)"
-              :type="'row'"
-            />
-          </transition-group>
-        </div>
-      </transition>
+        <transition name="bounce">
+          <div v-show="!loading" class="flex flex-col">
+            <ResultRow name="Result" :point="getAverageToShow()" type="result" />
+            <transition-group name="bounce">
+              <ResultRow
+                v-for="(item, index) in pointList"
+                :key="index"
+                :name="item[0]"
+                :point="getPointToShow(item)"
+                :type="'row'"
+              />
+            </transition-group>
+          </div>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
-
-<style>
-.bounce-enter-active {
-  animation: bounce-in 0.5s;
-}
-.bounce-leave-active {
-  animation: bounce-out 0.5s;
-}
-
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes bounce-out {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
-</style>
