@@ -128,14 +128,18 @@ const shouldShow = computed<boolean>(() => {
  *
  */
 function updateAverage(refresh?: true) {
-  if (refresh)
+  if (refresh) {
+    NProgress.start()
     onGetPoint()
       .then((result) => {
         allPointList.value = result
+        NProgress.done()
       })
       .catch((error) => {
+        NProgress.done()
         errorRequsetMessage.value = error.message
       })
+  }
   finalAverage = 0
   let count = 0
   pointList.value.forEach((item) => {
@@ -195,18 +199,21 @@ function getPointToShow(item: { 1: string }) {
 }
 // #endregion
 
-async function back() {
+function back() {
   if (isShow.value) {
-    setTimeout(async () => {
-      try {
-        NProgress.start()
-        await onSetPoint(localStorage.name, null)
-        isShow.value = false
-        router.push('/')
-        NProgress.done()
-      } catch (error) {
-        if (error instanceof Error) errorRequsetMessage.value = error.message
-      }
+    setTimeout(() => {
+      NProgress.start()
+      onSetPoint(localStorage.name, null)
+        .then(() => {
+          NProgress.done()
+        })
+        .catch((error) => {
+          NProgress.done()
+          errorRequsetMessage.value = error.message
+        })
+      isShow.value = false
+      router.push('/')
+      NProgress.done()
     }, 100)
   }
 }

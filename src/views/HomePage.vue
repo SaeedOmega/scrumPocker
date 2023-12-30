@@ -1,7 +1,7 @@
 <script setup lang="ts">
 //@ts-ignore
 import { VueFlip } from 'vue-flip'
-import { onSetPoint, onGetPoint } from '../server.telefunc'
+import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 import ResultPage from './ResultPage.vue'
@@ -65,10 +65,10 @@ async function submitPoint(value: string, img: string) {
   try {
     NProgress.start()
     await onSetPoint(localStorage.name, value)
-    NProgress.done()
     isShow.value = true
     selectedImg.value = img
     selectedValue.value = value
+    NProgress.done()
   } catch (error) {
     NProgress.done()
     if (error instanceof Error) errorRequsetMessage.value = error.message
@@ -76,13 +76,7 @@ async function submitPoint(value: string, img: string) {
 }
 
 setInterval(async () => {
-  let list
-  try {
-    list = await onGetPoint()
-  } catch (error) {
-    if (error instanceof Error) errorRequsetMessage.value = error.message
-  }
-  if (localStorage.name !== 'result' && !list?.has(localStorage.name) && !isShow.value)
+  if (localStorage.name !== 'result' && !isShow.value)
     try {
       await onSetPoint(localStorage.name, null)
     } catch (error) {
