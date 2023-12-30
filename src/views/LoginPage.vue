@@ -26,9 +26,9 @@ const roomName = ref<string>('')
  * @returns void
  *
  */
-function login(name: string, room: string): void {
+function login(name: string): void {
   localStorage.name = name
-  localStorage.room = room
+  localStorage.room = roomName
   router.push('/')
 }
 </script>
@@ -38,7 +38,7 @@ function login(name: string, room: string): void {
     <div class="font-Knewave mb-70px self-center text-center text-xl select-none">ScrumPocker</div>
     <div class="font-light text-24px">Enter Your name</div>
     <div class="font-light text-12px">Type 'result' for reset option in resultPage</div>
-    <form @submit.prevent="login(name, roomName)" class="flex flex-col items-center justify-center">
+    <form @submit.prevent="login(name)" class="flex flex-col items-center justify-center">
       <label for="name" class="text-12px self-start opacity-60">Your name</label>
       <input
         id="name"
