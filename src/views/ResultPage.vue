@@ -145,7 +145,7 @@ function updateAverage(refresh?: true) {
  *
  */
 async function reset() {
-  onResetPoints(props.roomName)
+  await onResetPoints(props.roomName)
   updateAverage(true)
 }
 
