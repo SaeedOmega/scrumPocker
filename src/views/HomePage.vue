@@ -5,6 +5,8 @@ import { onSetPoint, onGetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 import ResultPage from './ResultPage.vue'
+//@ts-ignore
+import NProgress from 'nprogress'
 import ErrorToast from '@/components/ErrorToast.vue'
 
 defineOptions({
@@ -61,11 +63,14 @@ const buttonsValues = [
  */
 async function submitPoint(value: string, img: string) {
   try {
+    NProgress.start()
     await onSetPoint(localStorage.name, value)
+    NProgress.done()
     isShow.value = true
     selectedImg.value = img
     selectedValue.value = value
   } catch (error) {
+    NProgress.done()
     if (error instanceof Error) errorRequsetMessage.value = error.message
   }
 }

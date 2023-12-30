@@ -1,5 +1,6 @@
 import './main.css'
 import 'virtual:windi.css'
+import '../node_modules/nprogress/nprogress.css'
 
 import { createApp } from 'vue'
 

@@ -5,6 +5,8 @@ import { computed, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import waiting from '../assets/ic_waiting.png'
 import ErrorToast from '@/components/ErrorToast.vue'
+//@ts-ignore
+import NProgress from 'nprogress'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -43,7 +45,11 @@ const allPointList = ref<Map<string, string>>(new Map())
  */
 const loading = computed<boolean>(() => {
   let isLoading = true
-  if (pointList.value.size < allPointList.value.size && pointList.value.size > 0) isLoading = true
+  if (
+    (pointList.value.size < allPointList.value.size && pointList.value.size > 0) ||
+    (pointList.value.size === 0 && allPointList.value.size === 0)
+  )
+    isLoading = true
   else isLoading = false
   return isLoading
 })
@@ -191,11 +197,13 @@ function getPointToShow(item: { 1: string }) {
 
 async function back() {
   if (isShow.value) {
-    isShow.value = false
-    router.push('/')
     setTimeout(async () => {
       try {
+        NProgress.start()
         await onSetPoint(localStorage.name, null)
+        isShow.value = false
+        router.push('/')
+        NProgress.done()
       } catch (error) {
         if (error instanceof Error) errorRequsetMessage.value = error.message
       }
