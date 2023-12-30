@@ -47,7 +47,7 @@ const loading = computed<boolean>(() => {
   let isLoading = true
   if (
     (pointList.value.size < allPointList.value.size && pointList.value.size > 0) ||
-    (pointList.value.size === 0 && allPointList.value.size === 0)
+    pointList.value.size === 0
   )
     isLoading = true
   else isLoading = false
