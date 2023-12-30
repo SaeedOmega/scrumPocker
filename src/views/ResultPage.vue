@@ -16,7 +16,7 @@ defineOptions({
 })
 const router = useRouter()
 
-const prop = defineProps<{
+const props = defineProps<{
   selectedImg: string | null
   valueOfPoint: string | null
   roomName: string
@@ -27,7 +27,7 @@ let finalAverage = 0
 let doInterval = true
 let getterInterval = setInterval(() => {
   if (!doInterval) return
-  onGetPoint(prop.roomName).then((result) => {
+  onGetPoint(props.roomName).then((result) => {
     allPointList.value = result
   })
 }, 750)
@@ -120,7 +120,7 @@ const shouldShow = computed<boolean>(() => {
  */
 function updateAverage(refresh?: true) {
   if (refresh)
-    onGetPoint(prop.roomName).then((result) => {
+    onGetPoint(props.roomName).then((result) => {
       allPointList.value = result
     })
   finalAverage = 0
@@ -145,7 +145,7 @@ function updateAverage(refresh?: true) {
  *
  */
 async function reset() {
-  onResetPoints(prop.roomName)
+  onResetPoints(props.roomName)
   updateAverage(true)
 }
 
@@ -184,12 +184,12 @@ async function back() {
   if (isShow.value) {
     isShow.value = false
     router.push('/')
-    setTimeout(async () => await onSetPoint(localStorage.name, null, prop.roomName), 100)
+    setTimeout(async () => await onSetPoint(localStorage.name, null, props.roomName), 100)
   }
 }
 
 // for first
-onGetPoint(prop.roomName).then((result) => {
+onGetPoint(props.roomName).then((result) => {
   allPointList.value = result
 })
 
