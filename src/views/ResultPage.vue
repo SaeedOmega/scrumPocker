@@ -274,7 +274,7 @@ onUnmounted(() => {
               </div>
             </div>
             <div class="font-bold">
-              {{ $t('Waitingfor') }}
+              {{ $t('waitingfor') }}
             </div>
           </div>
           <ul class="flex flex-col gap-3 mt-3 self-center">

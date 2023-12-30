@@ -34,7 +34,7 @@ function login(name: string): void {
 <template>
   <div class="flex flex-col flex-grow gap-10 justify-center items-center">
     <div class="font-medium text-24px">
-      {{ $t('EnterYourname') }}
+      {{ $t('enterYourname') }}
     </div>
     <div :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'" class="font-light text-12px">
       {{ $t('tozihat') }}

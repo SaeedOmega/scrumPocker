@@ -12,13 +12,13 @@
   "∞": "∞",
   "☕": "☕",
   "-": "-",
-  "EnterYourname": "Enter Your name",
+  "enterYourname": "Enter Your name",
   "tozihat": "Type 'result' for reset option in resultPage",
   "label": "Your name",
   "namePlaceHolder": "name",
   "submit": "Submit",
   "refreshBottom": "Refresh",
   "resetBottom": "Reset",
-  "Waitingfor": "Waiting for",
+  "waitingfor": "Waiting for",
   "result": "Result"
 }
