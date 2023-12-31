@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 
 const i18n = useI18n()
 const lang = ref(localStorage.lang)
@@ -9,12 +9,18 @@ i18n.locale.value = lang.value
 
 watch(lang, () => {
   i18n.locale.value = localStorage.lang
+  if (i18n.locale.value === 'fa') document.documentElement.dir = 'rtl'
+  else document.documentElement.dir = 'ltr'
 })
 function onClickLanguage(language: string) {
   //@ts-ignore
   lang.value = language
   localStorage.lang = language
 }
+onMounted(() => {
+  if (i18n.locale.value === 'fa') document.documentElement.dir = 'rtl'
+  else document.documentElement.dir = 'ltr'
+})
 </script>
 
 <template>
@@ -23,7 +29,7 @@ function onClickLanguage(language: string) {
     class="mainBackground overflow-auto flex flex-col flex-grow"
   >
     <div class="flex self-center select-none items-center relative">
-      <div class="absolute flex left-[-80px] items-center gap-10px">
+      <div dir="ltr" class="absolute flex left-[-80px] items-center gap-10px">
         <div
           @click="onClickLanguage('en')"
           :class="{

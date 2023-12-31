@@ -43,14 +43,10 @@ function checkNameIsPersion(name: string) {
     <div class="font-medium text-24px">
       {{ $t('enterYourname') }}
     </div>
-    <div :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'" class="font-light text-12px">
+    <div class="font-light text-12px">
       {{ $t('loginPageDescription') }}
     </div>
-    <form
-      :dir="$i18n.locale !== 'fa' ? 'ltr' : 'rtl'"
-      @submit.prevent="login(name)"
-      class="flex flex-col items-start justify-center"
-    >
+    <form @submit.prevent="login(name)" class="flex flex-col items-start justify-center">
       <label for="name" class="text-12px opacity-60 font-medium">{{ $t('yourName') }}</label>
       <div
         :class="[

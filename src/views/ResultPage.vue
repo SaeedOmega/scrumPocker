@@ -4,10 +4,8 @@ import { onGetPoint, onResetPoints, onSetPoint } from '../server.telefunc'
 import { computed, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import waiting from '../assets/ic_waiting.png'
-import { useI18n } from 'vue-i18n'
 import defaultImg from '../assets/resultImg.png'
 
-const i18n = useI18n()
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -251,7 +249,6 @@ onUnmounted(() => {
       </span>
       <transition name="bounce">
         <div
-          :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
           class="flex flex-col"
           v-show="loading"
         >
@@ -294,7 +291,6 @@ onUnmounted(() => {
 
       <transition name="bounce">
         <div
-          :dir="i18n.locale.value !== 'fa' ? 'ltr' : 'rtl'"
           v-show="!loading"
           class="flex flex-col"
         >
