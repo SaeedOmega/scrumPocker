@@ -99,9 +99,10 @@ onUnmounted(() => {
     <vue-flip v-model="isShow" width="100%" height="100%">
       <template v-slot:front>
         <div class="m-auto justify-center items-center flex flex-col">
-          <div class="font-Knewave self-center mb-13 m-13 text-center select-none text-xl">
+          <div class="font-Knewave self-center mb-2 m-13 text-center select-none text-xl">
             ScrumPocker
           </div>
+          <div class="mb-13 select-none">Room: {{ userRoom }}</div>
           <div
             :class="{ 'filter blur-sm': isShow }"
             class="flex flex-wrap max-w-360px gap-2.1 justify-center items-center"

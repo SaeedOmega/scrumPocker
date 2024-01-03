@@ -28,7 +28,7 @@ const roomName = ref<string>('')
  */
 function login(name: string): void {
   localStorage.name = name
-  localStorage.room = roomName
+  localStorage.room = roomName.value
   router.push('/')
 }
 </script>

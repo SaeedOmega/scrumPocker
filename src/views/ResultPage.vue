@@ -225,7 +225,7 @@ onUnmounted(() => {
         <button
           v-show="!loading"
           @click.stop="updateAverage(true)"
-          class="p-3 rounded-xl border-black border-1"
+          class="p-3 rounded-xl border-black border-1 bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent)"
         >
           Refresh
         </button>
@@ -235,6 +235,7 @@ onUnmounted(() => {
         >
           Reset
         </button>
+        <div class="self-center flex-grow text-center select-none">Room: {{ roomName }}</div>
       </span>
       <transition name="bounce">
         <div class="flex flex-col" v-show="loading">

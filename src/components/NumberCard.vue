@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <div
-    class="text-white h-130px w-84px font-bold pt-3 text-30px bg-contain text-center select-none bg-origin-border"
+    class="text-white cursor-pointer h-130px w-84px font-bold pt-3 text-30px bg-contain text-center select-none bg-origin-border"
     :style="{ backgroundImage: `url(${backgroundImageSrc})` }"
   >
     {{ value }}
