@@ -1,4 +1,4 @@
-export { onGetPoint, onSetPoint, onResetPoints, onDelete }
+export { onGetPoint, onSetPoint, onResetPoints }
 
 async function onGetPoint(roomName: string): Promise<Map<string, person>>
 
@@ -6,4 +6,3 @@ async function onSetPoint(name: string, point: person, roomName: string): Promis
 
 async function onResetPoints(roomName: string): Promise<void>
 
-async function onDelete(key: string | null): Promise<void>
