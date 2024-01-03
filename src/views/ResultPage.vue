@@ -17,8 +17,11 @@ defineOptions({
 const router = useRouter()
 
 const props = defineProps<{
+  // عکس انتخاب شده رو آدرسش رو ارسال میکنه
   selectedImg: string | null
+  // مقدار امتیاز انتخاب شده ارسال میشه
   valueOfPoint: string | null
+  // نام اتاق کاربر ارسال میشه
   roomName: string
 }>()
 
