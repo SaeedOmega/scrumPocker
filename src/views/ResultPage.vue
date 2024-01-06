@@ -40,8 +40,6 @@ const loading = computed<boolean>(() => {
   return isLoading
 })
 
-/** ⁧سلام ⁩ */
-
 /**
  * کسانی که رای ندادن رو برمیگدونه
  */
@@ -137,7 +135,7 @@ function updateMiddleOfPoints(refresh?: true) {
     if (+e) arrayOfPoints.push(+e)
     else if (e === '1/2') arrayOfPoints.push(0.5)
   })
-  arrayOfPoints.sort((a: number, b: number) => a - b)
+  arrayOfPoints.sort((a, b) => a - b)
   if (arrayOfPoints.length % 2 !== 0) {
     middleOfPoints = arrayOfPoints[Math.floor((arrayOfPoints.length - 1) / 2)]
   } else {
