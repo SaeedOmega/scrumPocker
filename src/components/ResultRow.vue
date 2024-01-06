@@ -1,12 +1,27 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const prop = defineProps<{
   // نام کسی که امتیاز داده
-  name: string
+  name?: string
   // مقدار امتیاز آن شخص
   point: string
+  middlePoint?: string
   // اگر این کامپوننت شامل تایو باشه فقط میتونه مقدار ریزالت باشه که دیزاین سطر ریزالت فرق میکنه
   type?: 'result' | 'row'
 }>()
+
+/** اگر تایپ کامپوننت ریزالت باشه مقدار ترو برمیگردونه */
+const isTypeResult = computed<boolean>(() => {
+  return prop.type === 'result'
+})
+/** اگ مقدار تایپ کامپوننت ریزالت نبود و پوینت هم خط تیره نبود
+ * مقدار ترو برمیگردونه که
+ * داخل تمپلیت برای نمایش پوینت ها استفاده کردم
+ */
+const isPointVisible = computed<boolean>(() => {
+  return !isTypeResult.value && prop.point !== '-'
+})
 
 const minionImages: Record<string, string> = {
   '1/2': 'minions/1.png',
@@ -55,39 +70,60 @@ function handleBack(event: Event) {
 <template>
   <div
     @click="handleBack"
-    class="flex gap-5 w-full last:border-none border-b-1px items-center border-dashed border-black border-opacity-12"
+    class="flex w-full last:border-none border-b-1px items-center border-dashed border-black border-opacity-12"
   >
-    <div
-      class="flex-grow m-3 text-18px select-none font-medium"
-      :class="{ 'my-5': type !== 'row', 'font-bold underline': type === 'result' }"
-    >
-      {{ name }}
+    <div class="flex flex-grow">
+      <div
+        class="flex-grow m-3 text-18px select-none font-medium"
+        :class="{ 'my-5': type !== 'row', 'font-bold underline': isTypeResult }"
+      >
+        {{ isTypeResult ? 'Average' : name }}
+      </div>
+      <div
+        class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex px-1"
+        :class="[
+          {
+            'my-5': type !== 'row',
+            'text-sm': point == 'I Dont Want',
+            'w-80px': !isTypeResult
+          },
+          !isTypeResult && getBgColor()
+        ]"
+      >
+        <span
+          :class="{
+            'text-white': isPointVisible,
+            'font-bold': isTypeResult
+          }"
+          class="flex-grow select-none font-bold text-18px text-center"
+        >
+          {{ point }}
+        </span>
+        <img
+          v-if="isPointVisible"
+          class="w-38px h-39px ms-2 shadow-[0px_10px_10px_0px_#0000001A]"
+          :src="getImageforPoint()"
+          alt=""
+        />
+      </div>
     </div>
-    <div
-      class="m-3 rounded-22px bg-gradient-to-b items-center flex-shrink-0 flex gap-2 px-1 w-80px"
-      :class="[
-        {
-          'my-5': type !== 'row',
-          'text-sm': point == 'I Dont Want'
-        },
-        type !== 'result' && getBgColor()
-      ]"
-    >
+    <div class="flex items-center flex-grow" v-if="isTypeResult">
+      <div class="border-l-1px mr-5 border-dashed border-black h-10 grow"></div>
+      <div
+        class="flex-grow m-3 text-18px select-none font-medium"
+        :class="{ 'font-bold underline': isTypeResult }"
+      >
+        Middle
+      </div>
       <span
         :class="{
-          'text-white': type !== 'result' && point !== '-',
-          'font-bold': type === 'result'
+          'text-white': isPointVisible,
+          'font-bold': isTypeResult
         }"
         class="flex-grow select-none font-bold text-18px text-center"
       >
-        {{ point }}
+        {{ middlePoint }}
       </span>
-      <img
-        v-if="type !== 'result' && point !== '-'"
-        class="w-38px h-39px shadow-[0px_10px_10px_0px_#0000001A]"
-        :src="getImageforPoint()"
-        alt=""
-      />
     </div>
   </div>
 </template>

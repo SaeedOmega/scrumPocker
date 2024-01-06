@@ -3475,6 +3475,11 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
+windicss-rtl@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/windicss-rtl/-/windicss-rtl-0.3.0.tgz#90816ec814dcbad97f8be09a10f1e9729f55b8ce"
+  integrity sha512-jC1PBWrA4reUwgkIzdjfw3qkNG137cP3F7/qBVHPQkt/bceDkC0mZ1ish4jxP2K7MjkFpH4KVulaKTE6pOVPBw==
+
 windicss@^3.5.6:
   version "3.5.6"
   resolved "https://registry.yarnpkg.com/windicss/-/windicss-3.5.6.tgz#30a34da76894d952a96c9a1921f2e91e13932183"

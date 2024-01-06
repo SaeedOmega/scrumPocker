@@ -21,6 +21,7 @@ defineProps<{ selectedImg: string | null; valueOfPoint: string | null }>()
 const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
+let middleOfPoints = 0
 let doInterval = true
 let getterInterval = setInterval(() => {
   if (!doInterval) return
@@ -30,10 +31,7 @@ let getterInterval = setInterval(() => {
 }, 750)
 const allPointList = ref<Map<string, string>>(new Map())
 /**
- * Returns state of waiting for allVote or Not.
- *
- * @returns Boolean
- *
+ * وضعیت لودینگ بودن  کامپوننت رو برمیگدونه
  */
 const loading = computed<boolean>(() => {
   let isLoading = true
@@ -43,10 +41,7 @@ const loading = computed<boolean>(() => {
 })
 
 /**
- * Returns person that doesnt send a vote.
- *
- * @returns a map of person
- *
+ * کسانی که رای ندادن رو برمیگدونه
  */
 const dontVotePerson = computed<Map<string, string>>(() => {
   const miniMap = new Map()
@@ -56,10 +51,7 @@ const dontVotePerson = computed<Map<string, string>>(() => {
   return miniMap
 })
 /**
- * Returns person that send a commend.
- *
- * @returns a map of person
- *
+ * کسانی که رای دادن رو برمیگردونه
  */
 const pointList = computed<Map<string, string>>(() => {
   const miniMap = new Map()
@@ -70,10 +62,8 @@ const pointList = computed<Map<string, string>>(() => {
 })
 
 /**
- * Returns false if a person sent '?' else Returns true.
- *
- * @returns true or false
- *
+ * اگ یک نفر کاراکتر علامت سوال فرستاده باشه این کامپیوتد
+ * مقدار فالس برمیگردونه تا بقیه امتیاز هارو هم نشون ندیم
  */
 const shouldShow = computed<boolean>(() => {
   for (const person of pointList.value) {
@@ -82,11 +72,7 @@ const shouldShow = computed<boolean>(() => {
   return true
 })
 // /**
-//  * a number
-//  * @param num
-//  *
-//  * return nearstFibonacciNumber to input
-//  * @returns number
+//  * یک عدد میگیره و نزدیک ترین عدد فیبونانچی به اون رو برمیگردونه
 //  */
 // function closestFibonacci(num: number) {
 //   if (num <= 0.5) {
@@ -110,10 +96,9 @@ const shouldShow = computed<boolean>(() => {
 // }
 
 /**
- * Calculate average of data of Map from server side
- * set result with finalAverage
- * @returns void
- *
+ * این تابع میانگین امتیاز ها رو محسابه میکنه
+ * اگر به آن ترو ارسال بشه همچنین لیست رو بروز میکنه
+ * که از این ورودی در کلیک کردن روی دکمه رفرش استفاده شده
  */
 function updateAverage(refresh?: true) {
   if (refresh)
@@ -135,25 +120,52 @@ function updateAverage(refresh?: true) {
   finalAverage = +average
   // finalAverage = closestFibonacci(finalAverage)
 }
+
 /**
- * reset all date in server.
- *
- * @returns void
- *
+ * این تابع دقیقا مانند تابع میانگین است
+ * فقط عملکرد آن بدست آوردن میانه امتیاز ها است
+ */
+function updateMiddleOfPoints(refresh?: true) {
+  if (refresh)
+    onGetPoint().then((result) => {
+      allPointList.value = result
+    })
+  let arrayOfPoints: number[] = []
+  pointList.value.forEach((e) => {
+    if (+e) arrayOfPoints.push(+e)
+    else if (e === '1/2') arrayOfPoints.push(0.5)
+  })
+  arrayOfPoints.sort((a, b) => a - b)
+  if (arrayOfPoints.length % 2 !== 0) {
+    middleOfPoints = arrayOfPoints[Math.floor((arrayOfPoints.length - 1) / 2)]
+  } else {
+    middleOfPoints =
+      (arrayOfPoints[Math.floor((arrayOfPoints.length - 1) / 2)] +
+        arrayOfPoints[Math.floor(arrayOfPoints.length / 2)]) /
+      2
+  }
+  // finalAverage = closestFibonacci(finalAverage)
+}
+
+function onRefreshClick(refresh?: true) {
+  updateAverage(refresh)
+  updateMiddleOfPoints(refresh)
+}
+
+/**
+ * تمام داده های سمت سرور رو پاک میکنه
  */
 async function reset() {
   onResetPoints()
   updateAverage()
+  updateMiddleOfPoints()
 }
 
-// #region if one person send '?' all show -
+// #region در این قسمت توابعی نوشتم که اگر کسی علامت سوال فرستاده میانگین و میانه و امتیاز ها نشون داده نشوند
 /**
- * Returns a string.
- * this output show in tags to users
- * if one of user sent '?' or we havent no numbric data for avereage this is show '-'
- *
- * @returns string
- *
+ * این تابع چک میکنه اگ پوینت های کاربرا قابل اندازه گیری بود
+ * و کسی علامت سوال نفرستاده بود میانگین رو نشون میده
+ * وگرنه کاراکتر خط تیره نشون میده
  */
 function getAverageToShow() {
   return !shouldShow.value || isNaN(finalAverage) || pointList.value.size < allPointList.value.size
@@ -161,12 +173,17 @@ function getAverageToShow() {
     : finalAverage.toString()
 }
 /**
- * Returns a string.
- * this output show in tags to users
- * if one of user sent '?' this is show '-'
- *
- * @returns string
- *
+ * این تابع چک میکنه اگ پوینت های کاربرا قابل اندازه گیری بود
+ * و کسی علامت سوال نفرستاده بود میانه رو نشون میده
+ * وگرنه کاراکتر خط تیره نشون میده
+ */
+function getMiddleToShow() {
+  return !shouldShow.value || isNaN(middleOfPoints) ? '-' : middleOfPoints.toString()
+}
+/**
+ * این تابع چک میکنه اگ پوینت های کاربرا شامل علامت سوال نبود
+ * پوینت هر نفر رو نشون میده
+ * وگرنه کاراکتر خط تیره نشون میده
  */
 function getPointToShow(item: { 1: string }) {
   return !shouldShow.value || pointList.value.size < allPointList.value.size
@@ -185,7 +202,7 @@ async function back() {
   }
 }
 
-// for first
+// وقتی بار اول کامپوننت فراخانی میشه
 onGetPoint().then((result) => {
   allPointList.value = result
 })
@@ -194,6 +211,7 @@ watchEffect(() => {
   if (!loading.value && allPointList.value.size !== 0) doInterval = false
   else if (loading.value) doInterval = true
   updateAverage()
+  updateMiddleOfPoints()
 })
 
 onUnmounted(() => {
@@ -217,11 +235,11 @@ onUnmounted(() => {
       {{ valueOfPoint }}
     </div>
     <div v-if="!valueOfPoint" class="flex-grow"></div>
-    <div class="flex flex-col flex-grow gap-5 w-full p-5">
-      <span class="flex gap-5">
+    <div class="flex flex-col flex-grow w-full p-5">
+      <span class="flex mb-5">
         <button
           v-show="!loading"
-          @click.stop="updateAverage(true)"
+          @click.stop="onRefreshClick(true)"
           class="p-3 rounded-xl border-black border-1"
         >
           Refresh
@@ -229,14 +247,14 @@ onUnmounted(() => {
         <button
           v-if="isResult"
           @click="reset"
-          class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
+          class="p-3 rounded-xl ms-5 bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
         >
           Reset
         </button>
       </span>
       <transition name="bounce">
-        <div class="flex flex-col" v-show="loading">
-          <div class="self-center text-20px flex gap-2">
+        <div class="flex flex-col mb-5" v-show="loading">
+          <div class="self-center text-20px flex">
             <div id="wrapper">
               <div class="profile-main-loader">
                 <div class="loader">
@@ -254,17 +272,17 @@ onUnmounted(() => {
                 </div>
               </div>
             </div>
-            <div>Waiting for</div>
+            <div class="ms-2">Waiting for</div>
           </div>
-          <ul class="flex flex-col gap-3 mt-3 ml-5 self-center">
+          <ul class="flex flex-col mt-3 ml-5 self-center">
             <transition-group name="bounce">
               <li
                 v-for="person in dontVotePerson"
-                class="font-medium flex items-center gap-3"
+                class="font-medium last:mb-0 mb-3 flex items-center"
                 :key="person[0]"
               >
                 <img :src="waiting" class="h-4.5" />
-                <span>{{ person[0] }}</span>
+                <span class="ms-3">{{ person[0] }}</span>
               </li>
             </transition-group>
           </ul>
@@ -273,7 +291,7 @@ onUnmounted(() => {
 
       <transition name="bounce">
         <div v-show="!loading" class="flex flex-col">
-          <ResultRow name="Result" :point="getAverageToShow()" type="result" />
+          <ResultRow :point="getAverageToShow()" :middle-point="getMiddleToShow()" type="result" />
           <transition-group name="bounce">
             <ResultRow
               v-for="(item, index) in pointList"

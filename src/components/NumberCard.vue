@@ -1,8 +1,8 @@
 <script setup lang="ts">
 defineProps<{
-  //backgroundImageAddress for Each Number
+  // آدرس بکگراندی که برای هر شماره هست
   backgroundImageSrc: string
-  // value of each Number Card
+  // مقداری که هر دکمه دارد
   value: string
 }>()
 </script>
