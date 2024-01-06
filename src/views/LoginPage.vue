@@ -48,26 +48,20 @@ function checkNameIsPersion(name: string) {
     </div>
     <form @submit.prevent="login(name)" class="flex flex-col items-start justify-center">
       <label for="name" class="text-12px opacity-60 font-medium">{{ $t('yourName') }}</label>
-      <div
-        :class="[
-          $i18n.locale === 'fa' || !checkNameIsPersion(name) ? ' w-261px' : 'w-278px',
-          $i18n.locale === 'fa' ? 'gap-4' : 'gap-2'
-        ]"
-        class="h-7 flex border-b-black border-b"
-      >
+      <div class="h-7 flex border-b-black border-b">
         <input
           id="name"
           type="text"
           :class="{ 'font-mikhak': checkNameIsPersion(name) }"
-          class="bg-transparent h-full placeholder:text-[rgba(9,9,9,0.4)] outline-none px-2"
+          class="bg-transparent w-198px h-full placeholder:text-[rgba(9,9,9,0.4)] outline-none px-2"
           :placeholder="$t('namePlaceHolder')"
           v-model="name"
           autofocus
         />
         <button
+          :class="name ? 'visible' : 'invisible'"
           type="button"
-          v-show="name"
-          class="bg-transparent h-full rounded-md active:bg-[#94b6fb]"
+          class="bg-transparent h-full invi rounded-md active:bg-[#94b6fb]"
           @click="login(name)"
         >
           {{ $t('submit') }}
