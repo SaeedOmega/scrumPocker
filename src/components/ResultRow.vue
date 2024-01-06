@@ -13,14 +13,14 @@ const prop = defineProps<{
 
 /** اگر تایپ کامپوننت ریزالت باشه مقدار ترو برمیگردونه */
 const isTypeResult = computed<boolean>(() => {
-  return prop.type === 'result' ? true : false
+  return prop.type === 'result'
 })
 /** اگ مقدار تایپ کامپوننت ریزالت نبود و پوینت هم خط تیره نبود
  * مقدار ترو برمیگردونه که
  * داخل تمپلیت برای نمایش پوینت ها استفاده کردم
  */
-const isShowPoint = computed<boolean>(() => {
-  return !isTypeResult.value && prop.point !== '-' ? true : false
+const isPointVisible = computed<boolean>(() => {
+  return !isTypeResult.value && prop.point !== '-'
 })
 
 const minionImages: Record<string, string> = {
@@ -92,7 +92,7 @@ function handleBack(event: Event) {
       >
         <span
           :class="{
-            'text-white': isShowPoint,
+            'text-white': isPointVisible,
             'font-bold': isTypeResult
           }"
           class="flex-grow select-none font-bold text-18px text-center"
@@ -100,7 +100,7 @@ function handleBack(event: Event) {
           {{ point }}
         </span>
         <img
-          v-if="isShowPoint"
+          v-if="isPointVisible"
           class="w-38px h-39px ms-2 shadow-[0px_10px_10px_0px_#0000001A]"
           :src="getImageforPoint()"
           alt=""
@@ -117,7 +117,7 @@ function handleBack(event: Event) {
       </div>
       <span
         :class="{
-          'text-white': isShowPoint,
+          'text-white': isPointVisible,
           'font-bold': isTypeResult
         }"
         class="flex-grow select-none font-bold text-18px text-center"
