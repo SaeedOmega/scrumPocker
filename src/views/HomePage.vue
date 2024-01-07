@@ -8,7 +8,7 @@ import ResultPage from './ResultPage.vue'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
-    if (!localStorage.name) {
+    if (!localStorage.name || !localStorage.room) {
       next('/login')
       return
     } else if (localStorage.name === 'result') {
@@ -30,6 +30,7 @@ try {
   console.log('Your Browser not Support WakeLock')
 }
 
+const userRoom = localStorage.room
 const selectedImg = ref<string | null>(null)
 const selectedValue = ref<string | null>(null)
 const isShow = ref<boolean>(false)
@@ -58,7 +59,7 @@ const buttonsValues = [
  *
  */
 async function submitPoint(value: string, img: string) {
-  await onSetPoint(localStorage.name, value)
+  await onSetPoint(localStorage.name, value, userRoom)
   isShow.value = true
   selectedImg.value = img
   selectedValue.value = value
@@ -67,12 +68,12 @@ async function submitPoint(value: string, img: string) {
 setInterval(async () => {
   if (
     localStorage.name !== 'result' &&
-    !(await onGetPoint()).has(localStorage.name) &&
+    !(await onGetPoint(userRoom)).has(localStorage.name) &&
     !isShow.value
   )
-    await onSetPoint(localStorage.name, null)
+    await onSetPoint(localStorage.name, null, userRoom)
   else if (selectedValue.value && isShow.value)
-    await onSetPoint(localStorage.name, selectedValue.value)
+    await onSetPoint(localStorage.name, selectedValue.value, userRoom)
 }, 1000)
 // این ایونت لیستنر برای وقتی هست که کاربر به یک تب دیگر رفت و دوباره برگشت به تب اسکرام پوکر باز هم صفحه گوشی او روشن بماند
 async function stayWake() {
@@ -82,7 +83,7 @@ async function stayWake() {
 }
 document.addEventListener('visibilitychange', stayWake)
 onMounted(async () => {
-  if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
+  if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null, userRoom)
 })
 onUnmounted(() => {
   // موقعی که از این کامپوننت یا پیج خروج کنیم صفحه گوشی از این حالت برداشته میشه و بسته به تایمی که در گوشی کاربر تنظیم شده صفحه گوشی خاموش میشه
@@ -98,9 +99,10 @@ onUnmounted(() => {
     <vue-flip v-model="isShow" width="100%" height="100%">
       <template v-slot:front>
         <div class="m-auto justify-center items-center flex flex-col">
-          <div class="font-Knewave self-center mb-13 m-13 text-center select-none text-xl">
+          <div class="font-Knewave self-center mb-2 m-13 text-center select-none text-xl">
             ScrumPocker
           </div>
+          <div class="mb-13 select-none">Room: {{ userRoom }}</div>
           <div
             :class="{ 'filter blur-sm': isShow }"
             class="flex flex-wrap max-w-360px gap-2.1 justify-center items-center"
@@ -122,6 +124,7 @@ onUnmounted(() => {
             v-model="isShow"
             :value-of-point="selectedValue"
             :selected-img="selectedImg"
+            :room-name="userRoom"
             type="user"
           />
         </Transition>

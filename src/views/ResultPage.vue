@@ -7,7 +7,7 @@ import waiting from '../assets/ic_waiting.png'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
-    if (!localStorage.name) {
+    if (!localStorage.name || !localStorage.room) {
       next('/login')
       return
     }
@@ -16,15 +16,21 @@ defineOptions({
 })
 const router = useRouter()
 
-defineProps<{ selectedImg: string | null; valueOfPoint: string | null }>()
+const props = defineProps<{
+  // عکس انتخاب شده رو آدرسش رو ارسال میکنه
+  selectedImg: string | null
+  // مقدار امتیاز انتخاب شده ارسال میشه
+  valueOfPoint: string | null
+  // نام اتاق کاربر ارسال میشه
+  roomName: string
+}>()
 
-const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
 let finalAverage = 0
 let doInterval = true
 let getterInterval = setInterval(() => {
   if (!doInterval) return
-  onGetPoint().then((result) => {
+  onGetPoint(props.roomName).then((result) => {
     allPointList.value = result
   })
 }, 750)
@@ -117,7 +123,7 @@ const shouldShow = computed<boolean>(() => {
  */
 function updateAverage(refresh?: true) {
   if (refresh)
-    onGetPoint().then((result) => {
+    onGetPoint(props.roomName).then((result) => {
       allPointList.value = result
     })
   finalAverage = 0
@@ -142,8 +148,8 @@ function updateAverage(refresh?: true) {
  *
  */
 async function reset() {
-  onResetPoints()
-  updateAverage()
+  await onResetPoints(props.roomName)
+  updateAverage(true)
 }
 
 // #region if one person send '?' all show -
@@ -181,12 +187,12 @@ async function back() {
   if (isShow.value) {
     isShow.value = false
     router.push('/')
-    setTimeout(async () => await onSetPoint(localStorage.name, null), 100)
+    setTimeout(async () => await onSetPoint(localStorage.name, null, props.roomName), 100)
   }
 }
 
 // for first
-onGetPoint().then((result) => {
+onGetPoint(props.roomName).then((result) => {
   allPointList.value = result
 })
 
@@ -222,17 +228,17 @@ onUnmounted(() => {
         <button
           v-show="!loading"
           @click.stop="updateAverage(true)"
-          class="p-3 rounded-xl border-black border-1"
+          class="p-3 rounded-xl border-black border-1 bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent)"
         >
           Refresh
         </button>
         <button
-          v-if="isResult"
-          @click="reset"
+          @click.stop="reset"
           class="p-3 rounded-xl bg-gradient-to-b transition-all duration-[2s] hover:(from-transparent via-gray-200 to-transparent) border-black border-1"
         >
           Reset
         </button>
+        <div class="self-center flex-grow text-center select-none">Room: {{ roomName }}</div>
       </span>
       <transition name="bounce">
         <div class="flex flex-col" v-show="loading">
