@@ -67,8 +67,11 @@ function handleBack(event: Event) {
     <div
       class="flex-grow m- text-18px select-none"
       :class="[
-        { 'my-5': type !== 'row', 'font-mikhak': name.match(/^[\u0600-\u06FF\s]+$/) },
-        type === 'result' ? 'result' : 'noResult'
+        {
+          'my-5': type !== 'row',
+          // اگر نام طرف فارسی بود فونت نامش به میخک تغییر میکنه
+          'font-mikhak': name.match(/^[\u0600-\u06FF\s]+$/)
+        }
       ]"
     >
       {{ name === 'Result' ? $t('result') : name }}
