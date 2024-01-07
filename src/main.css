@@ -4,10 +4,6 @@
   src: url(./assets/fonts/Mikhak-v3.3/Mikhak[DSTY,KSHD,wght].woff2) format('woff2-variations');
   font-size: 6px 200px;
   font-weight: 100 900;
-  font-variation-settings:
-    'DSTY' 0,
-    'KSHD' 100,
-    'wght' 400;
 }
 @font-face {
   font-family: 'Knewave';
@@ -67,6 +63,10 @@ html {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  font-variation-settings:
+    'DSTY' 0,
+    'KSHD' 100,
+    'wght' 400;
 }
 
 body {

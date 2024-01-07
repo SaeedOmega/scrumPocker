@@ -6,7 +6,6 @@ import { useRouter } from 'vue-router'
 import waiting from '../assets/ic_waiting.png'
 import defaultImg from '../assets/resultImg.png'
 
-
 defineOptions({
   beforeRouteEnter(to, from, next) {
     if (!localStorage.name) {
@@ -21,7 +20,7 @@ defineOptions({
 })
 const router = useRouter()
 
-const props = defineProps<{ selectedImg?: string | null; valueOfPoint?: string | null }>()
+const props = defineProps<{ selectedImg?: string | null; valueOfPoint?: string }>()
 
 const isResult = localStorage.name === 'result' ? true : false
 const isShow = defineModel<string | boolean>()
@@ -218,10 +217,7 @@ onUnmounted(() => {
       }"
       :class="{ 'font-roboto': valueOfPoint === '∞' }"
     >
-      {{
-        //@ts-ignore
-        $t(valueOfPoint)
-      }}
+      {{ valueOfPoint && $t(valueOfPoint) }}
     </div>
     <div
       v-if="!selectedImg"
@@ -248,10 +244,7 @@ onUnmounted(() => {
         </button>
       </span>
       <transition name="bounce">
-        <div
-          class="flex flex-col"
-          v-show="loading"
-        >
+        <div class="flex flex-col" v-show="loading">
           <div class="self-center text-20px flex gap-2">
             <div id="wrapper">
               <div class="profile-main-loader">
@@ -290,10 +283,7 @@ onUnmounted(() => {
       </transition>
 
       <transition name="bounce">
-        <div
-          v-show="!loading"
-          class="flex flex-col"
-        >
+        <div v-show="!loading" class="flex flex-col">
           <ResultRow name="Result" :point="getAverageToShow()" type="result" />
           <transition-group name="bounce">
             <ResultRow
