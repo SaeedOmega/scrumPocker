@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
 const prop = defineProps<{
   // نام کسی که امتیاز داده
   name: string
@@ -45,6 +48,10 @@ function getBgColor() {
   return minionBg[prop.point]
 }
 
+function getPoint(point: string) {
+  return +point ? (+point).toLocaleString(i18n.locale.value) : i18n.t(point)
+}
+
 // در صورت عادی وقتی رو هرجای کامپوننت ریزالت پیج کلیک بشه به برمیگرده به صفحه امتیاز دهی
 // این رو برای این گذاشتم که وقتی روی سطر نتایج کلیک شد به صفحه امتیاز دهی برنگرده
 function handleBack(event: Event) {
@@ -86,13 +93,7 @@ function handleBack(event: Event) {
         ]"
         class="flex-grow select-none font-bold text-18px text-center"
       >
-        {{
-          type === 'result' && +point
-            ? $i18n.locale === 'fa'
-              ? (+point).toLocaleString('fa-ir')
-              : point
-            : $t(point)
-        }}
+        {{ getPoint(point) }}
       </span>
       <img
         v-if="type !== 'result' && point !== '-'"

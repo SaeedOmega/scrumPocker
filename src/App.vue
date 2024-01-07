@@ -5,7 +5,7 @@ import { ref, watch, onMounted } from 'vue'
 
 const i18n = useI18n()
 const lang = ref(localStorage.lang)
-i18n.locale.value = lang.value
+i18n.locale.value = lang.value || 'fa'
 
 watch(lang, () => {
   i18n.locale.value = localStorage.lang
@@ -13,7 +13,6 @@ watch(lang, () => {
   else document.documentElement.dir = 'ltr'
 })
 function onClickLanguage(language: string) {
-  //@ts-ignore
   lang.value = language
   localStorage.lang = language
 }

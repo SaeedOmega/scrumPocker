@@ -65,8 +65,7 @@ html {
   min-height: 100%;
   font-variation-settings:
     'DSTY' 0,
-    'KSHD' 100,
-    'wght' 400;
+    'KSHD' 100;
 }
 
 body {
