@@ -31,7 +31,7 @@ try {
 }
 
 const selectedImg = ref<string | null>(null)
-const selectedValue = ref<string | null>(null)
+const selectedValue = ref<string>()
 const isShow = ref<boolean>(false)
 const buttonsValues = [
   { key: '1/2', src: 'buttons/1.png' },
