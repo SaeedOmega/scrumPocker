@@ -5,9 +5,8 @@ import { onSetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 import ResultPage from './ResultPage.vue'
-//@ts-ignore
-import NProgress from 'nprogress'
 import ErrorToast from '@/components/ErrorToast.vue'
+import runAndHandleLoading from '../utils/NProgressUtil'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -62,17 +61,12 @@ const buttonsValues = [
  *
  */
 async function submitPoint(value: string, img: string) {
-  try {
-    NProgress.start()
+  errorRequsetMessage.value = await runAndHandleLoading(async () => {
     await onSetPoint(localStorage.name, value)
     isShow.value = true
     selectedImg.value = img
     selectedValue.value = value
-    NProgress.done()
-  } catch (error) {
-    NProgress.done()
-    if (error instanceof Error) errorRequsetMessage.value = error.message
-  }
+  })
 }
 
 setInterval(async () => {
@@ -152,4 +146,3 @@ onUnmounted(() => {
     </vue-flip>
   </div>
 </template>
-

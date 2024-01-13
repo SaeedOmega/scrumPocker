@@ -5,8 +5,7 @@ import { computed, ref, watchEffect, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import waiting from '../assets/ic_waiting.png'
 import ErrorToast from '@/components/ErrorToast.vue'
-//@ts-ignore
-import NProgress from 'nprogress'
+import runAndHandleLoading from '../utils/NProgressUtil'
 
 defineOptions({
   beforeRouteEnter(to, from, next) {
@@ -127,18 +126,11 @@ const shouldShow = computed<boolean>(() => {
  * @returns void
  *
  */
-function updateAverage(refresh?: true) {
+async function updateAverage(refresh?: true) {
   if (refresh) {
-    NProgress.start()
-    onGetPoint()
-      .then((result) => {
-        allPointList.value = result
-        NProgress.done()
-      })
-      .catch((error) => {
-        NProgress.done()
-        errorRequsetMessage.value = error.message
-      })
+    errorRequsetMessage.value = await runAndHandleLoading(async () => {
+      allPointList.value = await onGetPoint()
+    })
   }
   finalAverage = 0
   let count = 0
@@ -199,22 +191,13 @@ function getPointToShow(item: { 1: string }) {
 }
 // #endregion
 
-function back() {
+async function back() {
   if (isShow.value) {
-    setTimeout(() => {
-      NProgress.start()
-      onSetPoint(localStorage.name, null)
-        .then(() => {
-          NProgress.done()
-        })
-        .catch((error) => {
-          NProgress.done()
-          errorRequsetMessage.value = error.message
-        })
+    errorRequsetMessage.value = await runAndHandleLoading(async () => {
+      await onSetPoint(localStorage.name, null)
       isShow.value = false
       router.push('/')
-      NProgress.done()
-    }, 100)
+    })
   }
 }
 
