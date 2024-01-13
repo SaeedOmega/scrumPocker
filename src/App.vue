@@ -1,25 +1,25 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 
 const i18n = useI18n()
 const lang = ref(localStorage.lang)
 i18n.locale.value = lang.value || 'fa'
 
-watch(lang, () => {
-  i18n.locale.value = localStorage.lang
-  if (i18n.locale.value === 'fa') document.documentElement.dir = 'rtl'
-  else document.documentElement.dir = 'ltr'
-})
+watch(
+  lang,
+  () => {
+    i18n.locale.value = localStorage.lang
+    if (i18n.locale.value === 'fa') document.documentElement.dir = 'rtl'
+    else document.documentElement.dir = 'ltr'
+  },
+  { immediate: true }
+)
 function onClickLanguage(language: string) {
   lang.value = language
   localStorage.lang = language
 }
-onMounted(() => {
-  if (i18n.locale.value === 'fa') document.documentElement.dir = 'rtl'
-  else document.documentElement.dir = 'ltr'
-})
 </script>
 
 <template>

@@ -3,7 +3,7 @@
 import { VueFlip } from 'vue-flip'
 import { onSetPoint, onGetPoint } from '../server.telefunc'
 import NumberCard from '../components/NumberCard.vue'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onUnmounted } from 'vue'
 import ResultPage from './ResultPage.vue'
 
 defineOptions({
@@ -81,9 +81,6 @@ async function stayWake() {
   }
 }
 document.addEventListener('visibilitychange', stayWake)
-onMounted(async () => {
-  if (localStorage.name !== 'result') await onSetPoint(localStorage.name, null)
-})
 onUnmounted(() => {
   // موقعی که از این کامپوننت یا پیج خروج کنیم صفحه گوشی از این حالت برداشته میشه و بسته به تایمی که در گوشی کاربر تنظیم شده صفحه گوشی خاموش میشه
   wakeLock?.release().then(() => {
