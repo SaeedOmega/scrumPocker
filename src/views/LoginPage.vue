@@ -33,7 +33,7 @@ function login(name: string): void {
 /** این تابع چک میکنه ببینه
  * اسمی که بعنوان ورودی بهش پاس داده شده فارسی هست یا خیر
  */
-function checkNameIsPersion(name: string) {
+function isPersianString(name: string) {
   return !name.match(/^[\u0600-\u06FF\s]+$/) ? false : true
 }
 </script>
@@ -52,7 +52,7 @@ function checkNameIsPersion(name: string) {
         <input
           id="name"
           type="text"
-          :class="{ 'font-mikhak': checkNameIsPersion(name) }"
+          :class="{ 'font-mikhak': isPersianString(name) }"
           class="bg-transparent w-198px h-full placeholder:text-[rgba(9,9,9,0.4)] outline-none px-2"
           :placeholder="$t('namePlaceHolder')"
           v-model="name"

@@ -48,7 +48,7 @@ function getBgColor() {
   return minionBg[prop.point]
 }
 
-function getPointToShow (point: string) {
+function getPointToShow(point: string) {
   return +point ? (+point).toLocaleString(i18n.locale.value) : i18n.t(point)
 }
 
@@ -56,6 +56,10 @@ function getPointToShow (point: string) {
 // این رو برای این گذاشتم که وقتی روی سطر نتایج کلیک شد به صفحه امتیاز دهی برنگرده
 function handleBack(event: Event) {
   if (prop.type == 'result') event.stopPropagation()
+}
+
+function isPersianString(name: string) {
+  return !name.match(/^[\u0600-\u06FF\s]+$/) ? false : true
 }
 </script>
 
@@ -70,7 +74,7 @@ function handleBack(event: Event) {
         {
           'my-5': type !== 'row',
           // اگر نام طرف فارسی بود فونت نامش به میخک تغییر میکنه
-          'font-mikhak': name.match(/^[\u0600-\u06FF\s]+$/)
+          'font-mikhak': isPersianString(name)
         }
       ]"
     >
@@ -96,7 +100,7 @@ function handleBack(event: Event) {
         ]"
         class="flex-grow select-none font-bold text-18px text-center"
       >
-        {{ getPointToShow (point) }}
+        {{ getPointToShow(point) }}
       </span>
       <img
         v-if="type !== 'result' && point !== '-'"
