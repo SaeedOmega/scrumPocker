@@ -18,7 +18,7 @@
     "telefunc": "0.1.64",
     "vite": "4.3.9",
     "vite-plugin-windicss": "^1.9.2",
-    "vue": "^3.3.4",
+    "vue": "^3.4.13",
     "vue-flip": "^3.0.2",
     "vue-i18n": "^9.8.0",
     "vue-router": "^4.2.5",
