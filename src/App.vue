@@ -29,7 +29,7 @@ onMounted(() => {
   >
     <div class="flex self-center select-none items-center relative">
       <div dir="ltr" class="absolute flex left-[-80px] items-center gap-10px">
-        <div
+        <button
           @click="onClickLanguage('en')"
           :class="{
             'text-white pr-2 bg-gradient-to-b  from-[#514647] via-[#6c6363] to-transparent':
@@ -38,9 +38,9 @@ onMounted(() => {
           class="pl-2 py-6px rounded-13px text-12px font-bold"
         >
           ENG
-        </div>
+        </button>
         <div class="border-l-1px border-dashed border-[rgba(0,0,0,0.32)] w-0.3 h-3"></div>
-        <div
+        <button
           @click="onClickLanguage('fa')"
           :class="{
             'text-white bg-gradient-to-b  from-[#514647] via-[#6c6363] to-transparent':
@@ -49,7 +49,7 @@ onMounted(() => {
           class="px-2 font-mikhak py-6px rounded-13px text-12px font-bold"
         >
           فا
-        </div>
+        </button>
       </div>
       <div class="font-Knewave mb-13 m-13 text-center select-none text-xl">Scrum Pocker</div>
     </div>

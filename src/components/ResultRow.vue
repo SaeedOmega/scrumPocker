@@ -48,7 +48,7 @@ function getBgColor() {
   return minionBg[prop.point]
 }
 
-function getPoint(point: string) {
+function getPointToShow (point: string) {
   return +point ? (+point).toLocaleString(i18n.locale.value) : i18n.t(point)
 }
 
@@ -96,7 +96,7 @@ function handleBack(event: Event) {
         ]"
         class="flex-grow select-none font-bold text-18px text-center"
       >
-        {{ getPoint(point) }}
+        {{ getPointToShow (point) }}
       </span>
       <img
         v-if="type !== 'result' && point !== '-'"
